@@ -11,7 +11,7 @@ interface LayoutChildren {
 const Layout: React.FC<LayoutChildren> = ({ children }) => {
     return (
         <div className='w-full h-screen min-w-[315px] bg-white grid 
-        grid-rows-[70px_auto] grid-cols-[250px_auto]'>
+        grid-rows-[70px_auto] grid-cols-[250px_auto] md:grid-cols-[200px_auto] sm:grid-cols-[60px_auto]'>
             <Menu />
             <div>
             </div>
