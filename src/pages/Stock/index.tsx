@@ -40,41 +40,7 @@ const Stock: React.FC = () => {
     const setAndShowDeleteProduct = (product: StockModel, callback?: Function) => {
         setShowDeleteProduct(true)
         setCurrentProduct(product)
-    }
-
-    const product = [
-        {
-            productId: ``,
-            name: `Esparadrapo`,
-            quantity: `2`,
-            producer: `Needs`,
-            type: 'instrumento',
-            startDate: `11/12/2023`,
-            endDate: `11/12/2023`,
-        },
-
-        {
-            productId: ``,
-            name: `Esparadrapo`,
-            quantity: `2`,
-            producer: `Needs`,
-            type: 'instrumento',
-            startDate: `11/12/2023`,
-            endDate: `11/12/2023`,
-        },
-
-        {
-            productId: ``,
-            name: `Esparadrapo`,
-            quantity: `2`,
-            producer: `Needs`,
-            type: `"instrumento" | "farmaco"`,
-            startDate: `11/12/2023`,
-            endDate: `11/12/2023`,
-        },
-
-
-    ]
+    }    
 
     return (
         <div>
@@ -96,11 +62,11 @@ const Stock: React.FC = () => {
             </div>
 
 
-            <div className="mt-6 md:mt-4 md:mt-2 md:p-2 sm:mt-2 sm:p-">
+            <div className="mt-6 md:mt-4 md:mt-2 md:p-2 sm:mt-2 sm:p-2">
                 <h1 className="mx-8 my-12 px-8 py-3 border border-secondary rounded-full font-roboto text-darkgray text-2xl text-center md:mx-6 md:my-4 md:px-6 md:py-2 md:text-base sm:mx-4 sm:my-2 sm:px-4 sm:py-2 sm:text-sm">
                     Produtos em Estoque
                 </h1>
-                {product.length === 0 ?
+                {stockItens.length === 0 ?
                     (<p className="m-8 px-8 py-3 font-roboto text-darkgray text-xl">
                         Carregando ... </p>)
                     :
@@ -129,7 +95,7 @@ const Stock: React.FC = () => {
                                 </thead>
                                 <tbody className="font-roboto text-darkgray text-lg md:text-sm sm:text-xs mt-5">
                                     {
-                                        product.map((item, index) =>
+                                        stockItens.map((item, index) =>
                                             <tr
                                                 className="hover:border hover:border-secondary"
                                             >
