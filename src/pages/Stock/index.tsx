@@ -57,12 +57,12 @@ const Stock: React.FC = () => {
                 <UpDateProduct isOpen={showUpdateProduct} setOpenModal={setShowUpdateProduct} product={currentProduct} />
             </div>
 
-            <div className="flex justify-end mt-5 p-5 md:mt-2 md:p-2 sm:mt-2 sm:p-2">
+            <div className="flex justify-end mt-2 p-5 md:mt-2 md:p-2 sm:mt-2 sm:p-2">
                 <DeleteProduct isOpen={showDeleteProduct} setOpenModal={setShowDeleteProduct} product={currentProduct} />
             </div>
 
 
-            <div className="mt-6 md:mt-4 md:mt-2 md:p-2 sm:mt-2 sm:p-2">
+            <div className="mt-4 md:mt-2 md:p-2 sm:mt-2 sm:p-2">
                 <h1 className="mx-8 my-12 px-8 py-3 border border-secondary rounded-full font-roboto text-darkgray text-2xl text-center md:mx-6 md:my-4 md:px-6 md:py-2 md:text-base sm:mx-4 sm:my-2 sm:px-4 sm:py-2 sm:text-sm">
                     Produtos em Estoque
                 </h1>

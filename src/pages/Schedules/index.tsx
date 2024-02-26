@@ -1,11 +1,10 @@
 import React from "react";
-
-import Menu from "../../components/mainHeader";
+import MyCalendar from "../../components/Calendar";
 
 const Schedules: React.FC = () => {
     return (
-        <div>
-
+        <div className="overflow-x-hidden mx-8">
+            <MyCalendar />
         </div>
     )
 }
