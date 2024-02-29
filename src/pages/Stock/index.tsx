@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { StockModel } from "../../api/stock";
 import { baseURL } from '../../config';
 
-import { AddProduct } from "../../components/AddProduct";
+import AddProduct from "../../components/AddProduct";
 import { UpDateProduct } from "../../components/UpDateProduct";
 import { DeleteProduct } from "../../components/DeleteProduct";
 
@@ -16,20 +16,21 @@ const Stock: React.FC = () => {
     const [showDeleteProduct, setShowDeleteProduct] = useState<boolean>(false)
     const [currentProduct, setCurrentProduct] = useState<StockModel>()
 
-    const getStockItens = async () => {
+    const getStockItens = useCallback(async () => {
         try {
-            const response = await axios.get(`${baseURL}\estoque`);
-            const data = response.data;
-            console.log(data)
+            const response = await axios.get(`${baseURL}/estoque`);
+            const data = await response.data;
             setStockItens(data)
-        } catch (error) {
-            console.log(error);
+        } catch {
+            console.log(`Deu ruim`)
         }
-    }
+    }, [])
+
+
 
     useEffect(() => {
         getStockItens()
-    }, [])
+    }, [getStockItens])
 
 
     const setAndShowUpdateProduct = (product: StockModel, callback?: Function) => {
@@ -40,30 +41,38 @@ const Stock: React.FC = () => {
     const setAndShowDeleteProduct = (product: StockModel, callback?: Function) => {
         setShowDeleteProduct(true)
         setCurrentProduct(product)
-    }    
+    }
+
+
+    const produtos = [{
+        productId: "1",
+        name: "Esparadrapo",
+        quantity: "1",
+        producer: "Needs",
+        type: "Farmaco",
+        startDate: "01/01/2024",
+        endDate: "01/01/2024",
+    }]
+
+
 
     return (
         <div>
             <div className="flex justify-end mt-5 p-5 md:p-3 md:mt-2 sm:mt-1 sm:p-1">
-                <button
+                <a
                     className="border border-secondary rounded-md p-3 text-base font-roboto text-darkgray hover:bg-primary hover:text-white md:text-sm md:p-2 sm:text-xs sm:p-1"
-                    onClick={() => setOpenModal(!openModal)}>
+                    href="/produto/criar">
                     Cadastro de Produtos
-                </button>
-                <AddProduct isOpen={openModal} setOpenModal={setOpenModal} />
+                </a>
             </div>
+            <UpDateProduct isOpen={showUpdateProduct} setOpenModal={setShowUpdateProduct} product={currentProduct} />
 
-            <div className="flex justify-end mt-5 p-5 md:mt-2 md:p-2 sm:mt-2 sm:p-2">
-                <UpDateProduct isOpen={showUpdateProduct} setOpenModal={setShowUpdateProduct} product={currentProduct} />
-            </div>
+            <DeleteProduct isOpen={showDeleteProduct} setOpenModal={setShowDeleteProduct} product={currentProduct} />
 
-            <div className="flex justify-end mt-2 p-5 md:mt-2 md:p-2 sm:mt-2 sm:p-2">
-                <DeleteProduct isOpen={showDeleteProduct} setOpenModal={setShowDeleteProduct} product={currentProduct} />
-            </div>
 
 
             <div className="mt-4 md:mt-2 md:p-2 sm:mt-2 sm:p-2">
-                <h1 className="mx-8 my-12 px-8 py-3 border border-secondary rounded-full font-roboto text-darkgray text-2xl text-center md:mx-6 md:my-4 md:px-6 md:py-2 md:text-base sm:mx-4 sm:my-2 sm:px-4 sm:py-2 sm:text-sm">
+                <h1 className="mx-8 my-8 px-8 py-3 border border-secondary rounded-full font-roboto text-darkgray text-base text-center md:mx-6 md:my-4 md:px-6 md:py-2 md:text-base sm:mx-4 sm:my-2 sm:px-4 sm:py-2 sm:text-sm">
                     Produtos em Estoque
                 </h1>
                 {stockItens.length === 0 ?
@@ -72,8 +81,8 @@ const Stock: React.FC = () => {
                     :
                     (
                         <div className="flex justify-center">
-                            <table className="text-center w-11/12 sm:w-full table-fixed">
-                                <thead className="font-roboto text-darkgray text-lg md:text-sm sm:text-xs">
+                            <table className="text-center w-full table-fixed">
+                                <thead className="font-roboto text-darkgray text-base md:text-sm sm:text-xs">
                                     <tr>
 
                                         <th>
@@ -93,9 +102,9 @@ const Stock: React.FC = () => {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="font-roboto text-darkgray text-lg md:text-sm sm:text-xs mt-5">
+                                <tbody className="font-roboto text-darkgray text-base md:text-sm sm:text-xs mt-5">
                                     {
-                                        stockItens.map((item, index) =>
+                                        produtos.map((item, index) =>
                                             <tr
                                                 className="hover:border hover:border-secondary"
                                             >
@@ -104,16 +113,19 @@ const Stock: React.FC = () => {
                                                 <td>{item.quantity}</td>
                                                 <td>{item.endDate?.toString()}</td>
                                                 <td>
-                                                    <button
-                                                        className="border border-secondary rounded-md p-2 mr-3 text-base font-roboto text-darkgray hover:bg-primary hover:text-white md:text-sm md:px-2 md:py-1 md:mr-1 sm:text-xs sm:px-2 sm:py-1 md:mr-1 md:mt-2 sm:mr-1 sm:mt-2"
-                                                        onClick={() => setAndShowUpdateProduct(item)}
-                                                    >Editar
-                                                    </button>
-                                                    <button
-                                                        className="border border-secondary rounded-md p-2 text-base font-roboto text-darkgray hover:font-semibold hover:bg-primary hover:text-white md:text-sm md:p-1 md:mr-1 sm:text-xs sm:p-1 md:mr-1 md:mt-2 sm:mr-1 sm:mt-2"
-                                                        onClick={() => setAndShowDeleteProduct(item)}
-                                                    >Deletar
-                                                    </button>
+                                                    <div>
+                                                        <button
+                                                            className="border border-secondary rounded-md px-2 py-1 text-base font-roboto text-darkgray mr-2 hover:font-semibold hover:bg-primary hover:text-white md:text-sm md:p-1 md:mr-1 sm:text-xs sm:px-1 md:mr-1 md:mt-2 sm:mr-1 sm:mt-2"
+                                                            onClick={() => setAndShowUpdateProduct(item)}
+                                                        >Editar
+                                                        </button>
+                                                        <button
+                                                            className="border border-secondary rounded-md px-2 py-1 text-base font-roboto text-darkgray hover:font-semibold hover:bg-primary hover:text-white md:text-sm md:p-1 sm:text-xs sm:px-1"
+                                                            onClick={() => setAndShowDeleteProduct(item)}
+                                                        >Deletar
+                                                        </button>
+                                                    </div>
+
                                                 </td>
                                             </tr>
 

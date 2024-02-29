@@ -21,7 +21,7 @@ type iniatialValues = {
 }
 
 
-export function AddProduct({ isOpen, setOpenModal }: ModalProps) {
+const AddProduct: React.FC = () => {
 
     const initialValues: iniatialValues = {
         productId: '',
@@ -58,37 +58,31 @@ export function AddProduct({ isOpen, setOpenModal }: ModalProps) {
         }
         console.log(processedValues)
         const promisse = productCreate(processedValues)
-        setOpenModal(!isOpen)
         toast.promise(promisse, {
             pending: 'Inserindo produto',
             success: {
                 render() {
                     action.setSubmitting(false);
-                    setOpenModal(!isOpen)
                     return 'Produto inserido no Estoque'
                 },
             },
             error: {
                 render({ data }) {
                     action.setSubmitting(false)
-                    setOpenModal(!isOpen)
                     return 'Algo deu Errado'
                 }
             }
         })
 
     }
-
-
-    if (isOpen) {
         return (
-            <div className='fixed top-0 right-0 bottom-0 left-0 bg-lightgray opacity-90 sm:opacity-100'>
-                <div className='fixed top-1/4 sm:top-0 left-1/4 sm:left-0 right-1/4  sm:right-0  sm:bottom-0 border border-white rounded-3xl sm:rounded bg-white p-5 shadow-lg'>
+            <div className='flex items-start justify-center fixed top-0 left-0 w-full min-h-screen bg-black z-50 bg-opacity-70 px-3 py-5 max-h-full overflow-y-auto'>
+                <div className='bg-white p-8 rounded w-11/12 md:w-5/12'>
                     <div className='flex justify-end'>
-                        <button
-                            onClick={() => setOpenModal(!isOpen)}>
+                        <a
+                            href='/list/stock'>
                             <img src={closeButton} />
-                        </button>
+                        </a>
                     </div>
                     <div className='flex justify-center'>
                         <h2 className='text-lg font-roboto text-primary font-semibold'>
@@ -198,8 +192,6 @@ export function AddProduct({ isOpen, setOpenModal }: ModalProps) {
                 </div>
             </div>
         )
-
-    } else {
-        return <></>
-    }
 }
+
+export default AddProduct;
