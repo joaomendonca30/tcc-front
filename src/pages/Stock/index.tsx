@@ -18,7 +18,7 @@ const Stock: React.FC = () => {
 
     const getStockItens = useCallback(async () => {
         try {
-            const response = await axios.get(`${baseURL}/estoque`);
+            const response = await axios.get(`${baseURL}\estoque`);
             const data = await response.data;
             setStockItens(data)
         } catch {

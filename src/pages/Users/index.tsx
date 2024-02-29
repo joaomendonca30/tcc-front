@@ -20,7 +20,7 @@ const Users: React.FC = () => {
 
     const getUsers = useCallback(async () => {
         try {
-            const response = await axios.get(`${baseURL}/usuario`);
+            const response = await axios.get(`${baseURL}usuario`);
             const data = response.data;
             setUsers(data)
         }
