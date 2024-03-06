@@ -68,23 +68,23 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
         console.log(processedValues)
 
 
-        toast.promise(promisse, {
+        await toast.promise(promisse, {
             pending: 'Editando produto',
             success: {
                 render() {
                     action.setSubmitting(false);
-                    window.location.reload()
                     return 'Produto editado no Estoque';
                 },
             },
             error: {
                 render({ data }) {
                     action.setSubmitting(false)
-                    window.location.reload()
                     return 'Algo deu Errado'
                 }
             }
         })
+
+        window.location.reload();
     }
 
 
