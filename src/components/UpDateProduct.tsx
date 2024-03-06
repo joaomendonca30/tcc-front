@@ -2,8 +2,9 @@ import react, { ReactNode } from 'react'
 import closeButton from "../assets/close.svg"
 import { Formik, Form, Field } from 'formik';
 import { productUpdate } from '../api/stock'
-import { toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import { StockModel } from '../api/stock';
+import { locale } from 'moment';
 
 interface UpdateProductProps {
     product?: StockModel
@@ -39,7 +40,7 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
 
 
 
-    const handleSubmit = (values: typeof initialValues, action: any) => {
+    const handleSubmit = async (values: typeof initialValues, action: any) => {
         const { name, quantity, producer, type, startDate, endDate } = values
 
         let startDateProcessed = null
@@ -63,7 +64,7 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
             endDate: endDateProcessed,
         }
 
-        const promisse = productUpdate(product.productId, processedValues);
+        const promisse = await productUpdate(product.productId, processedValues)
         console.log(processedValues)
 
 
@@ -71,15 +72,15 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
             pending: 'Editando produto',
             success: {
                 render() {
-                    action.setSubmitting(false);                    
-                    window.location.reload();
+                    action.setSubmitting(false);
+                    window.location.reload()
                     return 'Produto editado no Estoque';
                 },
             },
             error: {
                 render({ data }) {
                     action.setSubmitting(false)
-                    window.location.reload();
+                    window.location.reload()
                     return 'Algo deu Errado'
                 }
             }
