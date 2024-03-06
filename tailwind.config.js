@@ -19,6 +19,8 @@ module.exports = {
       info: '#F7931B',
       warning: '#E44C4E',
 
+      'hover': '#2a3e4a',
+
     },
 
     fontFamily: {
@@ -31,6 +33,8 @@ module.exports = {
       'md': { 'min': '868px', 'max': '1100px' },
       'lg': { 'min': '1101px' }
     },
+
+
 
     plugins: [],
   }

@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { StockModel } from "../../api/stock";
 import { baseURL } from '../../config';
-
-import AddProduct from "../../components/AddProduct";
 import { UpDateProduct } from "../../components/UpDateProduct";
 import { DeleteProduct } from "../../components/DeleteProduct";
 
@@ -36,11 +34,13 @@ const Stock: React.FC = () => {
     const setAndShowUpdateProduct = (product: StockModel, callback?: Function) => {
         setShowUpdateProduct(true)
         setCurrentProduct(product)
+        callback && callback()
     }
 
     const setAndShowDeleteProduct = (product: StockModel, callback?: Function) => {
         setShowDeleteProduct(true)
         setCurrentProduct(product)
+        callback && callback()
     }
 
 
@@ -104,7 +104,7 @@ const Stock: React.FC = () => {
                                 </thead>
                                 <tbody className="font-roboto text-darkgray text-base md:text-sm sm:text-xs mt-5">
                                     {
-                                        produtos.map((item, index) =>
+                                        stockItens.map((item, index) =>
                                             <tr
                                                 className="hover:border hover:border-secondary"
                                             >

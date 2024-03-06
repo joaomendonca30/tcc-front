@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { UserModel } from '../api/user';
 import api from '../api/axios';
 
-interface UpdateUserProps {
+interface DeleteUserProps {
     user?: UserModel
     isOpen: boolean,
     setOpenModal: (isOpen: boolean) => void,
@@ -24,11 +24,9 @@ type iniatialValues = {
 }
 
 
-export function DeleteUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
+export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
 
     if (user === undefined) {
-        toast.error(`usuario inválido`)
-        setOpenModal(!isOpen)
         return <></>
     }
 
@@ -60,20 +58,22 @@ export function DeleteUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
         }
 
         const promisse = userDelete(user.userId)
-        console.log(user.userId)
+
+        console.log("hey")
 
         toast.promise(promisse, {
             pending: 'Excluindo o usuario',
             success: {
                 render() {
-                    action.setSubmitting(false);
-                    setOpenModal(!isOpen);
+                    action.setSubmitting(false);                    
+                    window.location.reload();
                     return 'Usuario excluído com sucesso';
                 },
             },
             error: {
                 render({ data }) {
-                    action.setSubmitting(false)
+                    action.setSubmitting(false)                    
+                    window.location.reload();
                     return 'Algo deu Errado'
                 }
             }
@@ -88,7 +88,7 @@ export function DeleteUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
                 <div className='bg-white p-8 rounded w-11/12 md:w-5/12'>
                     <div className='flex justify-end'>
                         <button
-                            onClick={() => setOpenModal(!isOpen)}>
+                            onClick={() => setOpenModal(false)}>
                             <img src={closeButton} />
                         </button>
                     </div>
@@ -193,9 +193,9 @@ export function DeleteUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
                                             value={values.federativeUnit}
                                             placeholder={user.federativeUnit?.toString()} />
                                     </div>
-                                    <div className='flex justify-end'>
+                                    <div className='flex justify-end mt-3'>
                                         <button
-                                            className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto'
+                                            className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto hover:bg-white hover:text-black transition duration-200'
                                             type="submit" disabled={isSubmitting}>
                                             Deletar
                                         </button>

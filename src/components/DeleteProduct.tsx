@@ -4,9 +4,8 @@ import { Formik, Form, Field } from 'formik';
 import { productDelete } from '../api/stock'
 import { toast } from 'react-toastify';
 import { StockModel } from '../api/stock';
-import api from '../api/axios';
 
-interface UpdateProductProps {
+interface DeleteProductProps {
     product?: StockModel
     isOpen: boolean,
     setOpenModal: (isOpen: boolean) => void,
@@ -22,11 +21,9 @@ type iniatialValues = {
 }
 
 
-export function DeleteProduct({ product, isOpen, setOpenModal }: UpdateProductProps) {
+export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductProps) {
 
     if (product === undefined) {
-        toast.error(`produto inválido`)
-        setOpenModal(!isOpen)
         return <></>
     }
 
@@ -73,15 +70,16 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: UpdateProductPr
             pending: 'Excluindo o produto',
             success: {
                 render() {
-                    action.setSubmitting(false);
-                    setOpenModal(!isOpen);
+                    action.setSubmitting(false);                    
+                    window.location.reload();
                     return 'Produto excluído com sucesso';
                 },
             },
             error: {
                 render({ data }) {
-                    action.setSubmitting(false)
-                    return 'Algo deu Errado'
+                    action.setSubmitting(false);                    
+                    window.location.reload();
+                    return 'Algo deu Errado';
                 }
             }
         })
@@ -95,7 +93,7 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                 <div className='bg-white p-8 rounded w-11/12 md:w-5/12'>
                     <div className='flex justify-end'>
                         <button
-                            onClick={() => setOpenModal(!isOpen)}>
+                            onClick={() => setOpenModal(false)}>
                             <img src={closeButton} />
                         </button>
                     </div>
@@ -202,7 +200,7 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: UpdateProductPr
 
                                     <div className='flex justify-end'>
                                         <button
-                                            className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto'
+                                            className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto hover:bg-white hover:text-black transition duration-200'
                                             type="submit" disabled={isSubmitting}>
                                             Deletar
                                         </button>

@@ -28,7 +28,7 @@ export const productUpdate = async (
     productId: string, params: any
 ) => {
     const { data } = await api.request({
-        url: `estoque/editar${productId}`,
+        url: `estoque/editar/${productId}`,
         data: params,
         method: 'PUT',
     })
