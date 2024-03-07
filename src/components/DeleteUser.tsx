@@ -44,7 +44,7 @@ export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
 
 
 
-    const handleSubmit = (values: typeof initialValues, action: any) => {
+    const handleSubmit =  async (values: typeof initialValues, action: any) => {
         const { name, email, cpf, phoneNumber, profile, council, federativeUnit } = values
 
         const processedValues = {
@@ -57,28 +57,11 @@ export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
             federativeUnit
         }
 
-        const promisse = userDelete(user.userId)
+        const promisse = await userDelete(user.userId)
 
-        console.log("hey")
 
-        toast.promise(promisse, {
-            pending: 'Excluindo o usuario',
-            success: {
-                render() {
-                    action.setSubmitting(false);                    
-                    window.location.reload();
-                    return 'Usuario excluído com sucesso';
-                },
-            },
-            error: {
-                render({ data }) {
-                    action.setSubmitting(false)                    
-                    window.location.reload();
-                    return 'Algo deu Errado'
-                }
-            }
-        })
-
+        setTimeout(function(){ window.location.reload(); }, 1500)
+        window.alert("Usuário Deletado Com Sucesso")
     }
 
 

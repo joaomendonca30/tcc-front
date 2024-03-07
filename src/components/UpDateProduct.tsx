@@ -68,25 +68,10 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
         console.log(processedValues)
 
 
-        await toast.promise(promisse, {
-            pending: 'Editando produto',
-            success: {
-                render() {
-                    action.setSubmitting(false);
-                    return 'Produto editado no Estoque';
-                },
-            },
-            error: {
-                render({ data }) {
-                    action.setSubmitting(false)
-                    return 'Algo deu Errado'
-                }
-            }
-        })
-
-        window.location.reload();
+        
+        setTimeout(function(){ window.location.reload(); }, 1500);
+        window.alert("Produto Atualizado Com Sucesso")
     }
-
 
     if (isOpen) {
         return (

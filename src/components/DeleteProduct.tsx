@@ -39,7 +39,7 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
 
 
 
-    const handleSubmit = (values: typeof initialValues, action: any) => {
+    const handleSubmit = async (values: typeof initialValues, action: any) => {
         const { name, quantity, producer, type, startDate, endDate } = values
 
         let startDateProcessed = null
@@ -63,27 +63,12 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
             endDate: endDateProcessed,
         }
 
-        const promisse = productDelete(product.productId)
+        const promisse = await productDelete(product.productId)
         console.log(product.productId)
 
-        toast.promise(promisse, {
-            pending: 'Excluindo o produto',
-            success: {
-                render() {
-                    action.setSubmitting(false);                    
-                    window.location.reload();
-                    return 'Produto excluído com sucesso';
-                },
-            },
-            error: {
-                render({ data }) {
-                    action.setSubmitting(false);                    
-                    window.location.reload();
-                    return 'Algo deu Errado';
-                }
-            }
-        })
-
+        
+        setTimeout(function(){ window.location.reload(); }, 1500)
+        window.alert("Produto Deletado Com Sucesso")
     }
 
 

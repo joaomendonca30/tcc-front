@@ -43,7 +43,7 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
 
 
 
-    const handleSubmit = (values: typeof initialValues, action: any) => {
+    const handleSubmit = async(values: typeof initialValues, action: any) => {
         const { name, email, cpf, phoneNumber, profile, council, federativeUnit } = values
 
         const processedValues = {
@@ -57,26 +57,11 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
         }
 
         console.log(processedValues)
-        const promisse = userUpdate(user.userId, processedValues)
+        const promisse = await userUpdate(user.userId, processedValues)
         console.log(processedValues)
 
-        toast.promise(promisse, {
-            pending: 'Editando usuario',
-            success: {
-                render() {
-                    action.setSubmitting(false);
-                    window.location.reload();
-                    return 'Usuario alterado com sucesso';
-                },
-            },
-            error: {
-                render({ data }) {
-                    action.setSubmitting(false)
-                    window.location.reload();
-                    return 'Algo deu Errado'
-                }
-            }
-        })
+        setTimeout(function(){ window.location.reload(); }, 1500);
+        window.alert("Usuário Atualizado Com Sucesso")
     }
 
 

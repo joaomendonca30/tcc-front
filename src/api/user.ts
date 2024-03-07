@@ -28,7 +28,7 @@ export const userUpdate = async (
     userId: string, params: any
 ) => {
     const { data } = await api.request({
-        url: `usuario/editar${userId}`,
+        url: `usuario/editar/${userId}`,
         data: params,
         method: 'PUT',
     })

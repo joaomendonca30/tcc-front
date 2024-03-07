@@ -34,7 +34,7 @@ const AddProduct: React.FC = () => {
         endDate: undefined,
     }
 
-    const handleSubmit = (values: typeof initialValues, action: any) => {
+    const handleSubmit = async (values: typeof initialValues, action: any) => {
         const { name, quantity, producer, type, startDate, endDate } = values
 
         let startDateProcessed = null
@@ -57,25 +57,12 @@ const AddProduct: React.FC = () => {
             startDate: startDateProcessed,
             endDate: endDateProcessed,
         }
+        const promisse = await productCreate(processedValues)
         console.log(processedValues)
-        const promisse = productCreate(processedValues)
-        toast.promise(promisse, {
-            pending: 'Inserindo produto',
-            success: {
-                render() {
-                    action.setSubmitting(false);
-                    window.location.href = '/list/stock'
-                    return 'Produto inserido no Estoque'
-                },
-            },
-            error: {
-                render({ data }) {
-                    action.setSubmitting(false)
-                    window.location.href = '/list/stock'
-                    return 'Algo deu Errado'
-                }
-            }
-        })
+        
+
+        setTimeout(function(){ window.location.reload(); }, 1500);
+        window.alert("Produto Adicionado Com Sucesso")
 
     }
     return (

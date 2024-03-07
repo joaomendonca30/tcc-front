@@ -47,25 +47,12 @@ const AddUser: React.FC = () => {
             council,
             federativeUnit
         }
+          
         console.log(processedValues)
-        const promisse = userCreate(processedValues)        
-        toast.promise(promisse, {
-            pending: 'Inserindo usuario',
-            success: {
-                render() {
-                    action.setSubmitting(false);
-                    window.location.href = '/list/users'
-                    return 'Usuario criado com sucesso'
-                },
-            },
-            error: {
-                render({ data }) {
-                    action.setSubmitting(false)
-                    window.location.href = '/list/users'
-                    return 'Algo deu Errado'
-                }
-            }
-        })
+        const promisse = userCreate(processedValues)      
+
+        setTimeout(function(){ window.location.reload(); }, 1500);
+        window.alert("Usuário Adicionado Com Sucesso")
 
     }
 
