@@ -51,7 +51,7 @@ const AddUser: React.FC = () => {
         console.log(processedValues)
         const promisse = userCreate(processedValues)      
 
-        setTimeout(function(){ window.location.reload(); }, 1500);
+        setTimeout(function(){ window.location.href='/list/users' }, 1500);
         window.alert("Usuário Adicionado Com Sucesso")
 
     }

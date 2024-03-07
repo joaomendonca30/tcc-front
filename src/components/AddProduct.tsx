@@ -61,7 +61,7 @@ const AddProduct: React.FC = () => {
         console.log(processedValues)
         
 
-        setTimeout(function(){ window.location.reload(); }, 1500);
+        setTimeout(function(){ window.location.href='/list/stock' }, 1500);
         window.alert("Produto Adicionado Com Sucesso")
 
     }
