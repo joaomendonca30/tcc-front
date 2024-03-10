@@ -1,66 +1,74 @@
 import react, { ReactNode } from 'react'
 import closeButton from "../assets/close.svg"
-import { Formik, Form, Field } from 'formik';
-import { userUpdate } from '../api/user'
-import { UserModel } from '../api/user';
+import { Formik } from 'formik';
+import { patientUpdate } from '../api/patient'
+import { PatientModel } from '../api/patient';
 
-interface UpdateUserProps {
-    user?: UserModel
+interface UpdatePatientProps {
+    patient?: PatientModel
     isOpen: boolean,
     setOpenModal: (isOpen: boolean) => void,
 }
 
 type iniatialValues = {
-    userId: string;
+    patientId: string;
     name: string;
     email: string;
     cpf: string;
     phoneNumber: string
-    profile: 'Profissional da Saúde' | 'Recepcionista' | string,
-    council: undefined | string;
-    federativeUnit: undefined | string;
+    dateOfBirth: undefined | string,
+    healthInsurance: string;
+    planNumber: undefined | string;
+    specialNotes?: string
 }
 
+export function UpDatePatient({ patient, isOpen, setOpenModal }: UpdatePatientProps) {
 
-export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
-
-    if (user === undefined) {
+    if (patient === undefined) {
         return <></>
     }
 
 
     const initialValues: iniatialValues = {
-        userId: user.userId,
-        name: user.name,
-        email: user.email,
-        cpf: user.cpf,
-        phoneNumber: user.phoneNumber,
-        profile: user.profile,
-        council: user.council?.toString(),
-        federativeUnit: user.federativeUnit?.toString(),
+        patientId: patient.patientId,
+        name: patient.name,
+        email: patient.email,
+        cpf: patient.cpf,
+        phoneNumber: patient.phoneNumber,
+        dateOfBirth: patient.dateOfBirth?.toString(),
+        healthInsurance: patient?.healthInsurance,
+        planNumber: patient.planNumber,
+        specialNotes: patient.specialNotes,
     }
 
 
 
     const handleSubmit = async (values: typeof initialValues, action: any) => {
-        const { name, email, cpf, phoneNumber, profile, council, federativeUnit } = values
+        const { name, email, cpf, phoneNumber, dateOfBirth, planNumber, specialNotes } = values
+
+        let dateOfBirthProcessed = null
+
+        if (dateOfBirth) {
+            dateOfBirthProcessed = new Date(dateOfBirth.toString())
+        }
+
 
         const processedValues = {
             name,
             email,
             cpf,
             phoneNumber,
-            profile,
-            council,
-            federativeUnit
+            dateOfBirth: dateOfBirthProcessed,
+            planNumber,
+            specialNotes
         }
 
         console.log(processedValues)
-        const promisse = await userUpdate(user.userId, processedValues)
+        const promisse = await patientUpdate(patient.patientId, processedValues)
         console.log(processedValues)
 
         setTimeout(function () { window.location.reload(); }, 1500);
-        window.alert("Usuário Atualizado Com Sucesso")
+        window.alert("Paciente Atualizado Com Sucesso")
     }
 
 
@@ -76,7 +84,7 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
                     </div>
                     <div className='flex justify-center'>
                         <h2 className='text-lg font-roboto text-primary font-semibold'>
-                            Edição de Usuarios
+                            Edição de Pacientes
                         </h2>
                     </div>
                     <div className='mt-12'>
@@ -91,17 +99,17 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
                                 handleBlur,
                                 isSubmitting
                             }) => (
-                                <form onSubmit={handleSubmit} target="_self">
+                                <form onSubmit={handleSubmit}>
                                     <div className='flex flex-col'>
                                         <label className='text-primary text-base mr-2'>
-                                            Nome do Usuario:
+                                            Nome Completo:
                                         </label>
                                         <input className='border rounded-md border-lightgray shadow-sm p-2'
                                             name='name'
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.name}
-                                            placeholder="Digite o nome"
+                                            placeholder='Digite o nome'
                                             required />
                                     </div>
                                     <div className='flex flex-col mt-2'>
@@ -113,7 +121,7 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.email}
-                                            placeholder="Digite o e-mail"
+                                            placeholder='Digite o e-mail'
                                             required />
                                     </div>
                                     <div className='flex flex-col mt-2'>
@@ -125,7 +133,7 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.cpf}
-                                            placeholder="Digite o CPF"
+                                            placeholder='Digite o CPF'
                                             required />
                                     </div>
                                     <div className='flex flex-col mt-2'>
@@ -137,58 +145,87 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.phoneNumber}
-                                            placeholder="Digite o Telefone"
+                                            placeholder='Digite o Telefone'
                                             required />
                                     </div>
-                                    <div className='flex flex-col mt-2'>
-                                        <label className='text-primary text-base mr-2'>
-                                            Perfil
-                                        </label>
 
-                                        <select className='border rounded-md border-lightgray shadow-sm p-3'
-                                            name='profile'
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.profile}
-                                            required
-                                        >
-                                            <option value={values.profile} disabled selected> {user.profile} </option>
-                                            <option> Selecione </option>
-                                            <option> Recepcionista </option>
-                                            <option> Profissional da Saúde </option>
-                                        </select>
-                                    </div>
+                                    
+                                        <div className='mt-2 flex flex-col mt-2'>                                          
+                                            <label className='text-primary text-base mr-2'>
+                                                Data de Nascimento:
+                                            </label>
+                                            <input className='border rounded-md border-lightgray shadow-sm p-2'
+                                                type='date'                                                
+                                                name='dateOfBirth'
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.dateOfBirth}
+                                                required />
+                                        </div>
+                                    
+                                    
+                                        <div className='mt-2 flex flex-col mt-2'>
+                                            <label className='text-primary text-base mr-2'>
+                                                Convênio:
+                                            </label>
+                                            <select className='border rounded-md border-lightgray shadow-sm p-3'
+                                                name='healthInsurance'
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.healthInsurance}
+                                                required>
+                                                <option> Selecione </option>
+                                                <option> Particular </option>
+                                                <option> Amil </option>
+                                                <option> Notredame Intermédica </option>
+                                                <option> Bradesco </option>
+                                                <option> Sul América </option>
+                                                <option> Hapvida </option>
+                                                <option> Unimed </option>
+                                                <option> GreenLine </option>
+                                                <option> São Cristóvão </option>
+                                                <option> Transmontano </option>
+                                                <option> Careplus </option>
+                                                <option> Porto Seguro </option>
+                                                <option> Omint </option>
+                                                <option> Outro </option>
+                                            </select>
+                                        </div>
+                                    
+
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
-                                            N Conselho:
+                                            Número da carteirinha:
                                         </label>
                                         <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                            name='council'
+                                            name='planNumber'
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.council}
-                                            placeholder="Digite o número do conselho" />
+                                            value={values.planNumber}
+                                            placeholder='Digite o número da carteirinha'
+                                        />
                                     </div>
+
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
-                                            UF:
+                                            Observações:
                                         </label>
-                                        <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                            name='federativeUnit'
+                                        <textarea className='border rounded-md border-lightgray shadow-sm p-2'
+                                            name='specialNotes'
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.federativeUnit}
-                                            placeholder="Digite a Unidade Federativa" />
+                                            value={values.specialNotes}
+                                            placeholder='Bloco para anotações'
+                                        />
                                     </div>
 
 
-                                    <div className='flex justify-end mt-3'>
+                                    <div className='flex justify-end'>
                                         <button
-                                            className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto hover:bg-white hover:text-black transition duration-200'
+                                            className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto mt-3'
                                             type="submit" disabled={isSubmitting}>
                                             Atualizar
                                         </button>
-
                                     </div>
 
 

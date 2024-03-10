@@ -1,54 +1,63 @@
 import react, { ReactNode } from 'react'
 import closeButton from "../assets/close.svg"
 import { Formik } from 'formik';
-import { userCreate } from '../api/user'
-
+import { patientCreate } from '../api/patient';
 
 
 
 type initialValues = {
-    userId: string;
+    patientId: string;
     name: string;
     email: string;
     cpf: string;
     phoneNumber: string
-    profile: 'Profissional da Saúde' | 'Recepcionista',
-    council?: undefined | string;
-    federativeUnit?: undefined | string;
+    dateOfBirth: undefined | string,
+    healthInsurance: string;
+    planNumber: undefined | string;
+    specialNotes?: string
 }
 
 
-const AddUser: React.FC = () => {
+
+const AddPatient: React.FC = () => {
 
     const initialValues: initialValues = {
-        userId: '',
+        patientId: '',
         name: '',
         email: '',
         cpf: '',
         phoneNumber: '',
-        profile: 'Recepcionista',
-        council: undefined,
-        federativeUnit: undefined,
+        dateOfBirth: undefined,
+        healthInsurance: '',
+        planNumber: '',
+        specialNotes: ''
     }
 
     const handleSubmit = (values: typeof initialValues, action: any) => {
-        const { name, email, cpf, phoneNumber, profile, council, federativeUnit } = values
+        const { name, email, cpf, phoneNumber, dateOfBirth, healthInsurance, planNumber, specialNotes } = values
+
+        let dateOfBirthProcessed = null
+
+        if (dateOfBirth) {
+            dateOfBirthProcessed = new Date(dateOfBirth.toString())
+        }
 
         const processedValues = {
             name,
             email,
             cpf,
             phoneNumber,
-            profile,
-            council,
-            federativeUnit
+            dateOfBirth: dateOfBirthProcessed,
+            healthInsurance,
+            planNumber,
+            specialNotes
         }
 
         console.log(processedValues)
-        const promisse = userCreate(processedValues)
+        const promisse = patientCreate(processedValues)
 
-        setTimeout(function () { window.location.href = '/list/users' }, 1500);
-        window.alert("Usuário Adicionado Com Sucesso")
+        setTimeout(function () { window.location.href = '/list/patients' }, 1500);
+        window.alert("Paciente Adicionado Com Sucesso")
 
     }
 
@@ -59,13 +68,13 @@ const AddUser: React.FC = () => {
             <div className='bg-white p-8 rounded w-11/12 md:w-5/12'>
                 <div className='flex justify-end'>
                     <a
-                        href='/list/users'>
+                        href='/list/patients'>
                         <img src={closeButton} />
                     </a>
                 </div>
                 <div className='flex justify-center'>
                     <h2 className='text-lg font-roboto text-primary font-semibold'>
-                        Cadastro de Usuários
+                        Cadastro de Pacientes
                     </h2>
                 </div>
                 <div className='mt-12'>
@@ -129,54 +138,81 @@ const AddUser: React.FC = () => {
                                         placeholder='Digite o Telefone'
                                         required />
                                 </div>
+
+                                
+                                    <div className='mt-2 flex flex-col mt-2'>
+                                        <label className='text-primary text-base mr-2'>
+                                            Data de Nascimento:
+                                        </label>
+                                        <input className='border rounded-md border-lightgray shadow-sm p-2'
+                                            type='date'                                         
+                                            name='dateOfBirth'
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.dateOfBirth}
+                                            required />
+                                    </div>
+                                
+                                
+                                    <div className='flex flex-col mt-2'>
+                                        <label className='text-primary text-base mr-2'>
+                                            Convênio:
+                                        </label>
+                                        <select className='border rounded-md border-lightgray shadow-sm p-3'
+                                            name='healthInsurance'
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.healthInsurance}
+                                            required>
+                                            <option> Selecione </option>
+                                            <option> Particular </option>
+                                            <option> Amil </option>
+                                            <option> Notredame Intermédica </option>
+                                            <option> Bradesco </option>
+                                            <option> Sul América </option>
+                                            <option> Hapvida </option>
+                                            <option> Unimed </option>
+                                            <option> GreenLine </option>
+                                            <option> São Cristóvão </option>
+                                            <option> Transmontano </option>
+                                            <option> Careplus </option>
+                                            <option> Porto Seguro </option>
+                                            <option> Omint </option>
+                                            <option> Outro </option>
+                                        </select>
+                                    </div>
+                                
+
                                 <div className='flex flex-col mt-2'>
                                     <label className='text-primary text-base mr-2'>
-                                        Perfil:
+                                        Número da carteirinha:
                                     </label>
-                                    <select className='border rounded-md border-lightgray shadow-sm p-3'
-                                        name='profile'
+                                    <input className='border rounded-md border-lightgray shadow-sm p-2'
+                                        name='planNumber'
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.profile}
-                                        required>
-                                        <option> Selecione </option>
-                                        <option> Recepcionista </option>
-                                        <option> Profissional da Saúde </option>
-                                    </select>
+                                        value={values.planNumber}
+                                        placeholder='Digite o número da carteirinha'
+                                    />
                                 </div>
 
-                                <div className='flex gap-8 items-end justify-items-end mb-5'>
-                                    <div className='mt-2 flex flex-col w-2/6'>
-                                        <label className='text-primary text-base mr-2'>
-                                            Conselho:
-                                        </label>
-                                        <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                            name='council'
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.council}
-                                            placeholder='Digite o número de conselho' />
-                                    </div>
-                                </div>
-                                <div className='flex gap-8 items-end justify-items-end mb-5'>
-                                    <div className='mt-2 flex flex-col w-2/6'>
-                                        <label className='text-primary text-base mr-2'>
-                                            UF:
-                                        </label>
-                                        <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                            name='federativeUnit'
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.federativeUnit}
-                                            placeholder='Digite a Unidade Federativa' />
-
-                                    </div>
+                                <div className='flex flex-col mt-2'>
+                                    <label className='text-primary text-base mr-2'>
+                                        Observações:
+                                    </label>
+                                    <textarea className='border rounded-md border-lightgray shadow-sm p-2'
+                                        name='specialNotes'
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.specialNotes}
+                                        placeholder='Bloco para anotações'
+                                    />
                                 </div>
 
 
                                 <div className='flex justify-end'>
                                     <button
-                                        className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto'
+                                        className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto mt-3'
                                         type="submit" disabled={isSubmitting}>
                                         Cadastrar
                                     </button>
@@ -194,4 +230,4 @@ const AddUser: React.FC = () => {
 
 
 }
-export default AddUser
+export default AddPatient

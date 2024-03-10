@@ -21,14 +21,14 @@ const Aside: React.FC = () => {
                 <span className=' text-base font-medium md:text-sm sm:text-xs sm:hidden'> Usuários </span>
             </a>
             <a className='flex items-center mt-5 hover:bg-white mr-2 p-2 cursor-pointer'
-                href='/list/clients'>
+                href='/list/patients'>
                 <img className='w-10 mr-2 md:w-8 sm:w-6' src={patient} />
-                <span className=' text-base font-medium md:text-sm sm:text-xs sm:hidden'> Clientes </span>
+                <span className=' text-base font-medium md:text-sm sm:text-xs sm:hidden'> Pacientes </span>
             </a>
             <a className='flex items-center mt-5 hover:bg-white mr-2 p-2 cursor-pointer'
-                href='/list/doctors'>
+                href='/list/professional'>
                 <img className='w-10 mr-2 md:w-8 sm:w-6' src={doctor} />
-                <span className=' text-base font-medium md:text-sm sm:text-xs sm:hidden'> Doutores </span>
+                <span className=' text-base font-medium md:text-sm sm:text-xs sm:hidden'> Profissionais </span>
             </a>
             <a className='flex items-center mt-5 hover:bg-white mr-2 p-2 cursor-pointer'
                 href='/list/stock'>

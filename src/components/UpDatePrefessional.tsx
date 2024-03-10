@@ -1,12 +1,11 @@
 import react, { ReactNode } from 'react'
 import closeButton from "../assets/close.svg"
 import { Formik } from 'formik';
-import { userDelete } from '../api/user'
+import { userUpdate } from '../api/user'
 import { UserModel } from '../api/user';
 
-
-interface DeleteUserProps {
-    user?: UserModel
+interface UpdateUserProps {
+    professional?: UserModel
     isOpen: boolean,
     setOpenModal: (isOpen: boolean) => void,
 }
@@ -17,28 +16,28 @@ type iniatialValues = {
     email: string;
     cpf: string;
     phoneNumber: string
-    profile: 'Profissional da Saúde' | 'Recepcionista' | string,
+    profile: 'Profissional da Saúde' | string,
     council: undefined | string;
     federativeUnit: undefined | string;
 }
 
 
-export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
+export function UpDateProfessional({ professional, isOpen, setOpenModal }: UpdateUserProps) {
 
-    if (user === undefined) {
+    if (professional === undefined) {
         return <></>
     }
 
 
     const initialValues: iniatialValues = {
-        userId: user.userId,
-        name: user.name,
-        email: user.email,
-        cpf: user.cpf,
-        phoneNumber: user.phoneNumber,
-        profile: user.profile,
-        council: user.council?.toString(),
-        federativeUnit: user.federativeUnit?.toString(),
+        userId: professional.userId,
+        name: professional.name,
+        email: professional.email,
+        cpf: professional.cpf,
+        phoneNumber: professional.phoneNumber,
+        profile: professional.profile,
+        council: professional.council?.toString(),
+        federativeUnit: professional.federativeUnit?.toString(),
     }
 
 
@@ -56,11 +55,12 @@ export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
             federativeUnit
         }
 
-        const promisse = await userDelete(user.userId)
+        console.log(processedValues)
+        const promisse = await userUpdate(professional.userId, processedValues)
+        console.log(processedValues)
 
-
-        setTimeout(function () { window.location.reload(); }, 1500)
-        window.alert("Usuário Deletado Com Sucesso")
+        setTimeout(function () { window.location.reload(); }, 1500);
+        window.alert("Profissional Atualizado Com Sucesso")
     }
 
 
@@ -76,7 +76,7 @@ export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
                     </div>
                     <div className='flex justify-center'>
                         <h2 className='text-lg font-roboto text-primary font-semibold'>
-                            Detalhes dos Usuarios
+                            Edição de Profissionais
                         </h2>
                     </div>
                     <div className='mt-12'>
@@ -94,15 +94,15 @@ export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
                                 <form onSubmit={handleSubmit} target="_self">
                                     <div className='flex flex-col'>
                                         <label className='text-primary text-base mr-2'>
-                                            Nome do Usuario:
+                                            Nome do Profissional:
                                         </label>
                                         <input className='border rounded-md border-lightgray shadow-sm p-2'
                                             name='name'
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.name}
-                                            placeholder={user.name}
-                                            disabled />
+                                            placeholder="Digite o nome" 
+                                            required/>
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
@@ -113,8 +113,8 @@ export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.email}
-                                            placeholder={user.email}
-                                            disabled />
+                                            placeholder="Digite o e-mail"
+                                            required />
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
@@ -125,8 +125,8 @@ export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.cpf}
-                                            placeholder={user.cpf}
-                                            disabled />
+                                            placeholder="Digite o CPF"
+                                            required />
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
@@ -137,27 +137,10 @@ export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.phoneNumber}
-                                            placeholder={user.phoneNumber}
-                                            disabled />
+                                            placeholder="Digite o telefone"
+                                            required/>
                                     </div>
-                                    <div className='flex flex-col mt-2'>
-                                        <label className='text-primary text-base mr-2'>
-                                            Perfil
-                                        </label>
 
-                                        <select className='border rounded-md border-lightgray shadow-sm p-3'
-                                            name='profile'
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.profile}
-                                            disabled
-                                        >
-                                            <option value={values.profile} disabled selected> {user.profile} </option>
-                                            <option> Selecione </option>
-                                            <option> Recepcionista </option>
-                                            <option> Profissional da Saúde </option>
-                                        </select>
-                                    </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
                                             N Conselho:
@@ -167,8 +150,8 @@ export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.council}
-                                            placeholder={user.council?.toString()}
-                                            disabled />
+                                            placeholder="Digite o número de conselho"
+                                            required />
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
@@ -179,15 +162,18 @@ export function DeleteUser({ user, isOpen, setOpenModal }: DeleteUserProps) {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.federativeUnit}
-                                            placeholder={user.federativeUnit?.toString()}
-                                            disabled />
+                                            placeholder="Digite a Unidade Federativa"
+                                            required />
                                     </div>
+
+
                                     <div className='flex justify-end mt-3'>
                                         <button
                                             className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto hover:bg-white hover:text-black transition duration-200'
                                             type="submit" disabled={isSubmitting}>
-                                            Deletar
+                                            Atualizar
                                         </button>
+
                                     </div>
 
 

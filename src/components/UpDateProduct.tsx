@@ -2,9 +2,8 @@ import react, { ReactNode } from 'react'
 import closeButton from "../assets/close.svg"
 import { Formik, Form, Field } from 'formik';
 import { productUpdate } from '../api/stock'
-import { toast } from 'react-toastify';
 import { StockModel } from '../api/stock';
-import { locale } from 'moment';
+
 
 interface UpdateProductProps {
     product?: StockModel
@@ -110,7 +109,8 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.name}
-                                            placeholder={product.name} />
+                                            placeholder="Digite o nome do produto" 
+                                            required/>
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
@@ -121,7 +121,8 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.producer}
-                                            placeholder={product.producer} />
+                                            placeholder='Digite o fabricante' 
+                                            required/>
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
@@ -132,7 +133,8 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.quantity}
-                                            placeholder={product.quantity.toString()} />
+                                            placeholder='Quantidade em estoque'
+                                            required />
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
@@ -144,6 +146,7 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.type}
+                                            required
                                         >
                                             <option value={values.type} disabled selected> {product.type} </option>
                                             <option> Selecione </option>
@@ -164,7 +167,7 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.startDate}
-                                                placeholder={product.startDate?.toString()}
+                                                placeholder='Selecione a data de fabricação'
                                             />
                                         </div>
                                         <div className='mt-2 flex flex-col w-2/6'>
@@ -178,7 +181,7 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.endDate}
-                                                placeholder={product.endDate?.toString()}
+                                                placeholder='Selecione a data de vencimento'
                                             />
                                         </div>
                                     </div>

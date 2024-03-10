@@ -1,82 +1,70 @@
 import react, { ReactNode } from 'react'
 import closeButton from "../assets/close.svg"
-import { Formik, Form, Field } from 'formik';
-import { productCreate } from '../api/stock'
+import { Formik } from 'formik';
+import { userCreate } from '../api/user'
 
 
 
-
-interface ModalProps {
-    isOpen: boolean,
-    setOpenModal: (isOpen: boolean) => void,
-}
-
-type iniatialValues = {
-    productId: string;
+type initialValues = {
+    userId: string;
     name: string;
-    quantity: string | number;
-    producer: string;
-    type: 'farmaco' | 'instrumento',
-    startDate: undefined | string;
-    endDate: undefined | string;
+    email: string;
+    cpf: string;
+    phoneNumber: string
+    profile: 'Profissional da Saúde',
+    council?: undefined | string;
+    federativeUnit?: undefined | string;
 }
 
 
-const AddProduct: React.FC = () => {
+const AddProfessional: React.FC = () => {
 
-    const initialValues: iniatialValues = {
-        productId: '',
+    const initialValues: initialValues = {
+        userId: '',
         name: '',
-        quantity: '',
-        producer: '',
-        type: 'farmaco',
-        startDate: undefined,
-        endDate: undefined,
+        email: '',
+        cpf: '',
+        phoneNumber: '',
+        profile: 'Profissional da Saúde',
+        council: undefined,
+        federativeUnit: undefined,
     }
 
-    const handleSubmit = async (values: typeof initialValues, action: any) => {
-        const { name, quantity, producer, type, startDate, endDate } = values
-
-        let startDateProcessed = null
-        let endDateProcessed = null
-
-        if (startDate) {
-            startDateProcessed = new Date(startDate.toString())
-        }
-
-        if (endDate) {
-            endDateProcessed = new Date(endDate.toString())
-        }
-        const quantityProcessed = Number(quantity);
+    const handleSubmit = (values: typeof initialValues, action: any) => {
+        const { name, email, cpf, phoneNumber, profile, council, federativeUnit } = values
 
         const processedValues = {
             name,
-            quantity: quantityProcessed,
-            producer,
-            type,
-            startDate: startDateProcessed,
-            endDate: endDateProcessed,
+            email,
+            cpf,
+            phoneNumber,
+            profile,
+            council,
+            federativeUnit
         }
-        const promisse = await productCreate(processedValues)
-        console.log(processedValues)
-        
 
-        setTimeout(function(){ window.location.href='/list/stock' }, 1500);
-        window.alert("Produto Adicionado Com Sucesso")
+        console.log(processedValues)
+        const promisse = userCreate(processedValues)
+
+        setTimeout(function () { window.location.href = '/list/professional' }, 1500);
+        window.alert("Profissional Adicionado Com Sucesso")
 
     }
+
+
+
     return (
         <div className='flex items-start justify-center fixed top-0 left-0 w-full min-h-screen bg-black z-50 bg-opacity-70 px-3 py-5 max-h-full overflow-y-auto'>
             <div className='bg-white p-8 rounded w-11/12 md:w-5/12'>
                 <div className='flex justify-end'>
                     <a
-                        href='/list/stock'>
+                        href='/list/professional'>
                         <img src={closeButton} />
                     </a>
                 </div>
                 <div className='flex justify-center'>
                     <h2 className='text-lg font-roboto text-primary font-semibold'>
-                        Cadastro de Produtos
+                        Cadastro de Profissionais
                     </h2>
                 </div>
                 <div className='mt-12'>
@@ -94,94 +82,93 @@ const AddProduct: React.FC = () => {
                             <form onSubmit={handleSubmit}>
                                 <div className='flex flex-col'>
                                     <label className='text-primary text-base mr-2'>
-                                        Nome do Produto:
+                                        Nome Completo:
                                     </label>
                                     <input className='border rounded-md border-lightgray shadow-sm p-2'
                                         name='name'
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.name}
-                                        placeholder='Digite o nome do produto' 
-                                        required/>
-                                </div>
-                                <div className='flex flex-col mt-2'>
-                                    <label className='text-primary text-base mr-2'>
-                                        Fabricante:
-                                    </label>
-                                    <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                        name='producer'
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.producer} 
-                                        placeholder='Digite o fabricante'
-                                        required/>
-                                </div>
-                                <div className='flex flex-col mt-2'>
-                                    <label className='text-primary text-base mr-2'>
-                                        Quantidade:
-                                    </label>
-                                    <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                        name='quantity'
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.quantity}
-                                        placeholder='Quantidade em estoque'
+                                        placeholder='Digite o nome'
                                         required />
                                 </div>
                                 <div className='flex flex-col mt-2'>
                                     <label className='text-primary text-base mr-2'>
-                                        Classificação:
+                                        E-mail:
                                     </label>
-                                    <select className='border rounded-md border-lightgray shadow-sm p-3'
-                                        name='type'
+                                    <input className='border rounded-md border-lightgray shadow-sm p-2'
+                                        name='email'
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.type}
-                                        required>
-                                        <option> Selecione </option>
-                                        <option> Farmaco </option>
-                                        <option> Instrumento </option>
-                                    </select>
+                                        value={values.email} 
+                                        placeholder='Digite o e-mail'
+                                        required/>
+                                </div>
+                                <div className='flex flex-col mt-2'>
+                                    <label className='text-primary text-base mr-2'>
+                                        CPF:
+                                    </label>
+                                    <input className='border rounded-md border-lightgray shadow-sm p-2'
+                                        name='cpf'
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.cpf} 
+                                        placeholder='Digite o CPF'
+                                        required/>
+                                </div>
+                                <div className='flex flex-col mt-2'>
+                                    <label className='text-primary text-base mr-2'>
+                                        Telefone:
+                                    </label>
+                                    <input className='border rounded-md border-lightgray shadow-sm p-2'
+                                        name='phoneNumber'
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.phoneNumber} 
+                                        placeholder='Digite o Telefone'
+                                        required/>
                                 </div>
 
                                 <div className='flex gap-8 items-end justify-items-end mb-5'>
                                     <div className='mt-2 flex flex-col w-2/6'>
                                         <label className='text-primary text-base mr-2'>
-                                            Data de Fabricação:
+                                            Conselho:
                                         </label>
                                         <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                            type='date'
-                                            min="2018-01-01"
-                                            name='startDate'
+                                            name='council'
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.startDate} 
-                                            placeholder='Selecione a data de fabricação'
-                                            />
+                                            value={values.council} 
+                                            placeholder='Digite o número do conselho'
+                                            required/>
                                     </div>
+                                </div>
+                                <div className='flex gap-8 items-end justify-items-end mb-5'>
                                     <div className='mt-2 flex flex-col w-2/6'>
                                         <label className='text-primary text-base mr-2'>
-                                            Data de Validade:
+                                            UF:
                                         </label>
                                         <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                            type='date'
-                                            min="2018-01-01"
-                                            name='endDate'
+                                            name='federativeUnit'
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.endDate} 
-                                            placeholder='Selecione a data de vencimento'/>
+                                            value={values.federativeUnit}
+                                            placeholder='Digite a Unidade Federativa'
+                                            required />
+
                                     </div>
                                 </div>
 
 
                                 <div className='flex justify-end'>
                                     <button
-                                        className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto hover:bg-white hover:text-black transition duration-200'
+                                        className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto'
                                         type="submit" disabled={isSubmitting}>
                                         Cadastrar
                                     </button>
                                 </div>
+
+
                             </form>
                         )}
                     </Formik>
@@ -190,6 +177,7 @@ const AddProduct: React.FC = () => {
             </div>
         </div>
     )
-}
 
-export default AddProduct;
+
+}
+export default AddProfessional

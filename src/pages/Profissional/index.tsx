@@ -2,27 +2,27 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { UserModel } from "../../api/user";
 import { baseURL } from '../../config';
-
-import AddUser from "../../components/AddUser";
-import { UpDateUser } from "../../components/UpDateUser";
-import { DeleteUser } from "../../components/DeleteUser";
-
-import PopUp from "../../components/PopUp";
+import { DeleteProfessional } from "../../components/DeleteProfessional";
+import { UpDateProfessional } from "../../components/UpDatePrefessional";
 
 
-const Users: React.FC = () => {
-    const [showAddUser, setShowAddUser] = useState<boolean>(false);
+
+const Professionals: React.FC = () => {
+    const [professionals, setProfessionals] = useState<UserModel[]>([]);
     const [users, setUsers] = useState<UserModel[]>([]);
-    const [showUpdateUser, setShowUpdateUser] = useState<boolean>(false);
-    const [showDeleteUser, setShowDeleteUser] = useState<boolean>(false)
-    const [currentUser, setCurrentUser] = useState<UserModel>()
+    const [showUpdateProfessional, setShowUpdateProfessional] = useState<boolean>(false);
+    const [showDeleteProfessional, setShowDeleteProfessional] = useState<boolean>(false)
+    const [currentProfessional, setCurrentProfessional] = useState<UserModel>()
 
 
-    const getUsers = useCallback(async () => {
+    const getHealthProfessional = useCallback(async () => {
         try {
             const response = await axios.get(`${baseURL}usuario`);
             const data = response.data;
             setUsers(data)
+
+            // Return only healthcare professionnals
+            setProfessionals(users.filter((item) => item.profile == 'Profissional da Saúde'))
         }
         catch {
             console.log(`Deu ruim`)
@@ -31,23 +31,23 @@ const Users: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        getUsers();
-    }, [getUsers])
+        getHealthProfessional();
+    }, [getHealthProfessional])
 
 
-    const setAndShowUpdateUser = (user: UserModel, callback?: Function) => {
-        setShowUpdateUser(true)
-        setCurrentUser(user)
+    const setAndShowUpdateProfessional = (professional: UserModel, callback?: Function) => {
+        setShowUpdateProfessional(true)
+        setCurrentProfessional(professional)
         callback && callback()
     }
 
-    const setAndShowDeleteUser = (user: UserModel, callback?: Function) => {
-        setShowDeleteUser(true)
-        setCurrentUser(user)
+    const setAndShowDeleteProfessional = (professional: UserModel, callback?: Function) => {
+        setShowDeleteProfessional(true)
+        setCurrentProfessional(professional)
         callback && callback()
     }
 
-    const usuarios = [{
+    const profissionais = [{
         userId: "",
         name: "Gabriella Accarini",
         email: "gabi@gmail.com",
@@ -63,26 +63,26 @@ const Users: React.FC = () => {
             <div className="flex justify-end mt-5 p-5 md:p-3 md:mt-2 sm:mt-1 sm:p-1">
                 <a
                     className="border border-secondary rounded-md p-3 text-base font-roboto text-darkgray hover:bg-primary hover:text-white md:text-sm md:p-2 sm:text-xs sm:p-1"
-                    href="/usuario/criar" >
-                    Cadastro de Usuarios
+                    href="/profissional/criar" >
+                    Cadastro de Profissional
                 </a>
 
             </div>
 
             <div>
-                <UpDateUser isOpen={showUpdateUser} setOpenModal={setShowUpdateUser} user={currentUser} />
+                <UpDateProfessional isOpen={showUpdateProfessional} setOpenModal={setShowUpdateProfessional} professional={currentProfessional} />
             </div>
 
             <div>
-                <DeleteUser isOpen={showDeleteUser} setOpenModal={setShowDeleteUser} user={currentUser} />
+                <DeleteProfessional isOpen={showDeleteProfessional} setOpenModal={setShowDeleteProfessional} professional={currentProfessional} />
             </div>
 
 
             <div className="mt-6 md:mt-4 md:mt-2 md:p-2 sm:mt-2 sm:p-2">
                 <h1 className="mx-8 mb-8 px-8 py-3 border border-secondary rounded-full font-roboto text-darkgray text-lg text-center md:mx-6 md:my-4 md:px-6 md:py-2 md:text-base sm:mx-4 sm:my-2 sm:px-4 sm:py-2 sm:text-sm">
-                    Lista de Usuarios
+                    Lista de Profissionais
                 </h1>
-                {usuarios.length === 0 ?
+                {professionals.length === 0 ?
                     (<p className="m-8 px-8 py-3 font-roboto text-darkgray text-xl">
                         Carregando ... </p>)
                     :
@@ -117,7 +117,7 @@ const Users: React.FC = () => {
                                 </thead>
                                 <tbody className="font-roboto text-darkgray text-base md:text-sm sm:text-xs mt-5">
                                     {
-                                        usuarios.map((item, index) =>
+                                        professionals.map((item, index) =>
                                             <tr
                                                 className="hover:border hover:border-secondary"
                                             >
@@ -132,12 +132,12 @@ const Users: React.FC = () => {
                                                     <div>
                                                         <button
                                                             className="border border-secondary rounded-md px-2 py-1 text-base font-roboto text-darkgray mr-2 hover:font-semibold hover:bg-primary hover:text-white md:text-sm md:p-1 md:mr-1 sm:text-xs sm:px-1 md:mr-1 md:mt-2 sm:mr-1 sm:mt-2"
-                                                            onClick={() => setAndShowUpdateUser(item)}
+                                                            onClick={() => setAndShowUpdateProfessional(item)}
                                                         >Editar
                                                         </button>
                                                         <button
                                                             className="border border-secondary rounded-md px-2 py-1 text-base font-roboto text-darkgray hover:font-semibold hover:bg-primary hover:text-white md:text-sm md:p-1 sm:text-xs sm:px-1"
-                                                            onClick={() => setAndShowDeleteUser(item)}
+                                                            onClick={() => setAndShowDeleteProfessional(item)}
                                                         >Deletar
                                                         </button>
                                                     </div>
@@ -157,4 +157,4 @@ const Users: React.FC = () => {
     )
 }
 
-export default Users;
+export default Professionals;

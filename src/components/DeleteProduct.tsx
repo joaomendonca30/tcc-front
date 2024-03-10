@@ -109,7 +109,8 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.name}
-                                            placeholder={product.name} />
+                                            placeholder={product.name}
+                                            disabled />
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
@@ -120,7 +121,8 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.producer}
-                                            placeholder={product.producer} />
+                                            placeholder={product.producer}
+                                            disabled />
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2 '>
@@ -131,7 +133,8 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.quantity}
-                                            placeholder={product.quantity.toString()} />
+                                            placeholder={product.quantity.toString()}
+                                            disabled />
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2 '>
@@ -143,6 +146,7 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.type}
+                                            disabled
                                         >
                                             <option value={values.type} disabled selected> {product.type} </option>
                                             <option> Selecione </option>
@@ -164,6 +168,7 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
                                                 onBlur={handleBlur}
                                                 value={values.startDate}
                                                 placeholder={product.startDate?.toString()}
+                                                disabled
                                             />
                                         </div>
                                         <div className='mt-2 flex flex-col w-2/6'>
@@ -178,6 +183,7 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
                                                 onBlur={handleBlur}
                                                 value={values.endDate}
                                                 placeholder={product.endDate?.toString()}
+                                                disabled
                                             />
                                         </div>
                                     </div>
