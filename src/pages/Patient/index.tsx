@@ -15,7 +15,8 @@ const Patient: React.FC = () => {
 
     const getPatients = useCallback(async () => {
         try {
-            const response = await axios.get(`${baseURL}\patients`);
+            const response = await axios.get(`${baseURL}\paciente`);
+
             const data = response.data;
             setPatient(data)
         }

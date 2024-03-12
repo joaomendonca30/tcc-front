@@ -82,7 +82,7 @@ const Users: React.FC = () => {
                 <h1 className="mx-8 mb-8 px-8 py-3 border border-secondary rounded-full font-roboto text-darkgray text-lg text-center md:mx-6 md:my-4 md:px-6 md:py-2 md:text-base sm:mx-4 sm:my-2 sm:px-4 sm:py-2 sm:text-sm">
                     Lista de Usuarios
                 </h1>
-                {usuarios.length === 0 ?
+                {users.length === 0 ?
                     (<p className="m-8 px-8 py-3 font-roboto text-darkgray text-xl">
                         Carregando ... </p>)
                     :
@@ -117,7 +117,7 @@ const Users: React.FC = () => {
                                 </thead>
                                 <tbody className="font-roboto text-darkgray text-base md:text-sm sm:text-xs mt-5">
                                     {
-                                        usuarios.map((item, index) =>
+                                        users.map((item, index) =>
                                             <tr
                                                 className="hover:border hover:border-secondary"
                                             >
