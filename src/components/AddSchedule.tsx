@@ -1,8 +1,11 @@
-import react, { ReactNode } from 'react'
+import react, { useCallback, useState, useEffect } from 'react'
 import closeButton from "../assets/close.svg"
 import { Formik, Form, Field } from 'formik';
 import { scheduleCreate } from '../api/schedule'
-import { toast } from 'react-toastify';
+import axios from "axios";
+import { baseURL } from '../config';
+import { UserModel } from '../api/user';
+import { PatientModel } from '../api/patient';
 
 
 interface ModalProps {
@@ -12,6 +15,7 @@ interface ModalProps {
 
 type initialValues = {
     userId: string,
+    patientId: string,
     start: string | undefined,
     end: string | undefined,
     title: string,
@@ -21,8 +25,46 @@ type initialValues = {
 
 const AddSchedule: React.FC = () => {
 
+    const [professionalUser, setprofessionalUser] = useState<UserModel[]>([]);
+    const [patient, setPatient] = useState<PatientModel[]>([]);
+
+    const getUserProfessional = useCallback(async () => {
+        try {
+            const response = await axios.get(`${baseURL}usuario/profissionaisDaSaude`);
+            const data = await response.data;
+            setprofessionalUser(data)
+        } catch {
+            console.log(`Deu ruim`)
+        }
+    }, [])
+
+    const getPatients = useCallback(async () => {
+        try {
+            const response = await axios.get(`${baseURL}\paciente`);
+
+            const data = response.data;
+            setPatient(data)
+        }
+        catch {
+            console.log(`Deu ruim`)
+        }
+
+    }, []);
+
+
+    useEffect(() => {
+        getUserProfessional()
+        getPatients()
+    }, [getUserProfessional, getPatients])
+
+
+
+
+
+
     const initialValues: initialValues = {
         userId: '',
+        patientId: '',
         start: undefined,
         end: undefined,
         title: '',
@@ -30,40 +72,84 @@ const AddSchedule: React.FC = () => {
     }
 
     const handleSubmit = (values: typeof initialValues, action: any) => {
-        const { userId, start, end, title, scheduleType } = values
+        const { userId, patientId, start, end, title, scheduleType } = values
+
+        let processedPatientId = patientId[0]
+        let processedUserId = userId[0]
 
         const processedValues = {
-            userId,
+            userId: processedUserId,
+            patientId: processedPatientId,
             start,
             end,
-            title,
+            title: `${scheduleType} - ${patientId.slice(2)} - Dr. ${userId.slice(2)}`,
             scheduleType
         }
 
         console.log(processedValues)
 
         const promisse = scheduleCreate(processedValues)
-        //setOpenModal(!isOpen)
-        toast.promise(promisse, {
-            pending: 'Inserindo Evento',
-            success: {
-                render() {
-                    action.setSubmitting(false);
-                    //setOpenModal(!isOpen)
-                    return 'Evento criado com sucesso'
-                },
-            },
-            error: {
-                render({ data }) {
-                    action.setSubmitting(false)
-                    //setOpenModal(!isOpen)
-                    return 'Algo deu Errado'
-                }
-            }
-        })
+
+        setTimeout(function () { window.location.href = '/' }, 1500);
+        window.alert("Nova Consulta Adicionada Com Sucesso")
+
 
     }
 
+
+    // const profissional = [{
+    //     userId: '2',
+    //     name: 'Gabriella Accarini',
+    //     events: {
+    //         scheduleId: '1',
+    //         userId: '1',
+    //         patientId: `1`,
+    //         start: new Date(),
+    //         end: new Date(),
+    //         title: 'Gabriella Accarini',
+    //         scheduleType: "Primeira consulta"
+    //     }
+
+    // },
+    // {
+    //     userId: '3',
+    //     name: 'Lucas Accarini',
+    //     events: {
+    //         scheduleId: '2',
+    //         userId: '1',
+    //         patientId: `2`,
+    //         start: new Date(),
+    //         end: new Date(),
+    //         title: 'Lucas Accarini',
+    //         scheduleType: "Primeira consulta"
+    //     }
+
+
+
+    // }]
+
+    // const pacientes = [{
+    //     patientId: "1",
+    //     name: "Gabriella Accarini",
+    //     email: "gabi@gmail.com",
+    //     cpf: "123456",
+    //     phoneNumber: "2524757",
+    //     dateOfBirth: "05/12/1995",
+    //     healthInsurance: "Bradesco",
+    //     planNumber: "1538475487",
+    //     specialNotes: "Olá como vai"
+    // },
+    // {
+    //     patientId: "2",
+    //     name: "Lucas Accarini",
+    //     email: "lucas@gmail.com",
+    //     cpf: "78910",
+    //     phoneNumber: "2524757",
+    //     dateOfBirth: "03/06/1997",
+    //     healthInsurance: "Bradesco",
+    //     planNumber: "1538475487",
+    //     specialNotes: "Olá como vai"
+    // }]
 
 
     return (
@@ -97,22 +183,36 @@ const AddSchedule: React.FC = () => {
                                     <label className='text-primary text-base mr-2'>
                                         Nome do Profissional:
                                     </label>
-                                    <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                        name='title'
+                                    <select className='border rounded-md border-lightgray shadow-sm p-3 mr-2 w-full'
+                                        name='userId'
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.title} />
+                                        value={values.userId}
+                                        required
+                                    >
+                                        <option>Selecione</option>
+                                        {professionalUser.map((item, index) =>
+                                            <option value={[item.userId, item.name]}> {item.name} </option>)}
+                                    </select>
                                 </div>
+
                                 <div className='flex flex-col'>
                                     <label className='text-primary text-base mr-2'>
                                         Nome do Paciente:
                                     </label>
-                                    <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                        name='title'
+                                    <select className='border rounded-md border-lightgray shadow-sm p-3 mr-2 w-full'
+                                        name='patientId'
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.title} />
+                                        value={values.patientId}
+                                        required
+                                    >
+                                        <option>Selecione</option>
+                                        {patient.map((item, index) =>
+                                            <option value={[item.patientId, item.name]}> {item.name} </option>)}
+                                    </select>
                                 </div>
+
                                 <div className='flex flex-col mt-2'>
                                     <label className='text-primary text-base mr-2'>
                                         Tipo de Consulta:
@@ -121,7 +221,8 @@ const AddSchedule: React.FC = () => {
                                         name='scheduleType'
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.scheduleType}>
+                                        value={values.scheduleType}
+                                        required>
                                         <option> Selecione </option>
                                         <option> Primeira consulta </option>
                                         <option> Retorno </option>
@@ -133,24 +234,26 @@ const AddSchedule: React.FC = () => {
                                         Horário de Início:
                                     </label>
                                     <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                        type='date'
+                                        type='datetime-local'
                                         min="2024-01-01"
                                         name='start'
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.start} />
+                                        value={values.start}
+                                        required />
                                 </div>
                                 <div className='flex flex-col mt-2'>
                                     <label className='text-primary text-base mr-2'>
                                         Horário de Termino:
                                     </label>
                                     <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                        type='date'
+                                        type='datetime-local'
                                         min="2024-01-01"
                                         name='end'
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.end} />
+                                        value={values.end}
+                                        required />
 
                                 </div>
 

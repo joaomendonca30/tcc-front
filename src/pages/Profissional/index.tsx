@@ -17,12 +17,9 @@ const Professionals: React.FC = () => {
 
     const getHealthProfessional = useCallback(async () => {
         try {
-            const response = await axios.get(`${baseURL}usuario`);
+            const response = await axios.get(`${baseURL}usuario/profissionaisDaSaude`);
             const data = response.data;
-            setUsers(data)
-
-            // Return only healthcare professionnals
-            setProfessionals(users.filter((item) => item.profile == 'Profissional da Saúde'))
+            setProfessionals(data)
         }
         catch {
             console.log(`Deu ruim`)

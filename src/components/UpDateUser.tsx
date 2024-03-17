@@ -181,6 +181,8 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
                                             placeholder="Digite a Unidade Federativa" />
                                     </div>
 
+                                    
+
 
                                     <div className='flex justify-end mt-3'>
                                         <button
