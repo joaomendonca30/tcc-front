@@ -16,7 +16,7 @@ import { UpDateScheduleByCalendar } from './UpDateSchedule';
 interface ProfessionalUserProps {
     userId: string,
     name: string,
-    events: ScheduleModel
+    events: ScheduleModel[]
 
 }
 
@@ -72,7 +72,7 @@ const MyCalendar = () => {
 
 
     // const professional = [{
-    //     userId: '2',
+    //     userId: '23',
     //     name: 'Gabriella Accarini',
     //     events: {
     //         scheduleId: '1',
@@ -169,6 +169,7 @@ const MyCalendar = () => {
                                         onBlur={handleBlur}
                                         value={values.userId}
                                     >
+                                        <option>Selecione o profissional</option>
                                         {professionalUser.map((item, index) =>
                                             <option value={item.userId}> {item.name} </option>)}
                                     </select>
