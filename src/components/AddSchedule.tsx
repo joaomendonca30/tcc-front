@@ -74,15 +74,18 @@ const AddSchedule: React.FC = () => {
     const handleSubmit = (values: typeof initialValues, action: any) => {
         const { userId, patientId, start, end, title, scheduleType } = values
 
-        let processedPatientId = patientId[0]
-        let processedUserId = userId[0]
+        const patientInfo = patientId.split(",")
+        const userInfo = userId.split(",")
+
+        let processedPatientId = patientInfo[0]
+        let processedUserId = userInfo[0]
 
         const processedValues = {
             userId: processedUserId,
             patientId: processedPatientId,
             start,
             end,
-            title: `${scheduleType} - ${patientId.slice(2)} - Dr. ${userId.slice(2)}`,
+            title: `${scheduleType} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
             scheduleType
         }
 
@@ -90,15 +93,13 @@ const AddSchedule: React.FC = () => {
 
         const promisse = scheduleCreate(processedValues)
 
-        setTimeout(function () { window.location.href = '/' }, 1500);
-        window.alert("Nova Consulta Adicionada Com Sucesso")
-
+        // setTimeout(function () { window.location.href = '/' }, 1500);
+        // window.alert("Nova Consulta Adicionada Com Sucesso")
 
     }
 
-
     // const profissional = [{
-    //     userId: '2',
+    //     userId: '23',
     //     name: 'Gabriella Accarini',
     //     events: {
     //         scheduleId: '1',
@@ -140,7 +141,7 @@ const AddSchedule: React.FC = () => {
     //     specialNotes: "Olá como vai"
     // },
     // {
-    //     patientId: "2",
+    //     patientId: "223",
     //     name: "Lucas Accarini",
     //     email: "lucas@gmail.com",
     //     cpf: "78910",
