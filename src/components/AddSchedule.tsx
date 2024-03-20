@@ -93,8 +93,8 @@ const AddSchedule: React.FC = () => {
 
         const promisse = scheduleCreate(processedValues)
 
-        // setTimeout(function () { window.location.href = '/' }, 1500);
-        // window.alert("Nova Consulta Adicionada Com Sucesso")
+        setTimeout(function () { window.location.href = '/' }, 1500);
+        window.alert("Nova Consulta Adicionada Com Sucesso")
 
     }
 
