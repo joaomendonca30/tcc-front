@@ -6,7 +6,7 @@ import { PatientModel } from '../api/patient';
 import { UserModel } from '../api/user';
 import axios from "axios";
 import { baseURL } from '../config';
-import { scheduleUpdate } from '../api/schedule';
+import { scheduleDelete } from '../api/schedule';
 
 interface ScheduleProps {
     info: any
@@ -24,7 +24,7 @@ type initialValues = {
 }
 
 
-export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: ScheduleProps) {
+export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
 
     const [professionalUser, setprofessionalUser] = useState<UserModel[]>([]);
     const [patient, setPatient] = useState<PatientModel[]>([]);
@@ -118,7 +118,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: Schedul
 
             console.log(processedValues)
 
-            const promisse = await scheduleUpdate(scheduleIdData, processedValues)
+            const promisse = await scheduleDelete(scheduleIdData)
 
 
             setTimeout(function () { window.location.reload(); }, 1500);
@@ -194,7 +194,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: Schedul
                         </div>
                         <div className='flex justify-center'>
                             <h2 className='text-lg font-roboto text-primary font-semibold'>
-                                Editar Agendamento
+                                Deletar Agendamento
                             </h2>
                         </div>
                         <div className='mt-12'>
@@ -219,7 +219,8 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: Schedul
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.userId}
-                                                required
+                                                disabled
+
                                             >
                                                 <option>{userName}</option>
                                                 {professionalUser.map((item, index) =>
@@ -236,7 +237,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: Schedul
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.patientId}
-                                                required
+                                                disabled
                                             >
                                                 <option>{patientName}</option>
                                                 {patient.map((item, index) =>
@@ -252,7 +253,8 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: Schedul
                                                 name='scheduleType'
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                value={values.scheduleType}>
+                                                value={values.scheduleType}
+                                                disabled>
                                                 <option> Selecione </option>
                                                 <option> Primeira consulta </option>
                                                 <option> Retorno </option>
@@ -270,7 +272,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: Schedul
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.start}
-                                                required />
+                                                disabled />
                                         </div>
                                         <div className='flex flex-col mt-2'>
                                             <label className='text-primary text-base mr-2'>
@@ -283,7 +285,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: Schedul
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.end}
-                                                required />
+                                                disabled />
 
                                         </div>
 
@@ -291,7 +293,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: Schedul
                                             <button
                                                 className='border border-primary px-6 py-2 rounded-full bg-primary text-white text-roboto hover:bg-white hover:text-black transition duration-200'
                                                 type="submit" disabled={isSubmitting}>
-                                                Atualizar
+                                                Deletar
                                             </button>
                                         </div>
                                     </form>

@@ -9,6 +9,8 @@ import { baseURL } from '../config';
 import { Formik } from 'formik';
 import { AddScheduleByCalendar } from './AddScheduleByCalendar';
 import { UpDateScheduleByCalendar } from './UpDateSchedule';
+import { ScheduleDetails } from './ScheduleDetails';
+import { DeleteSchedule } from './DeleteSchedule';
 
 
 
@@ -29,8 +31,10 @@ const MyCalendar = () => {
     const [professionalUser, setprofessionalUser] = useState<ProfessionalUserProps[]>([]);
     const [events, setEvents] = useState<ScheduleModel[]>([])
     const [showAddScheduleByCalendar, setShowAddScheduleByCalendar] = useState<boolean>(false);
-    const [showUpDateScheduleByCalendar, setShowUpDateScheduleByCalendar] = useState<boolean>(false);
+    const [showScheduleDetails, setShowScheduleDetails] = useState<boolean>(false);
     const [scheduleInfo, setScheduleInfo] = useState<any>()
+    const [showUpDateSchedule, setShowUpDateSchedule] = useState<boolean>(false);
+    const [showDeleteSchedule, setShowDeleteSchedule] = useState<boolean>(false);
 
     // Get que retorna uma lista dos profissionais de saúde
     const getUserProfessional = useCallback(async () => {
@@ -87,14 +91,32 @@ const MyCalendar = () => {
     // {
     //     userId: '3',
     //     name: 'Lucas Accarini',
-    //     events: {
+    //     events: [{
     //         scheduleId: '1',
-    //         userId: '1',
+    //         userId: {       
+    //              userId: "",
+    //              name: "Gabriella Accarini",
+    //              email: "gabi@gmail.com",
+    //              cpf: "123456",
+    //              phoneNumber: "2524757",
+    //              profile: "oi",
+    //              council: "blabla",
+    //              federativeUnit: "SP"},
+    //          patientId:{
+    //              patientId: "",
+    //              name: "Gabriella Accarini",
+    //              email: "gabi@gmail.com",
+    //              cpf: "123456",
+    //              phoneNumber: "2524757",
+    //              dateOfBirth: "05/12/1995",
+    //              healthInsurance: "Bradesco",
+    //              planNumber: "1538475487",
+    //              specialNotes: "Olá como vai"}      
     //         start: '2024-03-17T19:16',
     //         end: '2024-03-17T19:30',
     //         title: 'Lucas Accarini',
     //         scheduleType: "Primeira consulta"
-    //     }
+    //     }]
 
 
 
@@ -105,20 +127,20 @@ const MyCalendar = () => {
     // const [eventos, setEventos] = useState([
     //     {
     //         scheduleId: '1',
-    //         patientId:`3`,
+    //         patientId: `3`,
     //         userId: '1',
-    //         start: '2024-03-17T18:00',
-    //         end: '2024-03-17T18:30',
+    //         start: '2024-03-21T18:00',
+    //         end: '2024-03-21T18:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: "Primeira consulta"
     //     },
 
     //     {
     //         scheduleId: '2',
-    //         patientId:`3`,
+    //         patientId: `3`,
     //         userId: '1',
-    //         start: '2024-03-17T19:00',
-    //         end: '2024-03-17T19:30',
+    //         start: '2024-03-21T19:00',
+    //         end: '2024-03-21T19:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: "Primeira consulta"
     //     }
@@ -136,7 +158,7 @@ const MyCalendar = () => {
     };
 
     const handleEventClick = (info: any, callback?: Function) => {
-        setShowUpDateScheduleByCalendar(true)
+        setShowScheduleDetails(true)
         if (info) {
             setScheduleInfo(info)
         }
@@ -197,7 +219,9 @@ const MyCalendar = () => {
                 <AddScheduleByCalendar isOpen={showAddScheduleByCalendar} setOpenModal={setShowAddScheduleByCalendar} info={scheduleInfo} />
             </div>
             <div>
-                <UpDateScheduleByCalendar isOpen={showUpDateScheduleByCalendar} setOpenModal={setShowUpDateScheduleByCalendar} info={scheduleInfo} />
+                <ScheduleDetails isOpen={showScheduleDetails} setOpenModal={setShowScheduleDetails} info={scheduleInfo} setUpDateModal={setShowUpDateSchedule} setDeleteModal={setShowDeleteSchedule} />
+                <UpDateScheduleByCalendar isOpen={showUpDateSchedule} setOpenModal={setShowUpDateSchedule} info={scheduleInfo} />
+                <DeleteSchedule isOpen={showDeleteSchedule} setOpenModal={setShowDeleteSchedule} info={scheduleInfo} />
             </div>
             <div>
                 <FullCalendar
@@ -211,7 +235,6 @@ const MyCalendar = () => {
                     height={'60vh'}
                     events={events}
                     locale={`pt-br`}
-                    editable={true}
                     selectable
                     select={handleSelect}
                     eventClick={handleEventClick}
