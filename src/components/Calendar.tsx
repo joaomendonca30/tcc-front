@@ -35,6 +35,11 @@ const MyCalendar = () => {
     const [scheduleInfo, setScheduleInfo] = useState<any>()
     const [showUpDateSchedule, setShowUpDateSchedule] = useState<boolean>(false);
     const [showDeleteSchedule, setShowDeleteSchedule] = useState<boolean>(false);
+    const [toggleRefreshData, setToggleRefreshData] = useState<boolean>(false)
+
+
+
+
 
     // Get que retorna uma lista dos profissionais de saúde
     const getUserProfessional = useCallback(async () => {
@@ -46,6 +51,10 @@ const MyCalendar = () => {
             console.log(`Deu ruim`)
         }
     }, [])
+
+
+
+
 
     useEffect(() => {
         getUserProfessional()
@@ -93,44 +102,40 @@ const MyCalendar = () => {
     //     name: 'Lucas Accarini',
     //     events: [{
     //         scheduleId: '1',
-    //         userId: {       
-    //              userId: "",
-    //              name: "Gabriella Accarini",
-    //              email: "gabi@gmail.com",
-    //              cpf: "123456",
-    //              phoneNumber: "2524757",
-    //              profile: "oi",
-    //              council: "blabla",
-    //              federativeUnit: "SP"},
-    //          patientId:{
-    //              patientId: "",
-    //              name: "Gabriella Accarini",
-    //              email: "gabi@gmail.com",
-    //              cpf: "123456",
-    //              phoneNumber: "2524757",
-    //              dateOfBirth: "05/12/1995",
-    //              healthInsurance: "Bradesco",
-    //              planNumber: "1538475487",
-    //              specialNotes: "Olá como vai"}      
+    //         userId: {
+    //             userId: "",
+    //             name: "Gabriella Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             profile: "oi",
+    //             council: "blabla",
+    //             federativeUnit: "SP"
+    //         },
+    //         patientId: {
+    //             patientId: "",
+    //             name: "Gabriella Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             dateOfBirth: "05/12/1995",
+    //             healthInsurance: "Bradesco",
+    //             planNumber: "1538475487",
+    //             specialNotes: "Olá como vai"
+    //         },
     //         start: '2024-03-17T19:16',
     //         end: '2024-03-17T19:30',
     //         title: 'Lucas Accarini',
     //         scheduleType: "Primeira consulta"
     //     }]
-
-
-
     // }]
-
-
-
     // const [eventos, setEventos] = useState([
     //     {
     //         scheduleId: '1',
     //         patientId: `3`,
     //         userId: '1',
-    //         start: '2024-03-21T18:00',
-    //         end: '2024-03-21T18:30',
+    //         start: '2024-03-24T18:00',
+    //         end: '2024-03-24T18:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: "Primeira consulta"
     //     },
@@ -138,9 +143,9 @@ const MyCalendar = () => {
     //     {
     //         scheduleId: '2',
     //         patientId: `3`,
-    //         userId: '1',
-    //         start: '2024-03-21T19:00',
-    //         end: '2024-03-21T19:30',
+    //         userId: '23',
+    //         start: '2024-03-24T19:00',
+    //         end: '2024-03-24T19:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: "Primeira consulta"
     //     }
@@ -165,6 +170,19 @@ const MyCalendar = () => {
 
         callback && callback()
     };
+
+
+    const handleCancel = async (refresh: boolean = false, info?: any) => {
+        if (refresh) {
+            setToggleRefreshData(!toggleRefreshData)
+        }
+        setShowDeleteSchedule(false);
+        setShowUpDateSchedule(false);
+
+        const promisse = await getProfessionalScheduleById(info)
+        const data = promisse.data;
+        return setEvents(data)
+    }
 
 
     return (
@@ -220,7 +238,7 @@ const MyCalendar = () => {
             </div>
             <div>
                 <ScheduleDetails isOpen={showScheduleDetails} setOpenModal={setShowScheduleDetails} info={scheduleInfo} setUpDateModal={setShowUpDateSchedule} setDeleteModal={setShowDeleteSchedule} />
-                <UpDateScheduleByCalendar isOpen={showUpDateSchedule} setOpenModal={setShowUpDateSchedule} info={scheduleInfo} />
+                <UpDateScheduleByCalendar isOpen={showUpDateSchedule} setOpenModal={setShowUpDateSchedule} info={scheduleInfo} cancel={handleCancel} />
                 <DeleteSchedule isOpen={showDeleteSchedule} setOpenModal={setShowDeleteSchedule} info={scheduleInfo} />
             </div>
             <div>

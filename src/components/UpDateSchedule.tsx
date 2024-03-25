@@ -7,11 +7,13 @@ import { UserModel } from '../api/user';
 import axios from "axios";
 import { baseURL } from '../config';
 import { scheduleUpdate } from '../api/schedule';
+import { toast } from 'react-toastify';
 
 interface ScheduleProps {
     info: any
     isOpen: boolean,
     setOpenModal: (isOpen: boolean) => void,
+    cancel: (refresh?: boolean, info?:string) => void
 }
 
 type initialValues = {
@@ -24,7 +26,7 @@ type initialValues = {
 }
 
 
-export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: ScheduleProps) {
+export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }: ScheduleProps) {
 
     const [professionalUser, setprofessionalUser] = useState<UserModel[]>([]);
     const [patient, setPatient] = useState<PatientModel[]>([]);
@@ -118,11 +120,26 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen }: Schedul
 
             console.log(processedValues)
 
-            const promisse = await scheduleUpdate(scheduleIdData, processedValues)
+            const promisse = scheduleUpdate(scheduleIdData, processedValues)
 
+            toast.promise(promisse, {
+                pending: 'Atualizando Agendamento',
+                success: {
+                    render() {
+                        action.setSubmitting(false);
+                        cancel(true, processedUserId );
+                        return 'Agendamento atualizado';
+                    },
+                },
+                error: {
+                    render({ data }) {
+                        action.setSubmitting(false);
+                        cancel(true, processedUserId);
+                        return 'Algo deu errado';
+                    },
+                },
+            });
 
-            setTimeout(function () { window.location.reload(); }, 1500);
-            window.alert("Consulta Editada Com Sucesso")
         }
 
 

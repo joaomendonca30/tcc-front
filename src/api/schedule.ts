@@ -4,6 +4,7 @@ import api from "./axios";
 export interface ScheduleModel {
     scheduleId: string
     userId: string,
+    patientId: string,
     start: Date | undefined | string,
     end: Date | undefined | string,
     title: string,
@@ -44,8 +45,8 @@ export const scheduleDelete = async (
 
 export const getProfessionalScheduleById = async (userId: string) => {
     const { data } = await api.request({
-      method: 'get',
-      url: `agenda/${userId}`,
+        method: 'get',
+        url: `agenda/${userId}`,
     });
     return data;
-  };
+};
