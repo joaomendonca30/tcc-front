@@ -1,14 +1,16 @@
 import api from "./axios";
+import { PatientModel } from "./patient";
+import { UserModel } from "./user";
 
 
 export interface ScheduleModel {
     scheduleId: string
-    userId: string,
-    patientId: string,
+    userId: string | UserModel,
+    patientId: string | PatientModel,
     start: Date | undefined | string,
     end: Date | undefined | string,
     title: string,
-    scheduleType: "Primeira consulta" | "Retorno" | "Procedimento"
+    scheduleType: "Primeira consulta" | "Retorno" | "Procedimento" | string
 }
 
 export const scheduleCreate = async (

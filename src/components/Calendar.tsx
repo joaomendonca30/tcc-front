@@ -13,8 +13,6 @@ import { ScheduleDetails } from './ScheduleDetails';
 import { DeleteSchedule } from './DeleteSchedule';
 
 
-
-
 interface ProfessionalUserProps {
     userId: string,
     name: string,
@@ -36,6 +34,78 @@ const MyCalendar = () => {
     const [showUpDateSchedule, setShowUpDateSchedule] = useState<boolean>(false);
     const [showDeleteSchedule, setShowDeleteSchedule] = useState<boolean>(false);
     const [toggleRefreshData, setToggleRefreshData] = useState<boolean>(false)
+   // const [eventos, setEventos] = useState<ScheduleModel[]>([])
+
+    // const test = [
+    //     {
+    //         scheduleId: '1',
+    //         patientId: {
+    //             patientId: "2",
+    //             name: "Gabriella Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             dateOfBirth: "05/12/1995",
+    //             healthInsurance: "Bradesco",
+    //             planNumber: "1538475487",
+    //             specialNotes: "Olá como vai"
+    //         },
+    //         userId: {
+    //             userId: "",
+    //             name: "Gabriella Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             profile: "oi",
+    //             council: "blabla",
+    //             federativeUnit: "SP"
+    //         },
+    //         start: '2024-03-27T20:00',
+    //         end: '2024-03-27T20:30',
+    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
+    //         scheduleType: `Primeira consulta`
+    //     },
+
+    //     {
+    //         scheduleId: '2',
+    //         patientId: {
+    //             patientId: "2",
+    //             name: "Gabriella Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             dateOfBirth: "05/12/1995",
+    //             healthInsurance: "Bradesco",
+    //             planNumber: "1538475487",
+    //             specialNotes: "Olá como vai"
+    //         },
+    //         userId: {
+    //             userId: "",
+    //             name: "Gabriella Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             profile: "oi",
+    //             council: "blabla",
+    //             federativeUnit: "SP"
+    //         },
+    //         start: '2024-03-27T21:00',
+    //         end: '2024-03-27T21:30',
+    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
+    //         scheduleType: `Primeira consulta`
+    //     }
+    // ]
+
+    // const profissionais = [{
+    //     userId: "23",
+    //     name: "Gabriella Accarini",
+    //     email: "gabi@gmail.com",
+    //     cpf: "123456",
+    //     phoneNumber: "2524757",
+    //     profile: "oi",
+    //     council: "blabla",
+    //     federativeUnit: "SP"
+    // }]
 
 
 
@@ -53,19 +123,26 @@ const MyCalendar = () => {
     }, [])
 
 
-
-
-
     useEffect(() => {
         getUserProfessional()
     }, [getUserProfessional])
 
+
+    // Controlar a alteração dos eventos
+    useEffect(() => {
+        console.log(events.length)
+        if (events.length !== 0) {
+            console.log("os eventos agora são" + events)
+            console.log(events.length)
+        }
+    }, [events])
 
 
     // Requisição para retornar os eventos atrelados a agenda do profissional de saúde selecionado
     const initialValues: initialValues = {
         userId: '',
     }
+
 
 
     const handleSubmit = async (values: typeof initialValues, action: any) => {
@@ -77,79 +154,9 @@ const MyCalendar = () => {
 
         console.log(processedValues)
         const promisse = await getProfessionalScheduleById(processedValues.userId)
-        const data = await promisse.data;
-        setEvents(data)
+
+        setEvents(promisse)        
     }
-
-
-
-
-    // const professional = [{
-    //     userId: '23',
-    //     name: 'Gabriella Accarini',
-    //     events: {
-    //         scheduleId: '1',
-    //         userId: '1',
-    //         start: '2024-03-17T18:16',
-    //         end: '2024-03-17T18:30',
-    //         title: 'Gabriella Accarini',
-    //         scheduleType: "Primeira consulta"
-    //     }
-
-    // },
-    // {
-    //     userId: '3',
-    //     name: 'Lucas Accarini',
-    //     events: [{
-    //         scheduleId: '1',
-    //         userId: {
-    //             userId: "",
-    //             name: "Gabriella Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             profile: "oi",
-    //             council: "blabla",
-    //             federativeUnit: "SP"
-    //         },
-    //         patientId: {
-    //             patientId: "",
-    //             name: "Gabriella Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             dateOfBirth: "05/12/1995",
-    //             healthInsurance: "Bradesco",
-    //             planNumber: "1538475487",
-    //             specialNotes: "Olá como vai"
-    //         },
-    //         start: '2024-03-17T19:16',
-    //         end: '2024-03-17T19:30',
-    //         title: 'Lucas Accarini',
-    //         scheduleType: "Primeira consulta"
-    //     }]
-    // }]
-    // const [eventos, setEventos] = useState([
-    //     {
-    //         scheduleId: '1',
-    //         patientId: `3`,
-    //         userId: '1',
-    //         start: '2024-03-24T18:00',
-    //         end: '2024-03-24T18:30',
-    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: "Primeira consulta"
-    //     },
-
-    //     {
-    //         scheduleId: '2',
-    //         patientId: `3`,
-    //         userId: '23',
-    //         start: '2024-03-24T19:00',
-    //         end: '2024-03-24T19:30',
-    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: "Primeira consulta"
-    //     }
-    // ])
 
 
     //Funçào para permitir a adição e deleção de consultas via calendário
@@ -253,7 +260,6 @@ const MyCalendar = () => {
                     height={'60vh'}
                     events={events}
                     locale={`pt-br`}
-                    selectable
                     select={handleSelect}
                     eventClick={handleEventClick}
 
