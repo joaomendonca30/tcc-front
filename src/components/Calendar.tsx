@@ -34,7 +34,7 @@ const MyCalendar = () => {
     const [showUpDateSchedule, setShowUpDateSchedule] = useState<boolean>(false);
     const [showDeleteSchedule, setShowDeleteSchedule] = useState<boolean>(false);
     const [toggleRefreshData, setToggleRefreshData] = useState<boolean>(false)
-   // const [eventos, setEventos] = useState<ScheduleModel[]>([])
+    // const [eventos, setEventos] = useState<ScheduleModel[]>([])
 
     // const test = [
     //     {
@@ -51,8 +51,8 @@ const MyCalendar = () => {
     //             specialNotes: "Olá como vai"
     //         },
     //         userId: {
-    //             userId: "",
-    //             name: "Gabriella Accarini",
+    //             userId: "23",
+    //             name: "Lucas Accarini",
     //             email: "gabi@gmail.com",
     //             cpf: "123456",
     //             phoneNumber: "2524757",
@@ -60,17 +60,17 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-03-27T20:00',
-    //         end: '2024-03-27T20:30',
+    //         start: '2024-03-31T20:00',
+    //         end: '2024-03-31T20:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: `Primeira consulta`
+    //         scheduleType: `Retorno`
     //     },
 
     //     {
     //         scheduleId: '2',
     //         patientId: {
     //             patientId: "2",
-    //             name: "Gabriella Accarini",
+    //             name: "Lucas Accarini",
     //             email: "gabi@gmail.com",
     //             cpf: "123456",
     //             phoneNumber: "2524757",
@@ -80,7 +80,7 @@ const MyCalendar = () => {
     //             specialNotes: "Olá como vai"
     //         },
     //         userId: {
-    //             userId: "",
+    //             userId: "23",
     //             name: "Gabriella Accarini",
     //             email: "gabi@gmail.com",
     //             cpf: "123456",
@@ -89,10 +89,10 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-03-27T21:00',
-    //         end: '2024-03-27T21:30',
+    //         start: '2024-03-31T21:00',
+    //         end: '2024-03-31T21:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: `Primeira consulta`
+    //         scheduleType: `Retorno`
     //     }
     // ]
 
@@ -154,7 +154,6 @@ const MyCalendar = () => {
 
         console.log(processedValues)
         const promisse = await getProfessionalScheduleById(processedValues.userId)
-
         setEvents(promisse)        
     }
 
@@ -186,9 +185,8 @@ const MyCalendar = () => {
         setShowDeleteSchedule(false);
         setShowUpDateSchedule(false);
 
-        const promisse = await getProfessionalScheduleById(info)
-        const data = promisse.data;
-        return setEvents(data)
+        const promisse = await getProfessionalScheduleById(info)        
+        setEvents(promisse)
     }
 
 

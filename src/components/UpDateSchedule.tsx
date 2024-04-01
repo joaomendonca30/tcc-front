@@ -13,7 +13,7 @@ interface ScheduleProps {
     info: any
     isOpen: boolean,
     setOpenModal: (isOpen: boolean) => void,
-    cancel: (refresh?: boolean, info?:string) => void
+    cancel: (refresh?: boolean, info?: string | UserModel) => void
 }
 
 type initialValues = {
@@ -24,6 +24,9 @@ type initialValues = {
     title: string,
     scheduleType: "Primeira consulta" | "Retorno" | "Procedimento"
 }
+
+
+
 
 
 export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }: ScheduleProps) {
@@ -67,7 +70,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
     if (info) {
 
-        console.log(info.event.extendedProps.scheduleId)
+        console.log(info.event.extendedProps)
 
         const patientIdData = info.event.extendedProps.patientId
         const userIdData = info.event.extendedProps.userId
@@ -76,20 +79,14 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
         const { start, end, title } = info.event
 
-        const titleData = info.event.title
-        const titleDataArray = titleData.split(' - ')
-        const patientName = titleDataArray[1]
-        const userName = titleDataArray[2].slice(4)
-
-
         console.log("Paciente Id: " + patientIdData)
         console.log("Profissional Id: " + userIdData)
         console.log("Tipo de agendamento: " + scheduleTypeData)
         console.log("Id do agendamento: " + scheduleIdData)
 
         const initialValues: initialValues = {
-            userId: userIdData,
-            patientId: patientIdData,
+            userId: userIdData.userId,
+            patientId: patientIdData.patientId,
             start: start,
             end: end,
             title: title,
@@ -102,18 +99,20 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
         const handleSubmit = async (values: typeof initialValues, action: any) => {
             const { start, end, scheduleType, userId, patientId } = values
             console.log(userId)
+
             const patientInfo = patientId.split(",")
             const userInfo = userId.split(",")
 
             let processedPatientId = patientInfo[0]
             let processedUserId = userInfo[0]
 
+
             const processedValues = {
                 userId: processedUserId,
                 patientId: processedPatientId,
                 start,
                 end,
-                title: `${scheduleType} - ${patientId[1]} - Dr. ${userId[1]}`,
+                title: `${scheduleType} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
                 scheduleType
             }
 
@@ -127,14 +126,14 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                 success: {
                     render() {
                         action.setSubmitting(false);
-                        cancel(true, processedUserId );
+                        cancel(true, userId);
                         return 'Agendamento atualizado';
                     },
                 },
                 error: {
                     render({ data }) {
                         action.setSubmitting(false);
-                        cancel(true, processedUserId);
+                        cancel(true, userId);
                         return 'Algo deu errado';
                     },
                 },
@@ -238,7 +237,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                                                 value={values.userId}
                                                 required
                                             >
-                                                <option>{userName}</option>
+                                                <option> Selecione </option>
                                                 {professionalUser.map((item, index) =>
                                                     <option value={[item.userId, item.name]}> {item.name} </option>)}
                                             </select>
@@ -255,7 +254,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                                                 value={values.patientId}
                                                 required
                                             >
-                                                <option>{patientName}</option>
+                                                <option> Selecione </option>
                                                 {patient.map((item, index) =>
                                                     <option value={[item.patientId, item.name]}> {item.name} </option>)}
                                             </select>
@@ -270,7 +269,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.scheduleType}>
-                                                <option> Selecione </option>
+
                                                 <option> Primeira consulta </option>
                                                 <option> Retorno </option>
                                                 <option> Procedimento </option>

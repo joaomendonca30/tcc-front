@@ -7,11 +7,13 @@ import { UserModel } from '../api/user';
 import axios from "axios";
 import { baseURL } from '../config';
 import { scheduleDelete } from '../api/schedule';
+import { toast } from 'react-toastify';
 
 interface ScheduleProps {
     info: any
     isOpen: boolean,
     setOpenModal: (isOpen: boolean) => void,
+    //cancel: (refresh?: boolean, info?: string | UserModel) => void
 }
 
 type initialValues = {
@@ -72,12 +74,13 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
         const scheduleTypeData = info.event.extendedProps.scheduleType
         const scheduleIdData = info.event.extendedProps.scheduleId
 
+        const userName = userIdData.name
+        const patientName = patientIdData.name
+
         const { start, end, title } = info.event
 
         const titleData = info.event.title
-        const titleDataArray = titleData.split(' - ')
-        const patientName = titleDataArray[1]
-        const userName = titleDataArray[2].slice(4)
+
 
 
         console.log("Paciente Id: " + patientIdData)
@@ -86,8 +89,8 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
         console.log("Id do agendamento: " + scheduleIdData)
 
         const initialValues: initialValues = {
-            userId: userIdData,
-            patientId: patientIdData,
+            userId: userIdData.userId,
+            patientId: patientIdData.patientId,
             start: start,
             end: end,
             title: title,
@@ -111,7 +114,7 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
                 patientId: processedPatientId,
                 start,
                 end,
-                title: `${scheduleType} - ${patientId[1]} - Dr. ${userId[1]}`,
+                title: `${scheduleType} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
                 scheduleType
             }
 
@@ -121,8 +124,6 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
             const promisse = await scheduleDelete(scheduleIdData)
 
 
-            setTimeout(function () { window.location.reload(); }, 1500);
-            window.alert("Consulta Editada Com Sucesso")
         }
 
 
@@ -222,9 +223,7 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
                                                 disabled
 
                                             >
-                                                <option>{userName}</option>
-                                                {professionalUser.map((item, index) =>
-                                                    <option value={[item.userId, item.name]}> {item.name} </option>)}
+                                                <option> {userName}</option>
                                             </select>
                                         </div>
 
@@ -237,11 +236,9 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.patientId}
-                                                disabled
-                                            >
-                                                <option>{patientName}</option>
-                                                {patient.map((item, index) =>
-                                                    <option value={[item.patientId, item.name]}> {item.name} </option>)}
+                                                disabled                                            >
+                                                <option> {patientName}</option>
+
                                             </select>
                                         </div>
 
