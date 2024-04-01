@@ -126,14 +126,14 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                 success: {
                     render() {
                         action.setSubmitting(false);
-                        cancel(true, userId);
+                        cancel(true, processedUserId);
                         return 'Agendamento atualizado';
                     },
                 },
                 error: {
                     render({ data }) {
                         action.setSubmitting(false);
-                        cancel(true, userId);
+                        cancel(true, processedUserId);
                         return 'Algo deu errado';
                     },
                 },
