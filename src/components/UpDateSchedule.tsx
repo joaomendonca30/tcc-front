@@ -17,6 +17,7 @@ interface ScheduleProps {
 }
 
 type initialValues = {
+    scheduleId: string,
     userId: string,
     patientId: string,
     start: string | undefined,
@@ -85,6 +86,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
         console.log("Id do agendamento: " + scheduleIdData)
 
         const initialValues: initialValues = {
+            scheduleId: scheduleIdData,
             userId: userIdData.userId,
             patientId: patientIdData.patientId,
             start: start,
@@ -108,6 +110,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
 
             const processedValues = {
+                scheduleId: scheduleIdData,
                 userId: processedUserId,
                 patientId: processedPatientId,
                 start,
