@@ -71,7 +71,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
     if (info) {
 
-        console.log(info.event.extendedProps)
+        // console.log(info.event.extendedProps)
 
         const patientIdData = info.event.extendedProps.patientId
         const userIdData = info.event.extendedProps.userId
@@ -80,10 +80,10 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
         const { start, end, title } = info.event
 
-        console.log("Paciente Id: " + patientIdData)
-        console.log("Profissional Id: " + userIdData)
-        console.log("Tipo de agendamento: " + scheduleTypeData)
-        console.log("Id do agendamento: " + scheduleIdData)
+        // console.log("Paciente Id: " + patientIdData)
+        // console.log("Profissional Id: " + userIdData)
+        // console.log("Tipo de agendamento: " + scheduleTypeData)
+        // console.log("Id do agendamento: " + scheduleIdData)
 
         const initialValues: initialValues = {
             scheduleId: scheduleIdData,
