@@ -154,7 +154,7 @@ const MyCalendar = () => {
 
         console.log(processedValues)
         const promisse = await getProfessionalScheduleById(processedValues.userId)
-        setEvents(promisse)        
+        setEvents(promisse)
     }
 
 
@@ -181,12 +181,14 @@ const MyCalendar = () => {
     const handleCancel = async (refresh: boolean = false, info?: any) => {
         if (refresh) {
             setToggleRefreshData(!toggleRefreshData)
+            const promisse = await getProfessionalScheduleById(info)
+            setEvents(promisse)
         }
         setShowDeleteSchedule(false);
         setShowUpDateSchedule(false);
 
-        const promisse = await getProfessionalScheduleById(info)        
-        setEvents(promisse)
+        const promisse = await getProfessionalScheduleById(info)
+        return setEvents(promisse)
     }
 
 

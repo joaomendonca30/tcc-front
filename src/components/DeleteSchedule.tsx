@@ -82,12 +82,6 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
         const titleData = info.event.title
 
 
-
-        console.log("Paciente Id: " + patientIdData)
-        console.log("Profissional Id: " + userIdData)
-        console.log("Tipo de agendamento: " + scheduleTypeData)
-        console.log("Id do agendamento: " + scheduleIdData)
-
         const initialValues: initialValues = {
             userId: userIdData.userId,
             patientId: patientIdData.patientId,
@@ -101,25 +95,6 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
 
 
         const handleSubmit = async (values: typeof initialValues, action: any) => {
-            const { start, end, scheduleType, userId, patientId } = values
-            console.log(userId)
-            const patientInfo = patientId.split(",")
-            const userInfo = userId.split(",")
-
-            let processedPatientId = patientInfo[0]
-            let processedUserId = userInfo[0]
-
-            const processedValues = {
-                userId: processedUserId,
-                patientId: processedPatientId,
-                start,
-                end,
-                title: `${scheduleType} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
-                scheduleType
-            }
-
-
-            console.log(processedValues)
 
             const promisse = await scheduleDelete(scheduleIdData)
 
@@ -263,7 +238,7 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
                                                 Horário de Início:
                                             </label>
                                             <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                                type='datetime-local'
+                                                type='datetime'
                                                 min="2024-01-01"
                                                 name='start'
                                                 onChange={handleChange}
@@ -276,7 +251,7 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
                                                 Horário de Termino:
                                             </label>
                                             <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                                type='datetime-local'
+                                                type='datetime'
                                                 min="2024-01-01"
                                                 name='end'
                                                 onChange={handleChange}
