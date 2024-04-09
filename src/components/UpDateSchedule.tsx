@@ -26,10 +26,6 @@ type initialValues = {
     scheduleType: "Primeira consulta" | "Retorno" | "Procedimento"
 }
 
-
-
-
-
 export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }: ScheduleProps) {
 
     const [professionalUser, setprofessionalUser] = useState<UserModel[]>([]);
@@ -71,19 +67,18 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
     if (info) {
 
-        // console.log(info.event.extendedProps)
-
         const patientIdData = info.event.extendedProps.patientId
         const userIdData = info.event.extendedProps.userId
         const scheduleTypeData = info.event.extendedProps.scheduleType
         const scheduleIdData = info.event.extendedProps.scheduleId
 
-        const { start, end, title } = info.event
+        const initialUserId = userIdData.userId
+        const initialUserName = userIdData.name
 
-        // console.log("Paciente Id: " + patientIdData)
-        // console.log("Profissional Id: " + userIdData)
-        // console.log("Tipo de agendamento: " + scheduleTypeData)
-        // console.log("Id do agendamento: " + scheduleIdData)
+        const initialPatientId = patientIdData.patientId
+        const initialPatientName = patientIdData.name
+
+        const { start, end, title } = info.event        
 
         const initialValues: initialValues = {
             scheduleId: scheduleIdData,
@@ -96,17 +91,35 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
         }
 
 
-
-
         const handleSubmit = async (values: typeof initialValues, action: any) => {
             const { start, end, scheduleType, userId, patientId } = values
             console.log(userId)
 
-            const patientInfo = patientId.split(",")
-            const userInfo = userId.split(",")
+            let processedPatientId = ""
+            let processedUserId = ""
+            let processedUserName = ""
+            let processedPatientName = ""
 
-            let processedPatientId = patientInfo[0]
-            let processedUserId = userInfo[0]
+
+
+            if (initialUserId != userId) {
+                const userInfo = userId.split(",")
+                processedUserId = userInfo[0]
+                processedUserName = userInfo[1]
+            } else if (initialUserId === userId) {
+                processedUserId = initialUserId
+                processedUserName = initialUserName
+            }
+
+
+            if (initialPatientId != patientId) {
+                const patientInfo = patientId.split(",")
+                processedPatientId = patientInfo[0]
+                processedPatientName = patientInfo[1]
+            } else if (initialPatientId === patientId) {
+                processedPatientId = initialPatientId
+                processedPatientName = initialPatientName
+            }
 
 
             const processedValues = {
@@ -115,7 +128,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                 patientId: processedPatientId,
                 start,
                 end,
-                title: `${scheduleType} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
+                title: `${scheduleType} - ${processedPatientName} - Dr. ${processedUserName}`,
                 scheduleType
             }
 
@@ -161,7 +174,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
         // },
         // {
-        //     userId: '3',
+        //     userId: '23',
         //     name: 'Lucas Accarini',
         //     events: {
         //         scheduleId: '2',
@@ -178,7 +191,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
         // }]
 
         // const pacientes = [{
-        //     patientId: "1",
+        //     patientId: "2",
         //     name: "Gabriella Accarini",
         //     email: "gabi@gmail.com",
         //     cpf: "123456",
@@ -189,7 +202,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
         //     specialNotes: "Olá como vai"
         // },
         // {
-        //     patientId: "2",
+        //     patientId: "23",
         //     name: "Lucas Accarini",
         //     email: "lucas@gmail.com",
         //     cpf: "78910",
@@ -240,7 +253,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                                                 value={values.userId}
                                                 required
                                             >
-                                                <option> Selecione </option>
+                                                <option>{initialUserName}</option>
                                                 {professionalUser.map((item, index) =>
                                                     <option value={[item.userId, item.name]}> {item.name} </option>)}
                                             </select>
@@ -257,7 +270,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                                                 value={values.patientId}
                                                 required
                                             >
-                                                <option> Selecione </option>
+                                                <option>{initialPatientName}</option>
                                                 {patient.map((item, index) =>
                                                     <option value={[item.patientId, item.name]}> {item.name} </option>)}
                                             </select>

@@ -34,9 +34,7 @@ const MyCalendar = () => {
     const [showUpDateSchedule, setShowUpDateSchedule] = useState<boolean>(false);
     const [showDeleteSchedule, setShowDeleteSchedule] = useState<boolean>(false);
     const [toggleRefreshData, setToggleRefreshData] = useState<boolean>(false)
-    // const [eventos, setEventos] = useState<ScheduleModel[]>([])
-
-    // const test = [
+    // const [eventos, setEventos] = useState<ScheduleModel[]>([
     //     {
     //         scheduleId: '1',
     //         patientId: {
@@ -60,8 +58,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-03-31T20:00',
-    //         end: '2024-03-31T20:30',
+    //         start: '2024-04-09T20:00',
+    //         end: '2024-04-03T20:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     },
@@ -89,12 +87,102 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-03-31T21:00',
-    //         end: '2024-03-31T21:30',
+    //         start: '2024-04-09T21:00',
+    //         end: '2024-04-09T21:30',
+    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
+    //         scheduleType: `Retorno`
+    //     }
+    // ])
+
+    // const test = [
+    //     {
+    //         scheduleId: '1',
+    //         patientId: {
+    //             patientId: "2",
+    //             name: "Gabriella Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             dateOfBirth: "05/12/1995",
+    //             healthInsurance: "Bradesco",
+    //             planNumber: "1538475487",
+    //             specialNotes: "Olá como vai"
+    //         },
+    //         userId: {
+    //             userId: "23",
+    //             name: "Lucas Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             profile: "oi",
+    //             council: "blabla",
+    //             federativeUnit: "SP"
+    //         },
+    //         start: '2024-04-09T21:00',
+    //         end: '2024-04-09T21:30',
+    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
+    //         scheduleType: `Retorno`
+    //     },
+
+    //     {
+    //         scheduleId: '2',
+    //         patientId: {
+    //             patientId: "23",
+    //             name: "Lucas Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             dateOfBirth: "05/12/1995",
+    //             healthInsurance: "Bradesco",
+    //             planNumber: "1538475487",
+    //             specialNotes: "Olá como vai"
+    //         },
+    //         userId: {
+    //             userId: "2",
+    //             name: "Gabriella Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             profile: "oi",
+    //             council: "blabla",
+    //             federativeUnit: "SP"
+    //         },
+    //         start: '2024-04-09T22:00',
+    //         end: '2024-04-09T22:30',
+    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
+    //         scheduleType: `Retorno`
+    //     },
+    //     {
+    //         scheduleId: '3',
+    //         patientId: {
+    //             patientId: "23",
+    //             name: "Lucas Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             dateOfBirth: "05/12/1995",
+    //             healthInsurance: "Bradesco",
+    //             planNumber: "1538475487",
+    //             specialNotes: "Olá como vai"
+    //         },
+    //         userId: {
+    //             userId: "2",
+    //             name: "Gabriella Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             profile: "oi",
+    //             council: "blabla",
+    //             federativeUnit: "SP"
+    //         },
+    //         start: '2024-04-09T23:00',
+    //         end: '2024-04-09T23:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     }
     // ]
+
+
 
     // const profissionais = [{
     //     userId: "23",
@@ -108,9 +196,6 @@ const MyCalendar = () => {
     // }]
 
 
-
-
-
     // Get que retorna uma lista dos profissionais de saúde
     const getUserProfessional = useCallback(async () => {
         try {
@@ -120,7 +205,7 @@ const MyCalendar = () => {
         } catch {
             console.log(`Deu ruim`)
         }
-    }, [])
+    }, [])    
 
 
     useEffect(() => {
@@ -130,7 +215,6 @@ const MyCalendar = () => {
 
     // Controlar a alteração dos eventos
     useEffect(() => {
-        console.log(events.length)
         if (events.length !== 0) {
             console.log("os eventos agora são" + events)
             console.log(events.length)
@@ -158,6 +242,21 @@ const MyCalendar = () => {
     }
 
 
+    const handleCancel = async (refresh: boolean = false, info?: any) => {
+        if (refresh) {
+            setToggleRefreshData(!toggleRefreshData)
+            const promisse = await getProfessionalScheduleById(info)
+            setEvents(promisse)
+           
+        }
+        setShowDeleteSchedule(false);
+        setShowUpDateSchedule(false);
+
+        const promisse = await getProfessionalScheduleById(info)
+        setEvents(promisse)
+    }
+
+
     //Funçào para permitir a adição e deleção de consultas via calendário
     const handleSelect = (info: any, callback?: Function) => {
         setShowAddScheduleByCalendar(true)
@@ -178,18 +277,7 @@ const MyCalendar = () => {
     };
 
 
-    const handleCancel = async (refresh: boolean = false, info?: any) => {
-        if (refresh) {
-            setToggleRefreshData(!toggleRefreshData)
-            const promisse = await getProfessionalScheduleById(info)
-            setEvents(promisse)
-        }
-        setShowDeleteSchedule(false);
-        setShowUpDateSchedule(false);
 
-        const promisse = await getProfessionalScheduleById(info)
-        return setEvents(promisse)
-    }
 
 
     return (
