@@ -96,6 +96,8 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
 
         const handleSubmit = async (values: typeof initialValues, action: any) => {
             const promisse = await scheduleDelete(scheduleIdData)
+            setTimeout(function () { window.location.reload(); }, 1500)
+            window.alert("Agendamento Deletado Com Sucesso")
         }
 
 
