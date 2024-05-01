@@ -16,7 +16,7 @@ type iniatialValues = {
     email: string;
     cpf: string;
     phoneNumber: string
-    profile: 'Profissional da Saúde' | 'Recepcionista' | string,
+    profile: 'Profissional da Saúde' | 'Recepcionista' | 'Administrativo' | string,
     council: undefined | string;
     federativeUnit: undefined | string;
 }

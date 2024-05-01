@@ -7,7 +7,7 @@ export interface UserModel {
     email: string;
     cpf: string;
     phoneNumber: string
-    profile: 'Profissional da Saúde' | 'Recepcionista' | string,
+    profile: 'Profissional da Saúde' | 'Recepcionista' | 'Administrativo' | string,
     council?: null | string;
     federativeUnit?: null | string;
 }

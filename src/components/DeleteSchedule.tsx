@@ -13,7 +13,7 @@ interface ScheduleProps {
     info: any
     isOpen: boolean,
     setOpenModal: (isOpen: boolean) => void,
-    //cancel: (refresh?: boolean, info?: string | UserModel) => void
+    cancel: (refresh?: boolean, info?: string | UserModel) => void
 }
 
 type initialValues = {
@@ -26,7 +26,7 @@ type initialValues = {
 }
 
 
-export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
+export function DeleteSchedule({ info, setOpenModal, isOpen, cancel }: ScheduleProps) {
 
     const [professionalUser, setprofessionalUser] = useState<UserModel[]>([]);
     const [patient, setPatient] = useState<PatientModel[]>([]);
@@ -76,6 +76,7 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
 
         const userName = userIdData.name
         const patientName = patientIdData.name
+        const userId = userIdData.userId
 
         const { start, end, title } = info.event
 
@@ -92,12 +93,14 @@ export function DeleteSchedule({ info, setOpenModal, isOpen }: ScheduleProps) {
         }
 
 
-
+        const notify = () => toast("Agendamento Deletado Com Sucesso")
 
         const handleSubmit = async (values: typeof initialValues, action: any) => {
             const promisse = await scheduleDelete(scheduleIdData)
-            setTimeout(function () { window.location.reload(); }, 1500)
-            window.alert("Agendamento Deletado Com Sucesso")
+            notify()
+            cancel(true, userId)
+            //setTimeout(function () { window.location.reload(); }, 1500)
+            //window.alert("Agendamento Deletado Com Sucesso")
         }
 
 

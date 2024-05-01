@@ -2,6 +2,7 @@ import react, { ReactNode } from 'react'
 import closeButton from "../assets/close.svg"
 import { Formik } from 'formik';
 import { userCreate } from '../api/user'
+import { Md5 } from "ts-md5";
 
 
 
@@ -12,9 +13,10 @@ type initialValues = {
     email: string;
     cpf: string;
     phoneNumber: string
-    profile: 'Profissional da Saúde' | 'Recepcionista',
+    profile: 'Profissional da Saúde' | 'Recepcionista' | 'Administrativo',
     council?: undefined | string;
     federativeUnit?: undefined | string;
+    password: string
 }
 
 
@@ -29,10 +31,11 @@ const AddUser: React.FC = () => {
         profile: 'Recepcionista',
         council: undefined,
         federativeUnit: undefined,
+        password: Md5.hashStr('uclinic123')
     }
 
     const handleSubmit = (values: typeof initialValues, action: any) => {
-        const { name, email, cpf, phoneNumber, profile, council, federativeUnit } = values
+        const { name, email, cpf, phoneNumber, profile, council, federativeUnit, password } = values
 
         const processedValues = {
             name,
@@ -41,10 +44,12 @@ const AddUser: React.FC = () => {
             phoneNumber,
             profile,
             council,
-            federativeUnit
+            federativeUnit,
+            password,
         }
 
         console.log(processedValues)
+
         const promisse = userCreate(processedValues)
 
         setTimeout(function () { window.location.href = '/list/users' }, 1500);
@@ -142,6 +147,7 @@ const AddUser: React.FC = () => {
                                         <option> Selecione </option>
                                         <option> Recepcionista </option>
                                         <option> Profissional da Saúde </option>
+                                        <option> Administrativo </option>
                                     </select>
                                 </div>
 

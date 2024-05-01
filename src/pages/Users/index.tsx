@@ -17,6 +17,13 @@ const Users: React.FC = () => {
     const [showDeleteUser, setShowDeleteUser] = useState<boolean>(false)
     const [currentUser, setCurrentUser] = useState<UserModel>()
 
+    const userString = localStorage.getItem('@welcome-app/loggedUser');
+
+    let userObj: any = null
+
+    if (userString !== null) {
+        userObj = JSON.parse(userString)
+    }
 
     const getUsers = useCallback(async () => {
         try {
@@ -60,18 +67,24 @@ const Users: React.FC = () => {
 
     return (
         <div>
-            <div className="flex justify-end mt-5 p-5 md:p-3 md:mt-2 sm:mt-1 sm:p-1">
-                <a
-                    className="border border-secondary rounded-md p-3 text-base font-roboto text-darkgray hover:bg-primary hover:text-white md:text-sm md:p-2 sm:text-xs sm:p-1"
-                    href="/usuario/criar" >
-                    Cadastro de Usuarios
-                </a>
+            {userObj.profile === 'Administrativo' ?
+                <div className="flex justify-end mt-5 p-5 md:p-3 md:mt-2 sm:mt-1 sm:p-1">
+                    <a
+                        className="border border-secondary rounded-md p-3 text-base font-roboto text-darkgray hover:bg-primary hover:text-white md:text-sm md:p-2 sm:text-xs sm:p-1"
+                        href="/usuario/criar" >
+                        Cadastro de Usuarios
+                    </a>
 
-            </div>
+                </div>
+                :
+                ""
+            }
+
 
             <div>
                 <UpDateUser isOpen={showUpdateUser} setOpenModal={setShowUpdateUser} user={currentUser} />
             </div>
+
 
             <div>
                 <DeleteUser isOpen={showDeleteUser} setOpenModal={setShowDeleteUser} user={currentUser} />
@@ -128,21 +141,25 @@ const Users: React.FC = () => {
                                                 <td>{item.profile}</td>
                                                 <td>{item.council}</td>
                                                 <td>{item.federativeUnit}</td>
-                                                <td>
-                                                    <div>
-                                                        <button
-                                                            className="border border-secondary rounded-md px-2 py-1 text-base font-roboto text-darkgray mr-2 hover:font-semibold hover:bg-primary hover:text-white md:text-sm md:p-1 md:mr-1 sm:text-xs sm:px-1 md:mr-1 md:mt-2 sm:mr-1 sm:mt-2"
-                                                            onClick={() => setAndShowUpdateUser(item)}
-                                                        >Editar
-                                                        </button>
-                                                        <button
-                                                            className="border border-secondary rounded-md px-2 py-1 text-base font-roboto text-darkgray hover:font-semibold hover:bg-primary hover:text-white md:text-sm md:p-1 sm:text-xs sm:px-1"
-                                                            onClick={() => setAndShowDeleteUser(item)}
-                                                        >Deletar
-                                                        </button>
-                                                    </div>
+                                                {userObj.profile === 'Administrativo' ?
+                                                    <td>
+                                                        <div>
+                                                            <button
+                                                                className="border border-secondary rounded-md px-2 py-1 text-base font-roboto text-darkgray mr-2 hover:font-semibold hover:bg-primary hover:text-white md:text-sm md:p-1 md:mr-1 sm:text-xs sm:px-1 md:mr-1 md:mt-2 sm:mr-1 sm:mt-2"
+                                                                onClick={() => setAndShowUpdateUser(item)}
+                                                            >Editar
+                                                            </button>
+                                                            <button
+                                                                className="border border-secondary rounded-md px-2 py-1 text-base font-roboto text-darkgray hover:font-semibold hover:bg-primary hover:text-white md:text-sm md:p-1 sm:text-xs sm:px-1"
+                                                                onClick={() => setAndShowDeleteUser(item)}
+                                                            >Deletar
+                                                            </button>
+                                                        </div>
 
-                                                </td>
+                                                    </td>
+                                                    :
+                                                    ""
+                                                }
                                             </tr>
 
                                         )
@@ -153,7 +170,7 @@ const Users: React.FC = () => {
                     )
                 }
             </div>
-        </div>
+        </div >
     )
 }
 

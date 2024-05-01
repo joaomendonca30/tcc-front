@@ -1,4 +1,5 @@
 import api from "./axios";
+import { UserModel } from "./user";
 
 
 export interface PatientModel {

@@ -6,6 +6,7 @@ import Stock from '../pages/Stock';
 import Users from '../pages/Users';
 import Professionals from '../pages/Profissional';
 import Patient from '../pages/Patient';
+import Login from '../pages/Login';
 import AddUser from '../components/AddUser';
 import AddProduct from '../components/AddProduct';
 import AddSchedule from '../components/AddSchedule';
@@ -13,13 +14,15 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddProfessional from '../components/AddProfessional';
 import AddPatient from '../components/AddPatient';
+import Configuration from '../pages/Configurations';
 
 
 const AppRoutes: React.FC = () => (
-    <Layout>
+       <Layout>
         <BrowserRouter>
             <Routes>
-                <Route Component={Schedules} path='/' />
+                <Route Component={Login} path='/' />
+                <Route Component={Schedules} path='/schedule' />
                 <Route Component={Stock} path='/list/stock' />
                 <Route Component={Users} path='/list/users' />
                 <Route Component={Professionals} path='/list/professional' />
@@ -29,6 +32,7 @@ const AppRoutes: React.FC = () => (
                 <Route Component={AddSchedule} path='/agenda/criar' />
                 <Route Component={AddProfessional} path='/profissional/criar' />
                 <Route Component={AddPatient} path='/paciente/criar' />
+                <Route Component={Configuration} path='/configuration' />
             </Routes>
 
         </BrowserRouter>

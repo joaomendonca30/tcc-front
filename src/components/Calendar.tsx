@@ -24,6 +24,7 @@ type initialValues = {
     userId: string
 }
 
+
 const MyCalendar = () => {
 
     const [professionalUser, setprofessionalUser] = useState<ProfessionalUserProps[]>([]);
@@ -118,8 +119,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-04-09T21:00',
-    //         end: '2024-04-09T21:30',
+    //         start: '2024-04-23T21:00',
+    //         end: '2024-04-23T21:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     },
@@ -147,8 +148,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-04-09T22:00',
-    //         end: '2024-04-09T22:30',
+    //         start: '2024-04-23T22:00',
+    //         end: '2024-04-23T22:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     },
@@ -175,8 +176,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-04-09T23:00',
-    //         end: '2024-04-09T23:30',
+    //         start: '2024-04-23T23:00',
+    //         end: '2024-04-23T23:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     }
@@ -195,6 +196,7 @@ const MyCalendar = () => {
     //     federativeUnit: "SP"
     // }]
 
+  
 
     // Get que retorna uma lista dos profissionais de saúde
     const getUserProfessional = useCallback(async () => {
@@ -205,7 +207,7 @@ const MyCalendar = () => {
         } catch {
             console.log(`Deu ruim`)
         }
-    }, [])    
+    }, [])
 
 
     useEffect(() => {
@@ -247,7 +249,7 @@ const MyCalendar = () => {
             setToggleRefreshData(!toggleRefreshData)
             const promisse = await getProfessionalScheduleById(info)
             setEvents(promisse)
-           
+
         }
         setShowDeleteSchedule(false);
         setShowUpDateSchedule(false);
@@ -275,8 +277,6 @@ const MyCalendar = () => {
 
         callback && callback()
     };
-
-
 
 
 
@@ -334,7 +334,7 @@ const MyCalendar = () => {
             <div>
                 <ScheduleDetails isOpen={showScheduleDetails} setOpenModal={setShowScheduleDetails} info={scheduleInfo} setUpDateModal={setShowUpDateSchedule} setDeleteModal={setShowDeleteSchedule} />
                 <UpDateScheduleByCalendar isOpen={showUpDateSchedule} setOpenModal={setShowUpDateSchedule} info={scheduleInfo} cancel={handleCancel} />
-                <DeleteSchedule isOpen={showDeleteSchedule} setOpenModal={setShowDeleteSchedule} info={scheduleInfo} />
+                <DeleteSchedule isOpen={showDeleteSchedule} setOpenModal={setShowDeleteSchedule} info={scheduleInfo} cancel={handleCancel} />
             </div>
             <div>
                 <FullCalendar
