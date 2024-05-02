@@ -44,18 +44,7 @@ const Login: React.FC = () => {
     const [loggedUser, setLoggedUser] = useState<any>("");
 
     const getUserLoggedIn = useCallback(async (email?: string, password?: string) => {
-        try {
-            axios.post(`${baseURL}\login`,
-                {
-                    email: email,
-                    password: password
-                })
-                .then((response) => {
-                    setLoggedUser(response)
-                })
-        } catch {
-            console.log(`Deu ruim`)
-        }
+            
     }, [])
 
 
@@ -79,14 +68,26 @@ const Login: React.FC = () => {
         console.log(email + newPassword)
         await getUserLoggedIn(email, newPassword)
 
-        if (loggedUser != "") {
-            localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(loggedUser))
+        console.log("teste -> " +loggedUser)
+            axios.post(`${baseURL}\login`,
+                {
+                    email: email,
+                    password: password
+                })
+                .then((response) => {
+                    localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(response.data))
+                    setTimeout(function () { window.location.href = '/schedule' }, 1500);
+                    //setLoggedUser(response)
+                    //console.log("teste novo -> "+ response)
+                })
+    //    if (loggedUser != "") {
+    //        localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(loggedUser))
 
-            setTimeout(function () { window.location.href = '/schedule' }, 1500);
-        } else {
-            window.alert("Ou o e-mail, ou a senha está incorreto. Tente novamente.")
-            localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(usuariosLogado))
-        }
+    //        setTimeout(function () { window.location.href = '/schedule' }, 1500);
+    //    } else {
+    //        window.alert("Ou o e-mail, ou a senha está incorreto. Tente novamente.")
+     //       localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(usuariosLogado))
+       // }
     }
 
 
