@@ -6,6 +6,7 @@ import stock from '../assets/stock.svg'
 import patient from '../assets/patient.svg'
 import config from '../assets/config.svg'
 import logout from '../assets/logout.svg'
+import service from '../assets/service.svg'
 
 
 
@@ -44,6 +45,11 @@ const Aside: React.FC = () => {
                 href='/list/professional'>
                 <img className='w-10 mr-2 md:w-8 sm:w-6' src={doctor} />
                 <span className=' text-base font-medium md:text-sm sm:text-xs sm:hidden'> Profissionais </span>
+            </a>
+            <a className='flex items-center mt-5 hover:bg-white mr-2 p-2 cursor-pointer'
+                href='/list/services'>
+                <img className='w-10 mr-2 md:w-8 sm:w-6' src={service} />
+                <span className=' text-base font-medium md:text-sm sm:text-xs sm:hidden'> Serviços </span>
             </a>
             <a className='flex items-center mt-5 hover:bg-white mr-2 p-2 cursor-pointer'
                 href='/list/stock'>

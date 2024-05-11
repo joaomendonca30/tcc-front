@@ -15,7 +15,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import AddProfessional from '../components/AddProfessional';
 import AddPatient from '../components/AddPatient';
 import Configuration from '../pages/Configurations';
-
+import Services from '../pages/Services';
+import AddService from '../components/AddService';
 
 const AppRoutes: React.FC = () => (
        <Layout>
@@ -33,6 +34,8 @@ const AppRoutes: React.FC = () => (
                 <Route Component={AddProfessional} path='/profissional/criar' />
                 <Route Component={AddPatient} path='/paciente/criar' />
                 <Route Component={Configuration} path='/configuration' />
+                <Route Component={Services} path='/list/services'/>
+                <Route Component={AddService} path='/servico/criar'/>
             </Routes>
 
         </BrowserRouter>

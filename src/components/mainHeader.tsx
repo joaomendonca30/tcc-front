@@ -4,12 +4,14 @@ import logo from '../assets/UClinic_logo.png'
 
 
 const Menu: React.FC = () => {
-    const userString = localStorage.getItem('@welcome-app/loggedUser');
+    const userString:any = localStorage.getItem('@welcome-app/loggedUser');
     
-    let userObj = null
+    let userObj:any = null
 
-    userString !== null ? userObj = JSON.parse(userString) : ""
-
+    if(userString !== null){
+        userObj = JSON.parse(userString)
+    }
+    
     return (
         <div className='w-screen bg-primary flex justify-between items-center px-5'>
             <img className='w-44 md:w-28 sm:w-24' src={logo} />
