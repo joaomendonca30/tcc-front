@@ -17,6 +17,7 @@ import AddPatient from '../components/AddPatient';
 import Configuration from '../pages/Configurations';
 import Services from '../pages/Services';
 import AddService from '../components/AddService';
+import Dashboard from '../pages/Dashboard';
 
 const AppRoutes: React.FC = () => (
        <Layout>
@@ -36,6 +37,8 @@ const AppRoutes: React.FC = () => (
                 <Route Component={Configuration} path='/configuration' />
                 <Route Component={Services} path='/list/services'/>
                 <Route Component={AddService} path='/servico/criar'/>
+                <Route Component={AddService} path='/servico/criar'/>
+                <Route Component={Dashboard} path='/dashboard'/>
             </Routes>
 
         </BrowserRouter>
