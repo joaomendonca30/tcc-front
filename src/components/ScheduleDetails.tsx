@@ -36,6 +36,16 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
     const [showDeleteSchedule, setShowDeleteSchedule] = useState<boolean>(false);
     const [scheduleInfo, setScheduleInfo] = useState<any>()
 
+    function dataAtualFormatada(data: any) {
+        const dataF = new Date(data)
+        const dia = dataF.getDate().toString()
+        const diaF = (dia.length == 1) ? '0' + dia : dia
+        const mes = (dataF.getMonth() + 1).toString() //+1 pois no getMonth Janeiro começa com zero.
+        const mesF = (mes.length == 1) ? '0' + mes : mes
+        const anoF = dataF.getFullYear()
+        return diaF + "/" + mesF + "/" + anoF;
+    }
+
     if (info) {
 
         const patientIdData = info.event.extendedProps.patientId
@@ -50,19 +60,19 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
         const titleDataArray = titleData.split(' - ')
         const patientName = titleDataArray[1]
         const userName = titleDataArray[2].slice(4)
-        const startDateProcessed = startDate.toLocaleDateString()
-        const endDateProcessed = endDate.toLocaleDateString()
+        const startDateProcessed = dataAtualFormatada(startDate)
+        const endDateProcessed = dataAtualFormatada(endDate)
         const startHour = startDate.getHours()
         const startMinutes = String(startDate.getMinutes()).padStart(2, "0")
         const endHour = endDate.getHours()
         const endMinutes = String(endDate.getMinutes()).padStart(2, "0")
 
 
-        console.log("Paciente Id: " + patientIdData)
-        console.log("Profissional Id: " + userIdData)
-        console.log("Tipo de agendamento: " + scheduleTypeData)
-        console.log("Id do agendamento: " + scheduleIdData)
-        console.log("Inicio: " + startDate.toLocaleDateString())
+        // console.log("Paciente Id: " + patientIdData)
+        // console.log("Profissional Id: " + userIdData)
+        // console.log("Tipo de agendamento: " + scheduleTypeData)
+        // console.log("Id do agendamento: " + scheduleIdData)
+        // console.log("Inicio: " + startDate)
 
 
         // const profissional = [{
@@ -102,7 +112,7 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
         //     email: "gabi@gmail.com",
         //     cpf: "123456",
         //     phoneNumber: "2524757",
-        //     dateOfBirth: "05/12/1995",
+        //     dateOfBirth: "Fri Dec 05 1995 21:00:00 GMT-0300 (Horário Padrão de Brasília)",
         //     healthInsurance: "Bradesco",
         //     planNumber: "1538475487",
         //     specialNotes: "Olá como vai"
@@ -113,7 +123,7 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
         //     email: "lucas@gmail.com",
         //     cpf: "78910",
         //     phoneNumber: "2524757",
-        //     dateOfBirth: "03/06/1997",
+        //     dateOfBirth: "Fri Jun 03 1997 21:00:00 GMT-0300 (Horário Padrão de Brasília)",
         //     healthInsurance: "Bradesco",
         //     planNumber: "1538475487",
         //     specialNotes: "Olá como vai"
@@ -195,7 +205,7 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
                                                 <span className='text-base sm:text-sm'><strong>Data e Horário de Início :</strong> {startDateProcessed + " " + startHour + ":" + startMinutes}  </span>
                                             </div>
                                             <div>
-                                                <span className='text-base'><strong>Data e Horário de Início :</strong> {endDateProcessed + " " + endHour + ":" + endMinutes}  </span>
+                                                <span className='text-base'><strong>Data e Horário de Fim :</strong> {endDateProcessed + " " + endHour + ":" + endMinutes}  </span>
                                             </div>
                                         </div>
                                     </div>

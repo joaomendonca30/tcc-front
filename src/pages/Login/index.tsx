@@ -24,17 +24,17 @@ const usuarios = {
     password: ""
 }
 
-const usuariosLogado = {
-    userId: "21",
-    name: "Gabriella Accarini",
-    email: "gabi@gmail.com",
-    cpf: "431569853",
-    phoneNumber: "11685365698",
-    profile: 'Administrativo',
-    council: "123",
-    federativeUnit: "SP",
-    password: "uclinic123"
-}
+// const usuariosLogado = {
+//     userId: "21",
+//     name: "Gabriella Accarini",
+//     email: "gabi@gmail.com",
+//     cpf: "431569853",
+//     phoneNumber: "11685365698",
+//     profile: 'Administrativo',
+//     council: "123",
+//     federativeUnit: "SP",
+//     password: "uclinic123"
+// }
 
 
 const Login: React.FC = () => {
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
     const [loggedUser, setLoggedUser] = useState<any>("");
 
     const getUserLoggedIn = useCallback(async (email?: string, password?: string) => {
-            
+
     }, [])
 
 
@@ -68,7 +68,7 @@ const Login: React.FC = () => {
         console.log(email + newPassword)
         await getUserLoggedIn(email, newPassword)
 
-        console.log("teste -> " +loggedUser)
+        try {
             axios.post(`${baseURL}\login`,
                 {
                     email: email,
@@ -77,17 +77,11 @@ const Login: React.FC = () => {
                 .then((response) => {
                     localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(response.data))
                     setTimeout(function () { window.location.href = '/schedule' }, 1500);
-                    //setLoggedUser(response)
-                    //console.log("teste novo -> "+ response)
-                })
-    //    if (loggedUser != "") {
-    //        localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(loggedUser))
 
-    //        setTimeout(function () { window.location.href = '/schedule' }, 1500);
-    //    } else {
-    //        window.alert("Ou o e-mail, ou a senha está incorreto. Tente novamente.")
-     //       localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(usuariosLogado))
-       // }
+                })
+        } catch {
+            window.alert("Ou o e-mail, ou a senha está incorreto. Tente novamente.")
+        }
     }
 
 

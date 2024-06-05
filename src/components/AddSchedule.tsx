@@ -19,7 +19,8 @@ type initialValues = {
     start: string | undefined,
     end: string | undefined,
     title: string,
-    scheduleType: "Primeira consulta" | "Retorno" | "Procedimento"
+    scheduleType: "Primeira consulta" | "Retorno" | "Procedimento",
+    scheduleStatus: "Agendado" | "Atendido" | "Faltou"
 }
 
 
@@ -68,11 +69,12 @@ const AddSchedule: React.FC = () => {
         start: undefined,
         end: undefined,
         title: '',
-        scheduleType: "Primeira consulta"
+        scheduleType: "Primeira consulta",
+        scheduleStatus: "Agendado" 
     }
 
     const handleSubmit = (values: typeof initialValues, action: any) => {
-        const { userId, patientId, start, end, title, scheduleType } = values
+        const { userId, patientId, start, end, title, scheduleType, scheduleStatus } = values
 
         const patientInfo = patientId.split(",")
         const userInfo = userId.split(",")
@@ -86,14 +88,15 @@ const AddSchedule: React.FC = () => {
             start,
             end,
             title: `${scheduleType} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
-            scheduleType
+            scheduleType,
+            scheduleStatus
         }
 
         console.log(processedValues)
 
         const promisse = scheduleCreate(processedValues)
 
-        setTimeout(function () { window.location.href = '/' }, 1500);
+        setTimeout(function () { window.location.href = '/schedule' }, 1500);
         window.alert("Nova Consulta Adicionada Com Sucesso")
 
     }

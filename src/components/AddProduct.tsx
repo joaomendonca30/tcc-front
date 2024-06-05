@@ -57,11 +57,12 @@ const AddProduct: React.FC = () => {
             startDate: startDateProcessed,
             endDate: endDateProcessed,
         }
-        const promisse = await productCreate(processedValues)
         console.log(processedValues)
-        
+        const promisse = await productCreate(processedValues)
 
-        setTimeout(function(){ window.location.href='/list/stock' }, 1500);
+
+
+        setTimeout(function () { window.location.href = '/list/stock' }, 1500);
         window.alert("Produto Adicionado Com Sucesso")
 
     }
@@ -101,8 +102,8 @@ const AddProduct: React.FC = () => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.name}
-                                        placeholder='Digite o nome do produto' 
-                                        required/>
+                                        placeholder='Digite o nome do produto'
+                                        required />
                                 </div>
                                 <div className='flex flex-col mt-2'>
                                     <label className='text-primary text-base mr-2'>
@@ -112,9 +113,9 @@ const AddProduct: React.FC = () => {
                                         name='producer'
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.producer} 
+                                        value={values.producer}
                                         placeholder='Digite o fabricante'
-                                        required/>
+                                        required />
                                 </div>
                                 <div className='flex flex-col mt-2'>
                                     <label className='text-primary text-base mr-2'>
@@ -155,9 +156,9 @@ const AddProduct: React.FC = () => {
                                             name='startDate'
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.startDate} 
+                                            value={values.startDate}
                                             placeholder='Selecione a data de fabricação'
-                                            />
+                                        />
                                     </div>
                                     <div className='mt-2 flex flex-col w-2/6'>
                                         <label className='text-primary text-base mr-2'>
@@ -169,8 +170,8 @@ const AddProduct: React.FC = () => {
                                             name='endDate'
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.endDate} 
-                                            placeholder='Selecione a data de vencimento'/>
+                                            value={values.endDate}
+                                            placeholder='Selecione a data de vencimento' />
                                     </div>
                                 </div>
 

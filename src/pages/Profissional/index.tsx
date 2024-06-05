@@ -44,16 +44,16 @@ const Professionals: React.FC = () => {
         callback && callback()
     }
 
-    const profissionais = [{
-        userId: "",
-        name: "Gabriella Accarini",
-        email: "gabi@gmail.com",
-        cpf: "123456",
-        phoneNumber: "2524757",
-        profile: "oi",
-        council: "blabla",
-        federativeUnit: "SP"
-    }]
+    // const profissionais = [{
+    //     userId: "",
+    //     name: "Gabriella Accarini",
+    //     email: "gabi@gmail.com",
+    //     cpf: "123456",
+    //     phoneNumber: "2524757",
+    //     profile: "oi",
+    //     council: "blabla",
+    //     federativeUnit: "SP"
+    // }]
 
     return (
         <div>

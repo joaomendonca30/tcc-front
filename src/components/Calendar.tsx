@@ -59,8 +59,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-04-09T20:00',
-    //         end: '2024-04-03T20:30',
+    //         start: '2024-06-05T20:00',
+    //         end: '2024-06-05T20:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     },
@@ -88,8 +88,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-04-09T21:00',
-    //         end: '2024-04-09T21:30',
+    //         start: '2024-06-05T21:00',
+    //         end: '2024-06-05T21:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     }
@@ -119,8 +119,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-04-23T21:00',
-    //         end: '2024-04-23T21:30',
+    //         start: '2024-06-05T21:00',
+    //         end: '2024-06-05T21:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     },
@@ -148,8 +148,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-04-23T22:00',
-    //         end: '2024-04-23T22:30',
+    //         start: '2024-06-05T22:00',
+    //         end: '2024-06-06T22:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     },
@@ -176,8 +176,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-04-23T23:00',
-    //         end: '2024-04-23T23:30',
+    //         start: '2024-06-05T23:00',
+    //         end: '2024-06-05T23:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     }
@@ -196,7 +196,7 @@ const MyCalendar = () => {
     //     federativeUnit: "SP"
     // }]
 
-  
+
 
     // Get que retorna uma lista dos profissionais de saúde
     const getUserProfessional = useCallback(async () => {

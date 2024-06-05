@@ -6,7 +6,7 @@ import { UpDatePatient } from "../../components/UpDatePatient";
 import { DeletePatient } from "../../components/DeletePatient";
 
 
-const Patient: React.FC = () => {    
+const Patient: React.FC = () => {
     const [patient, setPatient] = useState<PatientModel[]>([]);
     const [showUpdatePatient, setShowUpdatePatient] = useState<boolean>(false);
     const [showDeletePatient, setShowDeletePatient] = useState<boolean>(false)
@@ -43,17 +43,30 @@ const Patient: React.FC = () => {
         callback && callback()
     }
 
-    const pacientes = [{
-        patientId: "",
-        name: "Gabriella Accarini",
-        email: "gabi@gmail.com",
-        cpf: "123456",
-        phoneNumber: "2524757",
-        dateOfBirth: "05/12/1995",
-        healthInsurance: "Bradesco",
-        planNumber: "1538475487",
-        specialNotes: "Olá como vai"
-    }]
+
+    function dataAtualFormatada(data: any) {
+        const dataF = new Date(data)
+        const dia = dataF.getDate().toString()
+        const diaF = (dia.length == 1) ? '0' + dia : dia
+        const mes = (dataF.getMonth() + 1).toString() //+1 pois no getMonth Janeiro começa com zero.
+        const mesF = (mes.length == 1) ? '0' + mes : mes
+        const anoF = dataF.getFullYear()
+        return diaF + "/" + mesF + "/" + anoF;
+    }
+
+    // const pacientes = [{
+    //     patientId: "",
+    //     name: "Gabriella Accarini",
+    //     email: "gabi@gmail.com",
+    //     cpf: "123456",
+    //     phoneNumber: "2524757",
+    //     dateOfBirth: "Fri Jun 07 2024 21:00:00 GMT-0300 (Horário Padrão de Brasília)",
+    //     healthInsurance: "Bradesco",
+    //     planNumber: "1538475487",
+    //     specialNotes: "Olá como vai"
+    // }]
+
+
 
     return (
         <div>
@@ -122,7 +135,9 @@ const Patient: React.FC = () => {
                                                 <td>{item.email}</td>
                                                 <td>{item.cpf}</td>
                                                 <td>{item.phoneNumber}</td>
-                                                <td>{item.dateOfBirth?.toString()}</td>
+                                                <td>
+                                                    {item.dateOfBirth !== null ? dataAtualFormatada(item.dateOfBirth) : ""}
+                                                </td>
                                                 <td>{item.healthInsurance}</td>
                                                 <td>{item.planNumber}</td>
                                                 <td>

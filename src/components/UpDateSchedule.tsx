@@ -23,7 +23,8 @@ type initialValues = {
     start: string | undefined,
     end: string | undefined,
     title: string,
-    scheduleType: "Primeira consulta" | "Retorno" | "Procedimento"
+    scheduleType: "Primeira consulta" | "Retorno" | "Procedimento",
+    scheduleStatus: "Agendado" | "Atendido" | "Faltou"
 }
 
 export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }: ScheduleProps) {
@@ -71,6 +72,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
         const userIdData = info.event.extendedProps.userId
         const scheduleTypeData = info.event.extendedProps.scheduleType
         const scheduleIdData = info.event.extendedProps.scheduleId
+        const scheduleStatusData = info.event.extendedProps.scheduleStatus
 
         const initialUserId = userIdData.userId
         const initialUserName = userIdData.name
@@ -78,7 +80,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
         const initialPatientId = patientIdData.patientId
         const initialPatientName = patientIdData.name
 
-        const { start, end, title } = info.event        
+        const { start, end, title } = info.event
 
         const initialValues: initialValues = {
             scheduleId: scheduleIdData,
@@ -87,12 +89,13 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
             start: start,
             end: end,
             title: title,
-            scheduleType: scheduleTypeData
+            scheduleType: scheduleTypeData,
+            scheduleStatus: scheduleStatusData,
         }
 
 
         const handleSubmit = async (values: typeof initialValues, action: any) => {
-            const { start, end, scheduleType, userId, patientId } = values
+            const { start, end, scheduleType, userId, patientId, scheduleStatus } = values
             console.log(userId)
 
             let processedPatientId = ""
@@ -129,7 +132,8 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                 start,
                 end,
                 title: `${scheduleType} - ${processedPatientName} - Dr. ${processedUserName}`,
-                scheduleType
+                scheduleType,
+                scheduleStatus,
             }
 
 
@@ -159,59 +163,59 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
 
 
-        // const profissional = [{
-        //     userId: '2',
-        //     name: 'Gabriella Accarini',
-        //     events: {
-        //         scheduleId: '1',
-        //         userId: '1',
-        //         patientId: `1`,
-        //         start: new Date(),
-        //         end: new Date(),
-        //         title: 'Gabriella Accarini',
-        //         scheduleType: "Primeira consulta"
-        //     }
+        const profissional = [{
+            userId: '2',
+            name: 'Gabriella Accarini',
+            events: {
+                scheduleId: '1',
+                userId: '1',
+                patientId: `1`,
+                start: new Date(),
+                end: new Date(),
+                title: 'Gabriella Accarini',
+                scheduleType: "Primeira consulta"
+            }
 
-        // },
-        // {
-        //     userId: '23',
-        //     name: 'Lucas Accarini',
-        //     events: {
-        //         scheduleId: '2',
-        //         userId: '1',
-        //         patientId: `2`,
-        //         start: new Date(),
-        //         end: new Date(),
-        //         title: 'Lucas Accarini',
-        //         scheduleType: "Primeira consulta"
-        //     }
+        },
+        {
+            userId: '23',
+            name: 'Lucas Accarini',
+            events: {
+                scheduleId: '2',
+                userId: '1',
+                patientId: `2`,
+                start: new Date(),
+                end: new Date(),
+                title: 'Lucas Accarini',
+                scheduleType: "Primeira consulta"
+            }
 
 
 
-        // }]
+        }]
 
-        // const pacientes = [{
-        //     patientId: "2",
-        //     name: "Gabriella Accarini",
-        //     email: "gabi@gmail.com",
-        //     cpf: "123456",
-        //     phoneNumber: "2524757",
-        //     dateOfBirth: "05/12/1995",
-        //     healthInsurance: "Bradesco",
-        //     planNumber: "1538475487",
-        //     specialNotes: "Olá como vai"
-        // },
-        // {
-        //     patientId: "23",
-        //     name: "Lucas Accarini",
-        //     email: "lucas@gmail.com",
-        //     cpf: "78910",
-        //     phoneNumber: "2524757",
-        //     dateOfBirth: "03/06/1997",
-        //     healthInsurance: "Bradesco",
-        //     planNumber: "1538475487",
-        //     specialNotes: "Olá como vai"
-        // }]
+        const pacientes = [{
+            patientId: "2",
+            name: "Gabriella Accarini",
+            email: "gabi@gmail.com",
+            cpf: "123456",
+            phoneNumber: "2524757",
+            dateOfBirth: "05/12/1995",
+            healthInsurance: "Bradesco",
+            planNumber: "1538475487",
+            specialNotes: "Olá como vai"
+        },
+        {
+            patientId: "23",
+            name: "Lucas Accarini",
+            email: "lucas@gmail.com",
+            cpf: "78910",
+            phoneNumber: "2524757",
+            dateOfBirth: "03/06/1997",
+            healthInsurance: "Bradesco",
+            planNumber: "1538475487",
+            specialNotes: "Olá como vai"
+        }]
 
 
         if (isOpen) {
@@ -316,6 +320,29 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                                                 onBlur={handleBlur}
                                                 value={values.end}
                                                 required />
+
+                                        </div>
+                                        <div className='flex flex-col mt-2'>
+                                            <label className='text-primary text-base mr-2'>
+                                                Status da Consulta:
+                                            </label>
+                                            <div className='flex'>
+                                                <input className='border rounded-md border-lightgray shadow-sm p-3'
+                                                    name='scheduleStatus'
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value="Atendido"
+                                                    type="radio" />
+                                                <label>Atendido</label>
+
+                                                <input className='border rounded-md border-lightgray shadow-sm p-3 ml-3'
+                                                    name='scheduleStatus'
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value="Faltou"
+                                                    type="radio" />
+                                                <label>Faltou</label>
+                                            </div>
 
                                         </div>
 

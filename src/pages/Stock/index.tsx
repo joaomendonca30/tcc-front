@@ -43,16 +43,26 @@ const Stock: React.FC = () => {
         callback && callback()
     }
 
+    function dataAtualFormatada(data: any) {
+        const dataF = new Date(data)
+        const dia = dataF.getDate().toString()
+        const diaF = (dia.length == 1) ? '0' + dia : dia
+        const mes = (dataF.getMonth() + 1).toString() //+1 pois no getMonth Janeiro começa com zero.
+        const mesF = (mes.length == 1) ? '0' + mes : mes
+        const anoF = dataF.getFullYear()
+        return diaF + "/" + mesF + "/" + anoF;
+    }
 
-    const produtos = [{
-        productId: "1",
-        name: "Esparadrapo",
-        quantity: "1",
-        producer: "Needs",
-        type: "Farmaco",
-        startDate: "01/01/2024",
-        endDate: "01/01/2024",
-    }]
+
+    // const produtos = [{
+    //     productId: "1",
+    //     name: "Esparadrapo",
+    //     quantity: "1",
+    //     producer: "Needs",
+    //     type: "Farmaco",
+    //     startDate: "",
+    //     endDate: "Fri Oct 5 2022 21:00:00 GMT-0300 (Horário Padrão de Brasília)",
+    // }]
 
 
 
@@ -111,7 +121,9 @@ const Stock: React.FC = () => {
                                                 <td>{item.name}</td>
                                                 <td>{item.producer}</td>
                                                 <td>{item.quantity}</td>
-                                                <td>{item.endDate?.toString()}</td>
+                                                <td>
+                                                    {item.endDate !== null ? dataAtualFormatada(item.endDate) : ""}
+                                                </td>
                                                 <td>
                                                     <div>
                                                         <button
