@@ -6,6 +6,7 @@ import axios from "axios";
 import { baseURL } from '../config';
 import { UserModel } from '../api/user';
 import { PatientModel } from '../api/patient';
+import { ServicesModel } from '../api/service';
 
 
 interface ModalProps {
@@ -19,7 +20,7 @@ type initialValues = {
     start: string | undefined,
     end: string | undefined,
     title: string,
-    scheduleType: "Primeira consulta" | "Retorno" | "Procedimento",
+    scheduleType: string,
     scheduleStatus: "Agendado" | "Atendido" | "Faltou"
 }
 
@@ -28,6 +29,7 @@ const AddSchedule: React.FC = () => {
 
     const [professionalUser, setprofessionalUser] = useState<UserModel[]>([]);
     const [patient, setPatient] = useState<PatientModel[]>([]);
+    const [service, setService] = useState<ServicesModel[]>([]);
 
     const getUserProfessional = useCallback(async () => {
         try {
@@ -52,15 +54,24 @@ const AddSchedule: React.FC = () => {
 
     }, []);
 
+    const getServices = useCallback(async () => {
+        try {
+            const response = await axios.get(`${baseURL}\servicos`);
+            const data = response.data;
+            setService(data)
+        }
+        catch {
+            console.log(`Deu ruim`)
+        }
+
+    }, []);
+
 
     useEffect(() => {
         getUserProfessional()
         getPatients()
-    }, [getUserProfessional, getPatients])
-
-
-
-
+        getServices()
+    }, [getUserProfessional, getPatients, getServices])    
 
 
     const initialValues: initialValues = {
@@ -69,8 +80,8 @@ const AddSchedule: React.FC = () => {
         start: undefined,
         end: undefined,
         title: '',
-        scheduleType: "Primeira consulta",
-        scheduleStatus: "Agendado" 
+        scheduleType: '',
+        scheduleStatus: "Agendado"
     }
 
     const handleSubmit = (values: typeof initialValues, action: any) => {
@@ -78,16 +89,32 @@ const AddSchedule: React.FC = () => {
 
         const patientInfo = patientId.split(",")
         const userInfo = userId.split(",")
+        const scheduleTypeInfo = scheduleType.split(",")
 
         let processedPatientId = patientInfo[0]
         let processedUserId = userInfo[0]
+        let serviceDuration = scheduleTypeInfo[1]
+        let serviceName = scheduleTypeInfo[2]
+
+        //pegando a hora e os minutos
+        const serviceDurationApart = serviceDuration.split(":")
+        const serviceDurationHour = Number(serviceDurationApart[0])
+        const serviceDurationMinutes = Number(serviceDurationApart[1])
+
+        let processedEnd: any = ''
+
+        if (start) {
+            const startToDate = new Date(start)
+            processedEnd = startToDate.setHours(startToDate.getHours() + serviceDurationHour)
+            processedEnd = startToDate.setMinutes(startToDate.getMinutes() + serviceDurationMinutes)
+        }
 
         const processedValues = {
             userId: processedUserId,
             patientId: processedPatientId,
             start,
-            end,
-            title: `${scheduleType} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
+            end: new Date(processedEnd),
+            title: `${serviceName} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
             scheduleType,
             scheduleStatus
         }
@@ -100,6 +127,21 @@ const AddSchedule: React.FC = () => {
         window.alert("Nova Consulta Adicionada Com Sucesso")
 
     }
+
+    // const servicos = [
+    //     {
+    //         serviceId: "23",
+    //         serviceCost: "50,00",
+    //         name: "Clareamento Dantal",
+    //         endDate: "01:00"
+    //     },
+    //     {
+    //         serviceId: "20",
+    //         serviceCost: "200,00",
+    //         name: "Tratamento de Canal",
+    //         endDate: "03:30"
+    //     }
+    // ]
 
     // const profissional = [{
     //     userId: '23',
@@ -228,9 +270,9 @@ const AddSchedule: React.FC = () => {
                                         value={values.scheduleType}
                                         required>
                                         <option> Selecione </option>
-                                        <option> Primeira consulta </option>
-                                        <option> Retorno </option>
-                                        <option> Procedimento </option>
+                                        {service.map((item, index) =>
+                                            <option value={item.endDate ? [item.serviceId, item.endDate.toString(), item.name] : item.serviceId
+                                            }> {item.name} </option>)}
                                     </select>
                                 </div>
                                 <div className='flex flex-col mt-2'>
@@ -245,20 +287,6 @@ const AddSchedule: React.FC = () => {
                                         onBlur={handleBlur}
                                         value={values.start}
                                         required />
-                                </div>
-                                <div className='flex flex-col mt-2'>
-                                    <label className='text-primary text-base mr-2'>
-                                        Horário de Termino:
-                                    </label>
-                                    <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                        type='datetime-local'
-                                        min="2024-01-01"
-                                        name='end'
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.end}
-                                        required />
-
                                 </div>
 
                                 <div className='flex justify-end mt-3'>
