@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
     const getRecepcionistUsers = useCallback(async () => {
         try {
             //Retornar usuários recepcionistas
-            const responseRecepcionistUsers = await axios.get(`${baseURL}\recepcionistas`);
+            const responseRecepcionistUsers = await axios.get(`${baseURL}recepcionistas`);
             const dataRecepcionistUsers = responseRecepcionistUsers.data;
             setRecepcionistUsers(dataRecepcionistUsers)
         }
@@ -51,7 +51,7 @@ const Dashboard: React.FC = () => {
     const getHealthProfessionalsUsers = useCallback(async () => {
         try {
             //Retornar profissionais da saúde
-            const responseHealthProfessionalsUsers = await axios.get(`${baseURL}\profissionaisDaSaudeTotal`);
+            const responseHealthProfessionalsUsers = await axios.get(`${baseURL}profissionaisDaSaudeTotal`);
             const dataHealthProfessionalsUsers = responseHealthProfessionalsUsers.data;
             setHealthProfessionalsUsers(dataHealthProfessionalsUsers)
         }
@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
     const getTopServices = useCallback(async () => {
         try {
             //Retornar top 3 serviços mais prestados
-            const responseTopServices = await axios.get(`${baseURL}\topServicos`);
+            const responseTopServices = await axios.get(`${baseURL}topServicos`);
             const dataTopServices = responseTopServices.data;
             setTopServices(dataTopServices)
         }
@@ -103,7 +103,7 @@ const Dashboard: React.FC = () => {
     const getIncome = useCallback(async () => {
         try {
             //Valor de Entrada
-            const responseIncome = await axios.get(`${baseURL}\receita`);
+            const responseIncome = await axios.get(`${baseURL}receita`);
             const dataIncome = responseIncome.data;
             setIncome(dataIncome)
 

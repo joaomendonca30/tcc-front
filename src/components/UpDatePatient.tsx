@@ -36,7 +36,7 @@ export function UpDatePatient({ patient, isOpen, setOpenModal }: UpdatePatientPr
         cpf: patient.cpf,
         phoneNumber: patient.phoneNumber,
         dateOfBirth: patient.dateOfBirth?.toString(),
-        healthInsurance: patient?.healthInsurance,
+        healthInsurance: patient.healthInsurance,
         planNumber: patient.planNumber,
         specialNotes: patient.specialNotes,
     }
@@ -44,7 +44,7 @@ export function UpDatePatient({ patient, isOpen, setOpenModal }: UpdatePatientPr
 
 
     const handleSubmit = async (values: typeof initialValues, action: any) => {
-        const { name, email, cpf, phoneNumber, dateOfBirth, planNumber, specialNotes } = values
+        const { name, email, cpf, phoneNumber, dateOfBirth, healthInsurance,planNumber, specialNotes } = values
 
         let dateOfBirthProcessed = null
 
@@ -59,6 +59,7 @@ export function UpDatePatient({ patient, isOpen, setOpenModal }: UpdatePatientPr
             cpf,
             phoneNumber,
             dateOfBirth: dateOfBirthProcessed,
+            healthInsurance,
             planNumber,
             specialNotes
         }
