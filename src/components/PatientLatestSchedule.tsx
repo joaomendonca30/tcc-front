@@ -39,7 +39,7 @@ export function PatientLatestSchedule({ info, setOpenModal, isOpen, cancel }: Sc
     //Retornando os ultimos atendimentos
     const getPatientLastSchedule = useCallback(async () => {
         try {
-            const response = await axios.get(`${baseURL}usuario/profissionaisDaSaude`);
+            const response = await axios.get(`${baseURL}/paciente/ultimasConsultas`);
             const data = await response.data;
             setLatestPatientSchedule(data)
         } catch {
