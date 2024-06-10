@@ -11,7 +11,8 @@ import { AddScheduleByCalendar } from './AddScheduleByCalendar';
 import { UpDateScheduleByCalendar } from './UpDateSchedule';
 import { ScheduleDetails } from './ScheduleDetails';
 import { DeleteSchedule } from './DeleteSchedule';
-
+import { AddPatientHistory } from './PatientHistory';
+import { PatientLatestSchedule } from './PatientLatestSchedule';
 
 interface ProfessionalUserProps {
     userId: string,
@@ -34,6 +35,8 @@ const MyCalendar = () => {
     const [scheduleInfo, setScheduleInfo] = useState<any>()
     const [showUpDateSchedule, setShowUpDateSchedule] = useState<boolean>(false);
     const [showDeleteSchedule, setShowDeleteSchedule] = useState<boolean>(false);
+    const [showHistorySchedule, setShowHistorySchedule] = useState<boolean>(false);
+    const [showLatestPatientSchedule, setShowLatestPatientSchedule] = useState<boolean>(false);
     const [toggleRefreshData, setToggleRefreshData] = useState<boolean>(false)
     // const [eventos, setEventos] = useState<ScheduleModel[]>([
     //     {
@@ -59,8 +62,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-06-05T20:00',
-    //         end: '2024-06-05T20:30',
+    //         start: '2024-06-10T20:00',
+    //         end: '2024-06-10T20:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     },
@@ -68,7 +71,7 @@ const MyCalendar = () => {
     //     {
     //         scheduleId: '2',
     //         patientId: {
-    //             patientId: "2",
+    //             patientId: "22",
     //             name: "Lucas Accarini",
     //             email: "gabi@gmail.com",
     //             cpf: "123456",
@@ -88,8 +91,8 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-06-05T21:00',
-    //         end: '2024-06-05T21:30',
+    //         start: '2024-06-10T21:00',
+    //         end: '2024-06-10T21:30',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
     //         scheduleType: `Retorno`
     //     }
@@ -332,9 +335,12 @@ const MyCalendar = () => {
                 <AddScheduleByCalendar isOpen={showAddScheduleByCalendar} setOpenModal={setShowAddScheduleByCalendar} info={scheduleInfo} />
             </div>
             <div>
-                <ScheduleDetails isOpen={showScheduleDetails} setOpenModal={setShowScheduleDetails} info={scheduleInfo} setUpDateModal={setShowUpDateSchedule} setDeleteModal={setShowDeleteSchedule} />
+                <ScheduleDetails isOpen={showScheduleDetails} setOpenModal={setShowScheduleDetails} info={scheduleInfo} setUpDateModal={setShowUpDateSchedule} setDeleteModal={setShowDeleteSchedule} setHistoryModal={setShowHistorySchedule} setLatestScheduleModal={setShowLatestPatientSchedule} />
                 <UpDateScheduleByCalendar isOpen={showUpDateSchedule} setOpenModal={setShowUpDateSchedule} info={scheduleInfo} cancel={handleCancel} />
                 <DeleteSchedule isOpen={showDeleteSchedule} setOpenModal={setShowDeleteSchedule} info={scheduleInfo} cancel={handleCancel} />
+                <AddPatientHistory isOpen={showHistorySchedule} setOpenModal={setShowHistorySchedule} info={scheduleInfo} cancel={handleCancel} />
+                <PatientLatestSchedule isOpen={showLatestPatientSchedule} setOpenModal={setShowLatestPatientSchedule} info={scheduleInfo} cancel={handleCancel} />
+
             </div>
             <div>
                 <FullCalendar

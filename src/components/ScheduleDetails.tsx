@@ -16,6 +16,8 @@ interface ScheduleProps {
     setOpenModal: (isOpen: boolean) => void,
     setUpDateModal: (upDateOpen: boolean) => void
     setDeleteModal: (deleteOpen: boolean) => void
+    setHistoryModal: (historyOpen: boolean) => void
+    setLatestScheduleModal: (latestScheduleOpen: boolean) => void
 }
 
 type initialValues = {
@@ -28,12 +30,13 @@ type initialValues = {
 }
 
 
-export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, setDeleteModal }: ScheduleProps) {
+export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, setDeleteModal, setHistoryModal, setLatestScheduleModal }: ScheduleProps) {
 
     const [professionalUser, setprofessionalUser] = useState<UserModel[]>([]);
     const [patient, setPatient] = useState<PatientModel[]>([]);
     const [showUpDateSchedule, setShowUpDateSchedule] = useState<boolean>(false);
     const [showDeleteSchedule, setShowDeleteSchedule] = useState<boolean>(false);
+    const [showLatestSchedule, setShowLatestSchedule] = useState<boolean>(false);
     const [scheduleInfo, setScheduleInfo] = useState<any>()
 
     function dataAtualFormatada(data: any) {
@@ -154,6 +157,31 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
             callback && callback()
         };
 
+        const handleHistorySchedule = (info: any, callback?: Function) => {
+            setHistoryModal(true)
+            setOpenModal(false)
+
+            if (info) {
+                setScheduleInfo(info)
+                console.log(scheduleInfo)
+            }
+
+            callback && callback()
+        };
+
+        const handleLatestSchedule = (info: any, callback?: Function) => {
+            setLatestScheduleModal(true)
+            setOpenModal(false)
+
+            if (info) {
+                setScheduleInfo(info)
+                console.log(scheduleInfo)
+            }
+
+            callback && callback()
+        };
+
+        
         if (isOpen) {
             return (
                 <div>
@@ -181,6 +209,16 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
                                     className='border border-warning px-6 py-2 rounded-md bg-warning text-white text-roboto hover:bg-white hover:text-black transition duration-200'
                                     onClick={() => handleDeleteSchedule(info)}
                                 > Excluir
+                                </button>
+                                <button
+                                    className='border border-secondary  px-6 py-2 rounded-md bg-secondary text-black text-roboto hover:bg-white hover:text-black transition duration-200 ml-2'
+                                    onClick={() => handleHistorySchedule(info)}
+                                >   Atendimento
+                                </button>
+                                <button
+                                    className='border border-secondary  px-6 py-2 rounded-md bg-secondary text-black text-roboto hover:bg-white hover:text-black transition duration-200 ml-2'
+                                    onClick={() => handleLatestSchedule(info)}
+                                >   Histórico
                                 </button>
                             </div>
                             <div className='w-full sm:h-full  grid grid-cols-2 grid-rows-1 gap-3 sm:flex sm:flex-col sm:items-center'>
