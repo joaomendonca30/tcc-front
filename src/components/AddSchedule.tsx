@@ -101,9 +101,14 @@ const AddSchedule: React.FC = () => {
         const serviceDurationHour = Number(serviceDurationApart[0])
         const serviceDurationMinutes = Number(serviceDurationApart[1])
 
+        // configurando o fuso horário
+        const opcoesFormatacao = { timeZone: 'America/Sao_Paulo' };
+
+
         let processedEnd: any = ''
         let processedStart: any = ''
         let startToDate: any = ''
+
         if (start) {
             processedStart = new Date(start)
             startToDate = new Date(start)
@@ -114,8 +119,8 @@ const AddSchedule: React.FC = () => {
         const processedValues = {
             userId: processedUserId,
             patientId: processedPatientId,
-            start: processedStart,
-            end: new Date(processedEnd),
+            start: processedStart.toLocaleString('pt-BR', opcoesFormatacao),
+            end: new Date(processedEnd).toLocaleString('pt-BR', opcoesFormatacao),
             title: `${serviceName} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
             scheduleType,
             scheduleStatus
