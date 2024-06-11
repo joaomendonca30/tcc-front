@@ -71,7 +71,7 @@ const AddSchedule: React.FC = () => {
         getUserProfessional()
         getPatients()
         getServices()
-    }, [getUserProfessional, getPatients, getServices])    
+    }, [getUserProfessional, getPatients, getServices])
 
 
     const initialValues: initialValues = {
@@ -102,8 +102,10 @@ const AddSchedule: React.FC = () => {
         const serviceDurationMinutes = Number(serviceDurationApart[1])
 
         let processedEnd: any = ''
-        let startToDate:any = ''
+        let processedStart: any = ''
+        let startToDate: any = ''
         if (start) {
+            processedStart = new Date(start)
             startToDate = new Date(start)
             processedEnd = startToDate.setHours(startToDate.getHours() + serviceDurationHour)
             processedEnd = startToDate.setMinutes(startToDate.getMinutes() + serviceDurationMinutes)
@@ -112,7 +114,7 @@ const AddSchedule: React.FC = () => {
         const processedValues = {
             userId: processedUserId,
             patientId: processedPatientId,
-            start: startToDate,
+            start: processedStart,
             end: new Date(processedEnd),
             title: `${serviceName} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
             scheduleType,
