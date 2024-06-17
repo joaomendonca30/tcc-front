@@ -54,15 +54,24 @@ const Stock: React.FC = () => {
     }
 
 
-    // const produtos = [{
-    //     productId: "1",
-    //     name: "Esparadrapo",
-    //     quantity: "1",
-    //     producer: "Needs",
-    //     type: "Farmaco",
-    //     startDate: "",
-    //     endDate: "Fri Oct 5 2022 21:00:00 GMT-0300 (Horário Padrão de Brasília)",
-    // }]
+    const produtos = [{
+        productId: "1",
+        name: "Esparadrapo",
+        quantity: "30",
+        producer: "Needs",
+        type: "Farmaco",
+        startDate: "",
+        endDate: "Fri Sep 10 2026 21:00:00 GMT-0300 (Horário Padrão de Brasília)",
+    },
+    {
+        productId: "1",
+        name: "Band-AID",
+        quantity: "50",
+        producer: "Needs",
+        type: "Farmaco",
+        startDate: "",
+        endDate: "Fri Oct 5 2027 21:00:00 GMT-0300 (Horário Padrão de Brasília)",
+    }]
 
 
 
@@ -85,7 +94,7 @@ const Stock: React.FC = () => {
                 <h1 className="mx-8 my-8 px-8 py-3 border border-secondary rounded-full font-roboto text-darkgray text-base text-center md:mx-6 md:my-4 md:px-6 md:py-2 md:text-base sm:mx-4 sm:my-2 sm:px-4 sm:py-2 sm:text-sm">
                     Produtos em Estoque
                 </h1>
-                {stockItens.length === 0 ?
+                {produtos.length === 0 ?
                     (<p className="m-8 px-8 py-3 font-roboto text-darkgray text-xl">
                         Carregando ... </p>)
                     :
@@ -114,7 +123,7 @@ const Stock: React.FC = () => {
                                 </thead>
                                 <tbody className="font-roboto text-darkgray text-base md:text-sm sm:text-xs mt-5">
                                     {
-                                        stockItens.map((item, index) =>
+                                        produtos.map((item, index) =>
                                             <tr
                                                 className="hover:border hover:border-secondary"
                                             >

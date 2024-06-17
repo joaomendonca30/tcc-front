@@ -54,17 +54,28 @@ const Patient: React.FC = () => {
         return diaF + "/" + mesF + "/" + anoF;
     }
 
-    // const pacientes = [{
-    //     patientId: "",
-    //     name: "Gabriella Accarini",
-    //     email: "gabi@gmail.com",
-    //     cpf: "123456",
-    //     phoneNumber: "2524757",
-    //     dateOfBirth: "Fri Jun 07 2024 21:00:00 GMT-0300 (Horário Padrão de Brasília)",
-    //     healthInsurance: "Bradesco",
-    //     planNumber: "1538475487",
-    //     specialNotes: "Olá como vai"
-    // }]
+    const pacientes = [{
+        patientId: "",
+        name: "Gabriella Accarini",
+        email: "gabriella.accarini@gmail.com",
+        cpf: "465.358.698.58",
+        phoneNumber: "(11)98536-5607",
+        dateOfBirth: "05/12/1995",
+        healthInsurance: "Bradesco",
+        planNumber: "1538475487",
+        specialNotes: "Olá como vai"
+    },
+    {
+        patientId: "",
+        name: "Lucas Branchini",
+        email: "lucas.brank@gmail.com",
+        cpf: "568.568.987-36",
+        phoneNumber: "(11)89563-5687",
+        dateOfBirth: "03/06/1997",
+        healthInsurance: "Sul América",
+        planNumber: "1538475487",
+        specialNotes: "Olá como vai"
+    }]
 
 
 
@@ -92,7 +103,7 @@ const Patient: React.FC = () => {
                 <h1 className="mx-8 mb-8 px-8 py-3 border border-secondary rounded-full font-roboto text-darkgray text-lg text-center md:mx-6 md:my-4 md:px-6 md:py-2 md:text-base sm:mx-4 sm:my-2 sm:px-4 sm:py-2 sm:text-sm">
                     Lista de Pacientes
                 </h1>
-                {patient.length === 0 ?
+                {pacientes.length === 0 ?
                     (<p className="m-8 px-8 py-3 font-roboto text-darkgray text-xl">
                         Carregando ... </p>)
                     :
@@ -127,7 +138,7 @@ const Patient: React.FC = () => {
                                 </thead>
                                 <tbody className="font-roboto text-darkgray text-base md:text-sm sm:text-xs mt-5">
                                     {
-                                        patient.map((item, index) =>
+                                        pacientes.map((item, index) =>
                                             <tr
                                                 className="hover:border hover:border-secondary"
                                             >

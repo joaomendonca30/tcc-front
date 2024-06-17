@@ -122,7 +122,7 @@ const AddSchedule: React.FC = () => {
             start: processedStart.toLocaleString('pt-BR', opcoesFormatacao),
             end: new Date(processedEnd).toLocaleString('pt-BR', opcoesFormatacao),
             title: `${serviceName} - ${patientInfo[1]} - Dr. ${userInfo[1]}`,
-            scheduleType,
+            scheduleType: serviceName,
             scheduleStatus
         }
 
@@ -210,7 +210,7 @@ const AddSchedule: React.FC = () => {
             <div className='bg-white p-8 rounded w-11/12 md:w-5/12'>
                 <div className='flex justify-end'>
                     <a
-                        href='/'>
+                        href='/schedule'>
                         <img src={closeButton} />
                     </a>
                 </div>
