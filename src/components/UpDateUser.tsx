@@ -19,6 +19,7 @@ type iniatialValues = {
     profile: 'Profissional da Saúde' | 'Recepcionista' | 'Administrativo' | string,
     council: undefined | string;
     federativeUnit: undefined | string;
+    password?: string
 }
 
 
@@ -38,12 +39,13 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
         profile: user.profile,
         council: user.council?.toString(),
         federativeUnit: user.federativeUnit?.toString(),
+        password: user.password
     }
 
 
 
     const handleSubmit = async (values: typeof initialValues, action: any) => {
-        const { name, email, cpf, phoneNumber, profile, council, federativeUnit } = values
+        const { name, email, cpf, phoneNumber, profile, council, federativeUnit, password } = values
 
         const processedValues = {
             name,
@@ -52,7 +54,8 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
             phoneNumber,
             profile,
             council,
-            federativeUnit
+            federativeUnit,
+            password,
         }
 
         console.log(processedValues)
@@ -181,7 +184,7 @@ export function UpDateUser({ user, isOpen, setOpenModal }: UpdateUserProps) {
                                             placeholder="Digite a Unidade Federativa" />
                                     </div>
 
-                                    
+
 
 
                                     <div className='flex justify-end mt-3'>

@@ -10,6 +10,7 @@ export interface UserModel {
     profile: 'Profissional da Saúde' | 'Recepcionista' | 'Administrativo' | string,
     council?: null | string;
     federativeUnit?: null | string;
+    password?: string
 }
 
 export const userCreate = async (

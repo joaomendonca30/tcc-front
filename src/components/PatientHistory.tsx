@@ -92,14 +92,14 @@ export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: Schedu
                 success: {
                     render() {
                         action.setSubmitting(false);
-                        cancel(true, processedUserId);
+                        cancel(true, initialUserId);
                         return 'Agendamento atualizado';
                     },
                 },
                 error: {
                     render({ data }) {
                         action.setSubmitting(false);
-                        cancel(true, processedUserId);
+                        cancel(true, initialUserId);
                         return 'Algo deu errado';
                     },
                 },
@@ -214,7 +214,7 @@ export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: Schedu
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 placeholder={initialPatientName}
-                                                disabled                                                
+                                                disabled
                                             />
                                         </div>
 
