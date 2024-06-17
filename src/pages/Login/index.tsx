@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import logo from '../../assets/UClinic_logo.png'
 import { Formik } from 'formik';
 import { baseURL } from '../../config';
 import { Md5 } from "ts-md5";
+import { STATUS_CODES } from "http";
 
 type initialValues = {
     password: string;
@@ -77,8 +78,12 @@ const Login: React.FC = () => {
                 .then((response) => {
                     localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(response.data))
                     setTimeout(function () { window.location.href = '/schedule' }, 1500);
+                    if (response.data === "Não foi encontrado esse usuario na Base de Dados.") {
+                        window.alert("Ou o e-mail, ou a senha está incorreto. Tente novamente.")
+                    }
+                }
 
-                })
+                )
         } catch {
             window.alert("Ou o e-mail, ou a senha está incorreto. Tente novamente.")
         }
