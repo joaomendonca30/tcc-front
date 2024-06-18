@@ -58,9 +58,9 @@ export function DeleteProfessional({ professional, isOpen, setOpenModal }: Delet
 
         const promisse = await userDelete(professional.userId)
 
-
-        setTimeout(function () { window.location.reload(); }, 1500)
         window.alert("Profissional Deletado Com Sucesso")
+        setTimeout(function () { window.location.reload(); }, 1500)
+        
     }
 
 

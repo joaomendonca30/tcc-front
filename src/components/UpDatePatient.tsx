@@ -161,7 +161,7 @@ export function UpDatePatient({ patient, isOpen, setOpenModal }: UpdatePatientPr
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.dateOfBirth}
-                                                required />
+                                                />
                                         </div>
                                     
                                     

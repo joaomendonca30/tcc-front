@@ -93,6 +93,7 @@ export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: Schedu
                     render() {
                         action.setSubmitting(false);
                         cancel(true, initialUserId);
+                        setOpenModal(false)
                         return 'Agendamento atualizado';
                     },
                 },
@@ -100,6 +101,7 @@ export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: Schedu
                     render({ data }) {
                         action.setSubmitting(false);
                         cancel(true, initialUserId);
+                        setOpenModal(false)
                         return 'Algo deu errado';
                     },
                 },

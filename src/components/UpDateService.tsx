@@ -96,7 +96,7 @@ export function UpDateService({ service, isOpen, setOpenModal }: UpdateServicePr
                                             Preço:
                                         </label>
                                         <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                            name='rviceCost'
+                                            name='serviceCost'
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.serviceCost}

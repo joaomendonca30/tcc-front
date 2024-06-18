@@ -70,22 +70,24 @@ const Login: React.FC = () => {
         await getUserLoggedIn(email, newPassword)
 
         try {
-            axios.post(`${baseURL}\login`,
-                {
-                    email: email,
-                    password: password
-                })
-                .then((response) => {
-                    localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(response.data))
-                    setTimeout(function () { window.location.href = '/schedule' }, 1500);
-                    if (response.data === "Não foi encontrado esse usuario na Base de Dados.") {
-                        window.alert("Ou o e-mail, ou a senha está incorreto. Tente novamente.")
-                    }
+            const response = await axios.post(`${baseURL}login`, {
+                email: email,
+                password: password
+            });
+            localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(response.data));
+            setTimeout(() => { window.location.href = '/schedule' }, 1500);
+            console.log("aqui -> " + response.status);
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError;
+                if (axiosError.response?.status === 400) {
+                    window.alert("Ou o e-mail, ou a senha está incorreto. Tente novamente.");
+                } else {
+                    window.alert("Ocorreu um erro inesperado. Tente novamente mais tarde.");
                 }
-
-                )
-        } catch {
-            window.alert("Ou o e-mail, ou a senha está incorreto. Tente novamente.")
+            } else {
+                window.alert("Ocorreu um erro inesperado. Tente novamente mais tarde.");
+            }
         }
     }
 

@@ -96,9 +96,6 @@ const Professionals: React.FC = () => {
                                             E-mail
                                         </th>
                                         <th>
-                                            CPF
-                                        </th>
-                                        <th>
                                             Telefone
                                         </th>
                                         <th>
@@ -120,7 +117,6 @@ const Professionals: React.FC = () => {
                                             >
                                                 <td>{item.name}</td>
                                                 <td>{item.email}</td>
-                                                <td>{item.cpf}</td>
                                                 <td>{item.phoneNumber}</td>
                                                 <td>{item.profile}</td>
                                                 <td>{item.council}</td>

@@ -39,7 +39,7 @@ export function PatientLatestSchedule({ info, setOpenModal, isOpen, cancel }: Sc
     //Retornando os ultimos atendimentos
     const getPatientLastSchedule = useCallback(async () => {
         try {
-            const response = await axios.get(`${baseURL}/paciente/ultimasConsultas`);
+            const response = await axios.get(`${baseURL}paciente/ultimasConsultas`);
             const data = await response.data;
             setLatestPatientSchedule(data)
         } catch {
@@ -122,7 +122,8 @@ export function PatientLatestSchedule({ info, setOpenModal, isOpen, cancel }: Sc
                                 <div> Não tem atendimentos anteriores </div>
                                 :
                                 latestPatientSchedule.map((item, index) =>
-                                    item.patientId === initialPatientId ?
+                                    
+                                    item.patientId.toString() === initialPatientId.toString() ?
                                         <div className='mt-2 border rounded-md p-3 '>
                                             <p className='mb-2 font-semibold'> Data do Atendimento: {item.sheduleDate} </p>
                                             <p className='font-semibold'>Evolução do Atendimento:</p>

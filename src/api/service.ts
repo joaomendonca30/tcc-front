@@ -12,7 +12,7 @@ export const serviceCreate = async (
     payload: Omit<ServicesModel, `serviceId`>
 ) => {
     const { data } = await api.request({
-        url: `servico/inserir`,
+        url: `servicos/inserir`,
         data: payload,
         method: 'POST',
     })
@@ -24,7 +24,7 @@ export const serviceUpdate = async (
     serviceId: string, params: any
 ) => {
     const { data } = await api.request({
-        url: `servico/editar/${serviceId}`,
+        url: `servicos/editar/${serviceId}`,
         data: params,
         method: 'PUT',
     })
@@ -36,6 +36,6 @@ export const serviceUpdate = async (
 export const serviceDelete = async (
     serviceId: string
 ) => {
-    await api.delete(`servico/deletar/${serviceId}`)
+    await api.delete(`servicos/deletar/${serviceId}`)
     return console.log(`Servico deletado`)
 }
