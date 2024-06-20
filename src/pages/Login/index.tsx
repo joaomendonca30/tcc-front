@@ -72,7 +72,7 @@ const Login: React.FC = () => {
         try {
             const response = await axios.post(`${baseURL}login`, {
                 email: email,
-                password: password
+                password: newPassword
             });
             localStorage.setItem('@welcome-app/loggedUser', JSON.stringify(response.data));
             setTimeout(() => { window.location.href = '/schedule' }, 1500);
