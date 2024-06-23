@@ -53,6 +53,7 @@ export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: Schedu
         const initialPatientId = patientIdData.patientId
         const initialPatientName = patientIdData.name
 
+        console.log('UserId --->' + initialUserId)
         const { start, end, title } = info.event
 
         const initialValues: initialValues = {

@@ -7,6 +7,7 @@ import { UserModel } from '../api/user';
 import axios from "axios";
 import { baseURL } from '../config';
 import { scheduleUpdate } from '../api/schedule';
+import { ServicesModel } from '../api/service';
 import { toast } from 'react-toastify';
 
 interface ScheduleProps {
@@ -23,7 +24,7 @@ type initialValues = {
     start: string | undefined,
     end: string | undefined,
     title: string,
-    scheduleType: "Primeira consulta" | "Retorno" | "Procedimento",
+    scheduleType: string,
     scheduleStatus: "Agendado" | "Atendido" | "Faltou"
 }
 
@@ -31,6 +32,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
     const [professionalUser, setprofessionalUser] = useState<UserModel[]>([]);
     const [patient, setPatient] = useState<PatientModel[]>([]);
+    const [service, setService] = useState<ServicesModel[]>([]);
 
 
     //Retornando os profissionais da saúde cadastrados
@@ -58,11 +60,25 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
     }, []);
 
+    //Retornando os serviços cadastrados
+    const getServices = useCallback(async () => {
+        try {
+            const response = await axios.get(`${baseURL}\servicos`);
+            const data = response.data;
+            setService(data)
+        }
+        catch {
+            console.log(`Deu ruim`)
+        }
+
+    }, []);
+
 
     useEffect(() => {
         getUserProfessional()
         getPatients()
-    }, [getUserProfessional, getPatients])
+        getServices()
+    }, [getUserProfessional, getPatients, getServices])
 
 
 
@@ -74,11 +90,20 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
         const scheduleIdData = info.event.extendedProps.scheduleId
         const scheduleStatusData = info.event.extendedProps.scheduleStatus
 
+        const intialStartData = new Date(info.event.start)
+        console.log('Inicio:' + intialStartData)
+
+
         const initialUserId = userIdData.userId
         const initialUserName = userIdData.name
 
         const initialPatientId = patientIdData.patientId
         const initialPatientName = patientIdData.name
+
+        const initialScheduleId = scheduleTypeData.serviceId
+        const initialScheduleDuration = scheduleTypeData.endDate
+        const initialScheduleName = scheduleTypeData.name
+
 
         const { start, end, title } = info.event
 
@@ -89,21 +114,88 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
             start: start,
             end: end,
             title: title,
-            scheduleType: scheduleTypeData,
+            scheduleType: initialScheduleName,
             scheduleStatus: scheduleStatusData,
         }
 
 
         const handleSubmit = async (values: typeof initialValues, action: any) => {
-            const { start, end, scheduleType, userId, patientId, scheduleStatus } = values
+            const { start, scheduleType, userId, patientId, scheduleStatus } = values
             console.log(userId)
 
             let processedPatientId = ""
             let processedUserId = ""
             let processedUserName = ""
             let processedPatientName = ""
+            let serviceDuration = ""
+            let serviceName = ""
+            let serviceDurationHour = 0
+            let serviceDurationMinutes = 0
+            let processedEnd: any = ''
+            let processedStart: any = ''
+            let startToDate: any = ''
+            let startValidation: any = ''
+
+            // configurando o fuso horário
+            const opcoesFormatacao = { timeZone: 'America/Sao_Paulo' };
+
+            if (start) {
+                startValidation = new Date(start)               
+            }
 
 
+            // Mudou o tipo da agenda ?
+            if (initialScheduleName.toString() !== scheduleType.toString()) {
+                console.log('oi' + scheduleType)
+                const scheduleTypeInfo = scheduleType.split(",")
+                serviceDuration = scheduleTypeInfo[1]
+                serviceName = scheduleTypeInfo[0]
+
+
+                //pegando a hora e os minutos
+                const serviceDurationApart = serviceDuration.split(":")
+                serviceDurationHour = Number(serviceDurationApart[0])
+                serviceDurationMinutes = Number(serviceDurationApart[1])
+            } else {
+                console.log('tchau' + scheduleType)
+                const serviceDurationApart = initialScheduleDuration.split(":")
+                serviceDurationHour = Number(serviceDurationApart[0])
+                serviceDurationMinutes = Number(serviceDurationApart[1])
+                serviceName = scheduleType
+            }
+
+            //Mudou o tipo do agendamento, mas a hora ta igual
+            if (startValidation && startValidation === intialStartData && initialScheduleName.toString() !== serviceName.toString()) {
+                console.log('Mudou o tipo do agendamento, mas a hora ta igual')
+                processedStart = new Date(startValidation)
+                startToDate = new Date(startValidation)
+                processedEnd = startToDate.setHours(startToDate.getHours() + serviceDurationHour)
+                processedEnd = startToDate.setMinutes(startToDate.getMinutes() + serviceDurationMinutes)
+            }
+
+            // Mudou o inicio, mas não mudou o tipo do agendamento 
+            if (startValidation && startValidation !== intialStartData && initialScheduleName.toString() === serviceName.toString()) {
+                console.log('Mudou o inicio, mas não mudou o tipo do agendamento')
+                processedStart = new Date(startValidation)
+                startToDate = new Date(startValidation)
+                processedEnd = startToDate.setHours(startToDate.getHours() + serviceDurationHour)
+                processedEnd = startToDate.setMinutes(startToDate.getMinutes() + serviceDurationMinutes)
+                serviceName = initialScheduleName
+            }
+
+            //Se mudar o tipo de atendimento e o inicio
+            if (startValidation && startValidation !== intialStartData && initialScheduleName.toString() !== serviceName.toString()) {
+                console.log('Se mudar o tipo de atendimento e o inicio')
+                console.log(startValidation + '--->' + intialStartData)
+                console.log(initialScheduleName.toString() + '--->' + serviceName.toString())
+
+                processedStart = new Date(startValidation)
+                startToDate = new Date(startValidation)
+                processedEnd = startToDate.setHours(startToDate.getHours() + serviceDurationHour)
+                processedEnd = startToDate.setMinutes(startToDate.getMinutes() + serviceDurationMinutes)
+
+
+            }
 
             if (initialUserId != userId) {
                 const userInfo = userId.split(",")
@@ -124,18 +216,16 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                 processedPatientName = initialPatientName
             }
 
-
             const processedValues = {
                 scheduleId: scheduleIdData,
                 userId: processedUserId,
                 patientId: processedPatientId,
-                start,
-                end,
-                title: `${scheduleType} - ${processedPatientName} - Dr. ${processedUserName}`,
-                scheduleType,
+                start: start ? new Date(start).toLocaleString('pt-BR', opcoesFormatacao) : start,
+                end: new Date(processedEnd).toLocaleString('pt-BR', opcoesFormatacao),
+                title: `${serviceName} - ${processedPatientName} - Dr. ${processedUserName}`,
+                scheduleType: serviceName,
                 scheduleStatus,
             }
-
 
             console.log(processedValues)
 
@@ -163,59 +253,82 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
 
 
-        const profissional = [{
-            userId: '2',
-            name: 'Gabriella Accarini',
-            events: {
-                scheduleId: '1',
-                userId: '1',
-                patientId: `1`,
-                start: new Date(),
-                end: new Date(),
-                title: 'Gabriella Accarini',
-                scheduleType: "Primeira consulta"
-            }
+        // const profissional = [{
+        //     userId: '2',
+        //     name: 'Gabriella Accarini',
+        //     events: {
+        //         scheduleId: '1',
+        //         userId: '1',
+        //         patientId: `1`,
+        //         start: new Date(),
+        //         end: new Date(),
+        //         title: 'Gabriella Accarini',
+        //         scheduleType: "Primeira consulta"
+        //     }
 
-        },
-        {
-            userId: '23',
-            name: 'Lucas Accarini',
-            events: {
-                scheduleId: '2',
-                userId: '1',
-                patientId: `2`,
-                start: new Date(),
-                end: new Date(),
-                title: 'Lucas Accarini',
-                scheduleType: "Primeira consulta"
-            }
+        // },
+        // {
+        //     userId: '23',
+        //     name: 'Lucas Accarini',
+        //     events: {
+        //         scheduleId: '2',
+        //         userId: '1',
+        //         patientId: `2`,
+        //         start: new Date(),
+        //         end: new Date(),
+        //         title: 'Lucas Accarini',
+        //         scheduleType: "Primeira consulta"
+        //     }
 
 
 
-        }]
+        // }]
 
-        const pacientes = [{
-            patientId: "2",
-            name: "Gabriella Accarini",
-            email: "gabi@gmail.com",
-            cpf: "123456",
-            phoneNumber: "2524757",
-            dateOfBirth: "05/12/1995",
-            healthInsurance: "Bradesco",
-            planNumber: "1538475487",
-            specialNotes: "Olá como vai"
-        },
-        {
-            patientId: "23",
-            name: "Lucas Accarini",
-            email: "lucas@gmail.com",
-            cpf: "78910",
-            phoneNumber: "2524757",
-            dateOfBirth: "03/06/1997",
-            healthInsurance: "Bradesco",
-            planNumber: "1538475487",
-            specialNotes: "Olá como vai"
-        }]
+        // const pacientes = [{
+        //     patientId: "2",
+        //     name: "Gabriella Accarini",
+        //     email: "gabi@gmail.com",
+        //     cpf: "123456",
+        //     phoneNumber: "2524757",
+        //     dateOfBirth: "05/12/1995",
+        //     healthInsurance: "Bradesco",
+        //     planNumber: "1538475487",
+        //     specialNotes: "Olá como vai"
+        // },
+        // {
+        //     patientId: "23",
+        //     name: "Lucas Accarini",
+        //     email: "lucas@gmail.com",
+        //     cpf: "78910",
+        //     phoneNumber: "2524757",
+        //     dateOfBirth: "03/06/1997",
+        //     healthInsurance: "Bradesco",
+        //     planNumber: "1538475487",
+        //     specialNotes: "Olá como vai"
+        // }]
+
+        // const servicos = [
+        //     {
+        //         serviceId: "23",
+        //         serviceCost: "50,00",
+        //         name: "Clareamento Dantal",
+        //         endDate: "01:00"
+        //     },
+        //     {
+        //         serviceId: "20",
+        //         serviceCost: "200,00",
+        //         name: "Tratamento de Canal",
+        //         endDate: "03:30"
+        //     },
+        //     {
+        //         serviceId: "20",
+        //         serviceCost: "200,00",
+        //         name: "Retorno",
+        //         endDate: "03:30"
+        //     }
+
+        // ]
+
 
 
         if (isOpen) {
@@ -288,11 +401,12 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                                                 name='scheduleType'
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                value={values.scheduleType}>
-
-                                                <option> Primeira consulta </option>
-                                                <option> Retorno </option>
-                                                <option> Procedimento </option>
+                                                value={values.scheduleType}
+                                                required>
+                                                <option> {initialScheduleName} </option>
+                                                {service.map((item, index) =>
+                                                    <option value={item.endDate ? [item.name, item.endDate.toString(), item.serviceId] : item.serviceId
+                                                    }> {item.name} </option>)}
                                             </select>
                                         </div>
                                         <div className='flex flex-col mt-2'>
@@ -306,22 +420,9 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.start}
-                                                required />
+                                            />
                                         </div>
-                                        <div className='flex flex-col mt-2'>
-                                            <label className='text-primary text-base mr-2'>
-                                                Horário de Termino:
-                                            </label>
-                                            <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                                type='datetime-local'
-                                                min="2024-01-01"
-                                                name='end'
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                value={values.end}
-                                                required />
 
-                                        </div>
                                         <div className='flex flex-col mt-2'>
                                             <label className='text-primary text-base mr-2'>
                                                 Status da Consulta:

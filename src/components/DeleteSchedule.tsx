@@ -63,6 +63,18 @@ export function DeleteSchedule({ info, setOpenModal, isOpen, cancel }: ScheduleP
         getPatients()
     }, [getUserProfessional, getPatients])
 
+    function dataAtualFormatada(data: any) {
+        const dataF = new Date(data)
+        const dia = dataF.getDate().toString()
+        const diaF = (dia.length == 1) ? '0' + dia : dia
+        const mes = (dataF.getMonth() + 1).toString() //+1 pois no getMonth Janeiro começa com zero.
+        const mesF = (mes.length == 1) ? '0' + mes : mes
+        const anoF = dataF.getFullYear()
+        const startHour = new Date(dataF).getHours()
+        const startMinutes = String(dataF.getMinutes()).padStart(2, "0")
+
+        return diaF + "/" + mesF + "/" + anoF + '  ' + startHour + ':' + startMinutes;
+    }
 
 
     if (info) {
@@ -245,7 +257,7 @@ export function DeleteSchedule({ info, setOpenModal, isOpen, cancel }: ScheduleP
                                                 name='start'
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                value={values.start}
+                                                value={dataAtualFormatada(values.start)}
                                                 disabled />
                                         </div>
                                         <div className='flex flex-col mt-2'>
@@ -258,7 +270,7 @@ export function DeleteSchedule({ info, setOpenModal, isOpen, cancel }: ScheduleP
                                                 name='end'
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                value={values.end}
+                                                value={dataAtualFormatada(values.end)}
                                                 disabled />
 
                                         </div>

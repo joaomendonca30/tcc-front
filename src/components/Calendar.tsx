@@ -7,7 +7,6 @@ import { ScheduleModel, getProfessionalScheduleById } from '../api/schedule';
 import axios from "axios";
 import { baseURL } from '../config';
 import { Formik } from 'formik';
-import { AddScheduleByCalendar } from './AddScheduleByCalendar';
 import { UpDateScheduleByCalendar } from './UpDateSchedule';
 import { ScheduleDetails } from './ScheduleDetails';
 import { DeleteSchedule } from './DeleteSchedule';
@@ -40,10 +39,10 @@ const MyCalendar = () => {
     const [toggleRefreshData, setToggleRefreshData] = useState<boolean>(false)
     // const [eventos, setEventos] = useState<ScheduleModel[]>([
     //     {
-    //         scheduleId: '1',
+    //         scheduleId: '2',
     //         patientId: {
-    //             patientId: "2",
-    //             name: "Gabriella Accarini",
+    //             patientId: "22",
+    //             name: "Lucas Accarini",
     //             email: "gabi@gmail.com",
     //             cpf: "123456",
     //             phoneNumber: "2524757",
@@ -54,7 +53,7 @@ const MyCalendar = () => {
     //         },
     //         userId: {
     //             userId: "23",
-    //             name: "Lucas Accarini",
+    //             name: "Gabriella Accarini",
     //             email: "gabi@gmail.com",
     //             cpf: "123456",
     //             phoneNumber: "2524757",
@@ -62,12 +61,17 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-06-10T20:00',
-    //         end: '2024-06-10T20:30',
+    //         start: '2024-06-23 19:00:00.000000',
+    //         end: '2024-06-23 20:00:00.000000',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: `Retorno`
+    //         scheduleType: {
+    //             serviceId: "23",
+    //             serviceCost: "50,00",
+    //             name: "Clareamento Dantal",
+    //             endDate: "01:00"
+    //         },
+    //         scheduleStatus: 'Agendado'
     //     },
-
     //     {
     //         scheduleId: '2',
     //         patientId: {
@@ -91,10 +95,50 @@ const MyCalendar = () => {
     //             council: "blabla",
     //             federativeUnit: "SP"
     //         },
-    //         start: '2024-06-10T21:00',
-    //         end: '2024-06-10T21:30',
+    //         start: '2024-06-23 16:00:00.000000',
+    //         end: '2024-06-23 17:00:00.000000',
     //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: `Retorno`
+    //         scheduleType: {
+    //             serviceId: "23",
+    //             serviceCost: "50,00",
+    //             name: "Clareamento Dantal",
+    //             endDate: "01:00"
+    //         },
+    //         scheduleStatus: 'Agendado'
+    //     },
+    //     {
+    //         scheduleId: '2',
+    //         patientId: {
+    //             patientId: "22",
+    //             name: "Lucas Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             dateOfBirth: "05/12/1995",
+    //             healthInsurance: "Bradesco",
+    //             planNumber: "1538475487",
+    //             specialNotes: "Olá como vai"
+    //         },
+    //         userId: {
+    //             userId: "23",
+    //             name: "Gabriella Accarini",
+    //             email: "gabi@gmail.com",
+    //             cpf: "123456",
+    //             phoneNumber: "2524757",
+    //             profile: "oi",
+    //             council: "blabla",
+    //             federativeUnit: "SP"
+    //         },
+    //         start: '2024-06-23 12:00:00.000000',
+    //         end: '2024-06-23 13:00:00.000000',
+    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
+    //         scheduleType: {
+    //             serviceId: "23",
+    //             serviceCost: "50,00",
+    //             name: "Tratamento de Canal",
+    //             endDate: "03:30"
+    //         },
+    //         scheduleStatus: 'Agendado'
     //     }
     // ])
 
@@ -234,7 +278,8 @@ const MyCalendar = () => {
 
 
 
-    const handleSubmit = async (values: typeof initialValues, action: any) => {
+    const handleSubmit = async (values: typeof initialValues) => {
+        console.log(values)
         const { userId } = values
 
         const processedValues = {
@@ -249,16 +294,18 @@ const MyCalendar = () => {
 
     const handleCancel = async (refresh: boolean = false, info?: any) => {
         if (refresh) {
+            console.log('To aqui 1')
+            await handleSubmit({ userId: info.toString() })
             setToggleRefreshData(!toggleRefreshData)
-            const promisse = await getProfessionalScheduleById(info)
-            setEvents(promisse)
+            setShowDeleteSchedule(false);
+            setShowUpDateSchedule(false);
 
         }
+        console.log('To aqui 2')
+        await handleSubmit({ userId: info.toString() })
         setShowDeleteSchedule(false);
         setShowUpDateSchedule(false);
 
-        const promisse = await getProfessionalScheduleById(info)
-        setEvents(promisse)
     }
 
 
@@ -331,9 +378,7 @@ const MyCalendar = () => {
                     </a>
                 </div>
             </div >
-            <div>
-                <AddScheduleByCalendar isOpen={showAddScheduleByCalendar} setOpenModal={setShowAddScheduleByCalendar} info={scheduleInfo} />
-            </div>
+
             <div>
                 <ScheduleDetails isOpen={showScheduleDetails} setOpenModal={setShowScheduleDetails} info={scheduleInfo} setUpDateModal={setShowUpDateSchedule} setDeleteModal={setShowDeleteSchedule} setHistoryModal={setShowHistorySchedule} setLatestScheduleModal={setShowLatestPatientSchedule} />
                 <UpDateScheduleByCalendar isOpen={showUpDateSchedule} setOpenModal={setShowUpDateSchedule} info={scheduleInfo} cancel={handleCancel} />

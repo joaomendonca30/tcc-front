@@ -9,6 +9,7 @@ import { scheduleUpdate } from '../api/schedule';
 import { UpDateScheduleByCalendar } from './UpDateSchedule';
 import { DeleteSchedule } from './DeleteSchedule';
 import scheduleImage from '../assets/scheduleImage.png'
+import { ServicesModel } from "../api/service";
 
 interface ScheduleProps {
     info: any
@@ -26,17 +27,13 @@ type initialValues = {
     start: string | undefined,
     end: string | undefined,
     title: string,
-    scheduleType: "Primeira consulta" | "Retorno" | "Procedimento"
+    scheduleType: string
 }
 
 
 export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, setDeleteModal, setHistoryModal, setLatestScheduleModal }: ScheduleProps) {
 
-    const [professionalUser, setprofessionalUser] = useState<UserModel[]>([]);
-    const [patient, setPatient] = useState<PatientModel[]>([]);
-    const [showUpDateSchedule, setShowUpDateSchedule] = useState<boolean>(false);
-    const [showDeleteSchedule, setShowDeleteSchedule] = useState<boolean>(false);
-    const [showLatestSchedule, setShowLatestSchedule] = useState<boolean>(false);
+
     const [scheduleInfo, setScheduleInfo] = useState<any>()
 
     function dataAtualFormatada(data: any) {
@@ -53,11 +50,13 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
 
         const patientIdData = info.event.extendedProps.patientId
         const userIdData = info.event.extendedProps.userId
-        const scheduleTypeData = info.event.extendedProps.scheduleType
-        const scheduleIdData = info.event.extendedProps.scheduleId
+        const scheduleTypeData = info.event.extendedProps.scheduleType.scheduleId
+        const scheduleTypeName = info.event.extendedProps.scheduleType.name
+        const scheduleStatusData = info.event.extendedProps.scheduleStatus
         const startDate = info.event.start
         const endDate = info.event.end
 
+        console.log('Aqui ---> ' + endDate)
 
         const titleData = info.event.title
         const titleDataArray = titleData.split(' - ')
@@ -65,9 +64,9 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
         const userName = titleDataArray[2].slice(4)
         const startDateProcessed = dataAtualFormatada(startDate)
         const endDateProcessed = dataAtualFormatada(endDate)
-        const startHour = startDate.getHours()
+        const startHour = new Date(startDate).getHours()
         const startMinutes = String(startDate.getMinutes()).padStart(2, "0")
-        const endHour = endDate.getHours()
+        const endHour = new Date(endDate).getHours()
         const endMinutes = String(endDate.getMinutes()).padStart(2, "0")
 
 
@@ -181,7 +180,7 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
             callback && callback()
         };
 
-        
+
         if (isOpen) {
             return (
                 <div>
@@ -237,13 +236,16 @@ export function ScheduleDetails({ info, setOpenModal, isOpen, setUpDateModal, se
                                                 <span className='text-base sm:text-sm'><strong>Nome do Paciente Agendado :</strong> {patientName} </span>
                                             </div>
                                             <div>
-                                                <span className='text-base sm:text-sm'><strong>Tipo do Agendamento :</strong> {scheduleTypeData} </span>
+                                                <span className='text-base sm:text-sm'><strong>Tipo do Agendamento :</strong> {scheduleTypeName} </span>
                                             </div>
                                             <div>
                                                 <span className='text-base sm:text-sm'><strong>Data e Horário de Início :</strong> {startDateProcessed + " " + startHour + ":" + startMinutes}  </span>
                                             </div>
                                             <div>
                                                 <span className='text-base'><strong>Data e Horário de Fim :</strong> {endDateProcessed + " " + endHour + ":" + endMinutes}  </span>
+                                            </div>
+                                            <div>
+                                                <span className='text-base'><strong>Status do Agendamento :</strong> {scheduleStatusData} </span>
                                             </div>
                                         </div>
                                     </div>

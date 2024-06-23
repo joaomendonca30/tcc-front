@@ -1,5 +1,6 @@
 import api from "./axios";
 import { PatientModel } from "./patient";
+import { ServicesModel } from "./service";
 import { UserModel } from "./user";
 
 
@@ -10,7 +11,8 @@ export interface ScheduleModel {
     start: Date | undefined | string,
     end: Date | undefined | string,
     title: string,
-    scheduleType: "Primeira consulta" | "Retorno" | "Procedimento" | string
+    scheduleType: string | ServicesModel
+    scheduleStatus: "Agendado" | "Atendido" | "Faltou"
 }
 
 export const scheduleCreate = async (

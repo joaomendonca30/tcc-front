@@ -67,8 +67,8 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
         console.log(processedValues)
 
 
-        
-        setTimeout(function(){ window.location.reload(); }, 1500);
+
+        setTimeout(function () { window.location.reload(); }, 1500);
         window.alert("Produto Atualizado Com Sucesso")
     }
 
@@ -109,8 +109,8 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.name}
-                                            placeholder="Digite o nome do produto" 
-                                            required/>
+                                            placeholder="Digite o nome do produto"
+                                            required />
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
@@ -121,8 +121,8 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.producer}
-                                            placeholder='Digite o fabricante' 
-                                            required/>
+                                            placeholder='Digite o fabricante'
+                                            required />
                                     </div>
                                     <div className='flex flex-col mt-2'>
                                         <label className='text-primary text-base mr-2'>
@@ -161,7 +161,7 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                                                 Data de Fabricação:
                                             </label>
                                             <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                                type='text'
+                                                type='datetime-local'
                                                 min="2018-01-01"
                                                 name='startDate'
                                                 onChange={handleChange}
@@ -175,7 +175,7 @@ export function UpDateProduct({ product, isOpen, setOpenModal }: UpdateProductPr
                                                 Data de Validade:
                                             </label>
                                             <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                                type='text'
+                                                type='datetime-local'
                                                 min="2018-01-01"
                                                 name='endDate'
                                                 onChange={handleChange}

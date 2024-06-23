@@ -56,8 +56,8 @@ export function PatientLatestSchedule({ info, setOpenModal, isOpen, cancel }: Sc
     if (info) {
         const patientIdData = info.event.extendedProps.patientId
         const initialPatientId = patientIdData.patientId
-        // console.log("Teste-- >" + initialPatientId)
-        // const patientIdTest = "22"
+        console.log("Teste-- >" + initialPatientId)
+        // const patientIdTest = "24"
         // const patientHistory = [{
         //     historyId: "1",
         //     patientId: "22",
@@ -100,6 +100,7 @@ export function PatientLatestSchedule({ info, setOpenModal, isOpen, cancel }: Sc
         // },
         // ]
 
+        const latestPatientScheduleProcessed = latestPatientSchedule.filter(item => item.patientId.toString() === initialPatientId.toString())
 
 
         if (isOpen) {
@@ -118,11 +119,11 @@ export function PatientLatestSchedule({ info, setOpenModal, isOpen, cancel }: Sc
                             </h2>
                         </div>
                         <div className='mt-12'>
-                            {latestPatientSchedule.length === 0 ?
+                            {latestPatientScheduleProcessed.length === 0 ?
                                 <div> Não tem atendimentos anteriores </div>
                                 :
-                                latestPatientSchedule.map((item, index) =>
-                                    
+                                latestPatientScheduleProcessed.map((item, index) =>
+
                                     item.patientId.toString() === initialPatientId.toString() ?
                                         <div className='mt-2 border rounded-md p-3 '>
                                             <p className='mb-2 font-semibold'> Data do Atendimento: {item.sheduleDate} </p>
