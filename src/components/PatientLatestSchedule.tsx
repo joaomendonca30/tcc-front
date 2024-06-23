@@ -26,6 +26,7 @@ type initialValues = {
 export function PatientLatestSchedule({ info, setOpenModal, isOpen, cancel }: ScheduleProps) {
     const [latestPatientSchedule, setLatestPatientSchedule] = useState<PatientHistoryModel[]>([]);
 
+
     function dataAtualFormatada(data: any) {
         const dataF = new Date(data)
         const dia = dataF.getDate().toString()
@@ -37,71 +38,24 @@ export function PatientLatestSchedule({ info, setOpenModal, isOpen, cancel }: Sc
     }
 
     //Retornando os ultimos atendimentos
-    const getPatientLastSchedule = useCallback(async () => {
-        try {
-            const response = await axios.get(`${baseURL}paciente/ultimasConsultas`);
-            const data = await response.data;
-            setLatestPatientSchedule(data)
-        } catch {
-            console.log(`Deu ruim`)
+    if (isOpen) {
+        const getPatientLastSchedule = async () => {
+            try {
+                const response = await axios.get(`${baseURL}paciente/ultimasConsultas`);
+                const data = await response.data;
+                setLatestPatientSchedule(data)
+
+            } catch {
+                console.log(`Deu ruim`)
+            }
         }
-    }, [])
-
-
-    useEffect(() => {
         getPatientLastSchedule()
-    }, [getPatientLastSchedule])
-
+    }
 
     if (info) {
         const patientIdData = info.event.extendedProps.patientId
         const initialPatientId = patientIdData.patientId
-        console.log("Teste-- >" + initialPatientId)
-        // const patientIdTest = "24"
-        // const patientHistory = [{
-        //     historyId: "1",
-        //     patientId: "22",
-        //     scheduleId: "4",
-        //     sheduleDate: "05/12/2023",
-        //     scheduleNotes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-        //     professionalName: "Gabriella Accarini"
-        // },
-        // {
-        //     historyId: "1",
-        //     patientId: "23",
-        //     scheduleId: "4",
-        //     sheduleDate: "05/12/2023",
-        //     scheduleNotes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-        //     professionalName: "Gabriella Accarini"
-        // },
-        // {
-        //     historyId: "1",
-        //     patientId: "22",
-        //     scheduleId: "4",
-        //     sheduleDate: "07/12/2023",
-        //     scheduleNotes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-        //     professionalName: "Gabriella Accarini"
-        // },
-        // {
-        //     historyId: "1",
-        //     patientId: "25",
-        //     scheduleId: "4",
-        //     sheduleDate: "05/12/2023",
-        //     scheduleNotes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-        //     professionalName: "Gabriella Accarini"
-        // },
-        // {
-        //     historyId: "1",
-        //     patientId: "22",
-        //     scheduleId: "4",
-        //     sheduleDate: "10/12/2023",
-        //     scheduleNotes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-        //     professionalName: "Gabriella Accarini"
-        // },
-        // ]
-
         const latestPatientScheduleProcessed = latestPatientSchedule.filter(item => item.patientId.toString() === initialPatientId.toString())
-
 
         if (isOpen) {
             return (
@@ -109,7 +63,10 @@ export function PatientLatestSchedule({ info, setOpenModal, isOpen, cancel }: Sc
                     <div className='bg-white p-8 rounded w-11/12 md:w-5/12'>
                         <div className='flex justify-end'>
                             <button
-                                onClick={() => setOpenModal(false)}>
+                                onClick={() => {
+                                    setOpenModal(false)
+                                }}
+                            >
                                 <img src={closeButton} />
                             </button>
                         </div>

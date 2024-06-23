@@ -13,8 +13,6 @@ interface ScheduleProps {
     cancel: (refresh?: boolean, info?: string | UserModel) => void
 }
 
-
-
 type initialValues = {
     historyId: string,
     patientId: string,
@@ -26,7 +24,6 @@ type initialValues = {
 
 export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: ScheduleProps) {
 
-    const [patientHistory, setprofessionalHistory] = useState<PatientHistoryModel[]>([]);
 
     function dataAtualFormatada(data: any) {
         const dataF = new Date(data)
@@ -42,19 +39,15 @@ export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: Schedu
     if (info) {
 
         const patientIdData = info.event.extendedProps.patientId
-        const userIdData = info.event.extendedProps.userId
-        const scheduleTypeData = info.event.extendedProps.scheduleType
-        const scheduleIdData = info.event.extendedProps.scheduleId
-        const scheduleStatusData = info.event.extendedProps.scheduleStatus
+        const userIdData = info.event.extendedProps.userId        
+        const scheduleIdData = info.event.extendedProps.scheduleId        
 
         const initialUserId = userIdData.userId
         const initialUserName = userIdData.name
-
-        const initialPatientId = patientIdData.patientId
+        
         const initialPatientName = patientIdData.name
-
-        console.log('UserId --->' + initialUserId)
-        const { start, end, title } = info.event
+       
+        const { start } = info.event
 
         const initialValues: initialValues = {
             historyId: '',
@@ -68,14 +61,7 @@ export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: Schedu
 
         const handleSubmit = async (values: typeof initialValues, action: any) => {
             const { scheduleId, professionalName, patientId, sheduleDate, scheduleNotes } = values
-
-
-            let processedPatientId = ""
-            let processedUserId = ""
-            let processedUserName = ""
-            let processedPatientName = ""
-
-
+          
             const processedValues = {
                 scheduleId: scheduleIdData,
                 professionalName: initialUserName,
@@ -86,7 +72,7 @@ export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: Schedu
 
             console.log(processedValues)
 
-            const promisse = patientHistoryCreate(processedValues)
+            const promisse = await patientHistoryCreate(processedValues)
 
             toast.promise(promisse, {
                 pending: 'Adicionando ao historico',
@@ -107,7 +93,6 @@ export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: Schedu
                     },
                 },
             });
-
         }
 
 

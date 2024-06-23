@@ -229,7 +229,7 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
             console.log(processedValues)
 
-            const promisse = scheduleUpdate(scheduleIdData, processedValues)
+            const promisse = await scheduleUpdate(scheduleIdData, processedValues)
 
             toast.promise(promisse, {
                 pending: 'Atualizando Agendamento',

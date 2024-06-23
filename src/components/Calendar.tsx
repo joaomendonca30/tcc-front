@@ -17,7 +17,6 @@ interface ProfessionalUserProps {
     userId: string,
     name: string,
     events: ScheduleModel[]
-
 }
 
 type initialValues = {
@@ -35,201 +34,112 @@ const MyCalendar = () => {
     const [showUpDateSchedule, setShowUpDateSchedule] = useState<boolean>(false);
     const [showDeleteSchedule, setShowDeleteSchedule] = useState<boolean>(false);
     const [showHistorySchedule, setShowHistorySchedule] = useState<boolean>(false);
-    const [showLatestPatientSchedule, setShowLatestPatientSchedule] = useState<boolean>(false);
-    const [toggleRefreshData, setToggleRefreshData] = useState<boolean>(false)
-    // const [eventos, setEventos] = useState<ScheduleModel[]>([
-    //     {
-    //         scheduleId: '2',
-    //         patientId: {
-    //             patientId: "22",
-    //             name: "Lucas Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             dateOfBirth: "05/12/1995",
-    //             healthInsurance: "Bradesco",
-    //             planNumber: "1538475487",
-    //             specialNotes: "Olá como vai"
-    //         },
-    //         userId: {
-    //             userId: "23",
-    //             name: "Gabriella Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             profile: "oi",
-    //             council: "blabla",
-    //             federativeUnit: "SP"
-    //         },
-    //         start: '2024-06-23 19:00:00.000000',
-    //         end: '2024-06-23 20:00:00.000000',
-    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: {
-    //             serviceId: "23",
-    //             serviceCost: "50,00",
-    //             name: "Clareamento Dantal",
-    //             endDate: "01:00"
-    //         },
-    //         scheduleStatus: 'Agendado'
-    //     },
-    //     {
-    //         scheduleId: '2',
-    //         patientId: {
-    //             patientId: "22",
-    //             name: "Lucas Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             dateOfBirth: "05/12/1995",
-    //             healthInsurance: "Bradesco",
-    //             planNumber: "1538475487",
-    //             specialNotes: "Olá como vai"
-    //         },
-    //         userId: {
-    //             userId: "23",
-    //             name: "Gabriella Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             profile: "oi",
-    //             council: "blabla",
-    //             federativeUnit: "SP"
-    //         },
-    //         start: '2024-06-23 16:00:00.000000',
-    //         end: '2024-06-23 17:00:00.000000',
-    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: {
-    //             serviceId: "23",
-    //             serviceCost: "50,00",
-    //             name: "Clareamento Dantal",
-    //             endDate: "01:00"
-    //         },
-    //         scheduleStatus: 'Agendado'
-    //     },
-    //     {
-    //         scheduleId: '2',
-    //         patientId: {
-    //             patientId: "22",
-    //             name: "Lucas Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             dateOfBirth: "05/12/1995",
-    //             healthInsurance: "Bradesco",
-    //             planNumber: "1538475487",
-    //             specialNotes: "Olá como vai"
-    //         },
-    //         userId: {
-    //             userId: "23",
-    //             name: "Gabriella Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             profile: "oi",
-    //             council: "blabla",
-    //             federativeUnit: "SP"
-    //         },
-    //         start: '2024-06-23 12:00:00.000000',
-    //         end: '2024-06-23 13:00:00.000000',
-    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: {
-    //             serviceId: "23",
-    //             serviceCost: "50,00",
-    //             name: "Tratamento de Canal",
-    //             endDate: "03:30"
-    //         },
-    //         scheduleStatus: 'Agendado'
-    //     }
-    // ])
+    const [showLatestPatientSchedule, setShowLatestPatientSchedule] = useState<boolean>(false); const [toggleRefreshData, setToggleRefreshData] = useState(0)
 
-    // const test = [
-    //     {
-    //         scheduleId: '1',
-    //         patientId: {
-    //             patientId: "2",
-    //             name: "Gabriella Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             dateOfBirth: "05/12/1995",
-    //             healthInsurance: "Bradesco",
-    //             planNumber: "1538475487",
-    //             specialNotes: "Olá como vai"
-    //         },
-    //         userId: {
-    //             userId: "23",
-    //             name: "Lucas Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             profile: "oi",
-    //             council: "blabla",
-    //             federativeUnit: "SP"
-    //         },
-    //         start: '2024-06-05T21:00',
-    //         end: '2024-06-05T21:30',
-    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: `Retorno`
-    //     },
-
-    //     {
-    //         scheduleId: '2',
-    //         patientId: {
-    //             patientId: "23",
-    //             name: "Lucas Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             dateOfBirth: "05/12/1995",
-    //             healthInsurance: "Bradesco",
-    //             planNumber: "1538475487",
-    //             specialNotes: "Olá como vai"
-    //         },
-    //         userId: {
-    //             userId: "2",
-    //             name: "Gabriella Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             profile: "oi",
-    //             council: "blabla",
-    //             federativeUnit: "SP"
-    //         },
-    //         start: '2024-06-05T22:00',
-    //         end: '2024-06-06T22:30',
-    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: `Retorno`
-    //     },
-    //     {
-    //         scheduleId: '3',
-    //         patientId: {
-    //             patientId: "23",
-    //             name: "Lucas Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             dateOfBirth: "05/12/1995",
-    //             healthInsurance: "Bradesco",
-    //             planNumber: "1538475487",
-    //             specialNotes: "Olá como vai"
-    //         },
-    //         userId: {
-    //             userId: "2",
-    //             name: "Gabriella Accarini",
-    //             email: "gabi@gmail.com",
-    //             cpf: "123456",
-    //             phoneNumber: "2524757",
-    //             profile: "oi",
-    //             council: "blabla",
-    //             federativeUnit: "SP"
-    //         },
-    //         start: '2024-06-05T23:00',
-    //         end: '2024-06-05T23:30',
-    //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
-    //         scheduleType: `Retorno`
-    //     }
-    // ]
-
+    // // const [eventos, setEventos] = useState<ScheduleModel[]>([
+    // //     {
+    // //         scheduleId: '2',
+    // //         patientId: {
+    // //             patientId: "22",
+    // //             name: "Lucas Accarini",
+    // //             email: "gabi@gmail.com",
+    // //             cpf: "123456",
+    // //             phoneNumber: "2524757",
+    // //             dateOfBirth: "05/12/1995",
+    // //             healthInsurance: "Bradesco",
+    // //             planNumber: "1538475487",
+    // //             specialNotes: "Olá como vai"
+    // //         },
+    // //         userId: {
+    // //             userId: "23",
+    // //             name: "Gabriella Accarini",
+    // //             email: "gabi@gmail.com",
+    // //             cpf: "123456",
+    // //             phoneNumber: "2524757",
+    // //             profile: "oi",
+    // //             council: "blabla",
+    // //             federativeUnit: "SP"
+    // //         },
+    // //         start: '2024-06-23 19:00:00.000000',
+    // //         end: '2024-06-23 20:00:00.000000',
+    // //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
+    // //         scheduleType: {
+    // //             serviceId: "23",
+    // //             serviceCost: "50,00",
+    // //             name: "Clareamento Dantal",
+    // //             endDate: "01:00"
+    // //         },
+    // //         scheduleStatus: 'Agendado'
+    // //     },
+    // //     {
+    // //         scheduleId: '2',
+    // //         patientId: {
+    // //             patientId: "22",
+    // //             name: "Lucas Accarini",
+    // //             email: "gabi@gmail.com",
+    // //             cpf: "123456",
+    // //             phoneNumber: "2524757",
+    // //             dateOfBirth: "05/12/1995",
+    // //             healthInsurance: "Bradesco",
+    // //             planNumber: "1538475487",
+    // //             specialNotes: "Olá como vai"
+    // //         },
+    // //         userId: {
+    // //             userId: "23",
+    // //             name: "Gabriella Accarini",
+    // //             email: "gabi@gmail.com",
+    // //             cpf: "123456",
+    // //             phoneNumber: "2524757",
+    // //             profile: "oi",
+    // //             council: "blabla",
+    // //             federativeUnit: "SP"
+    // //         },
+    // //         start: '2024-06-23 16:00:00.000000',
+    // //         end: '2024-06-23 17:00:00.000000',
+    // //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
+    // //         scheduleType: {
+    // //             serviceId: "23",
+    // //             serviceCost: "50,00",
+    // //             name: "Clareamento Dantal",
+    // //             endDate: "01:00"
+    // //         },
+    // //         scheduleStatus: 'Agendado'
+    // //     },
+    // //     {
+    // //         scheduleId: '2',
+    // //         patientId: {
+    // //             patientId: "22",
+    // //             name: "Lucas Accarini",
+    // //             email: "gabi@gmail.com",
+    // //             cpf: "123456",
+    // //             phoneNumber: "2524757",
+    // //             dateOfBirth: "05/12/1995",
+    // //             healthInsurance: "Bradesco",
+    // //             planNumber: "1538475487",
+    // //             specialNotes: "Olá como vai"
+    // //         },
+    // //         userId: {
+    // //             userId: "23",
+    // //             name: "Gabriella Accarini",
+    // //             email: "gabi@gmail.com",
+    // //             cpf: "123456",
+    // //             phoneNumber: "2524757",
+    // //             profile: "oi",
+    // //             council: "blabla",
+    // //             federativeUnit: "SP"
+    // //         },
+    // //         start: '2024-06-23 12:00:00.000000',
+    // //         end: '2024-06-23 13:00:00.000000',
+    // //         title: `Retorno - Gabriella Accarini - Dr. Lucas Accarini`,
+    // //         scheduleType: {
+    // //             serviceId: "23",
+    // //             serviceCost: "50,00",
+    // //             name: "Tratamento de Canal",
+    // //             endDate: "03:30"
+    // //         },
+    // //         scheduleStatus: 'Agendado'
+    // //     }
+    // // ])
 
 
     // const profissionais = [{
@@ -256,7 +166,6 @@ const MyCalendar = () => {
         }
     }, [])
 
-
     useEffect(() => {
         getUserProfessional()
     }, [getUserProfessional])
@@ -276,8 +185,6 @@ const MyCalendar = () => {
         userId: '',
     }
 
-
-
     const handleSubmit = async (values: typeof initialValues) => {
         console.log(values)
         const { userId } = values
@@ -294,18 +201,14 @@ const MyCalendar = () => {
 
     const handleCancel = async (refresh: boolean = false, info?: any) => {
         if (refresh) {
-            console.log('To aqui 1')
             await handleSubmit({ userId: info.toString() })
-            setToggleRefreshData(!toggleRefreshData)
             setShowDeleteSchedule(false);
             setShowUpDateSchedule(false);
 
         }
-        console.log('To aqui 2')
         await handleSubmit({ userId: info.toString() })
         setShowDeleteSchedule(false);
         setShowUpDateSchedule(false);
-
     }
 
 
@@ -315,7 +218,6 @@ const MyCalendar = () => {
         if (info) {
             setScheduleInfo(info)
         }
-
         callback && callback()
     };
 
@@ -324,7 +226,6 @@ const MyCalendar = () => {
         if (info) {
             setScheduleInfo(info)
         }
-
         callback && callback()
     };
 

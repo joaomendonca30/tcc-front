@@ -34,6 +34,7 @@ export const scheduleUpdate = async (
         url: `agenda/editar/${scheduleId}`,
         data: params,
         method: 'PUT',
+        timeout: 1500
     })
 
     return data;
@@ -43,7 +44,11 @@ export const scheduleUpdate = async (
 export const scheduleDelete = async (
     scheduleId: string
 ) => {
-    await api.delete(`agenda/deletar/${scheduleId}`)
+    await api.delete(
+        `agenda/deletar/${scheduleId}`, {
+        timeout: 1500
+    }
+    )
     return console.log(`Agendamento deletado`)
 }
 
@@ -51,6 +56,7 @@ export const getProfessionalScheduleById = async (userId: string) => {
     const { data } = await api.request({
         method: 'get',
         url: `agenda/${userId}`,
+        timeout: 1500
     });
     return data;
 };

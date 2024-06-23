@@ -10,13 +10,14 @@ export interface PatientHistoryModel {
     professionalName: string
 }
 
-export const patientHistoryCreate= async (
+export const patientHistoryCreate = async (
     payload: Omit<PatientHistoryModel, `historyId`>
 ) => {
     const { data } = await api.request({
         url: `paciente/criarHistorico`,
         data: payload,
         method: 'POST',
+        timeout: 1500
     })
 
     return data;
