@@ -140,13 +140,12 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
             const opcoesFormatacao = { timeZone: 'America/Sao_Paulo' };
 
             if (start) {
-                startValidation = new Date(start)               
+                startValidation = new Date(start)
             }
 
 
             // Mudou o tipo da agenda ?
             if (initialScheduleName.toString() !== scheduleType.toString()) {
-                console.log('oi' + scheduleType)
                 const scheduleTypeInfo = scheduleType.split(",")
                 serviceDuration = scheduleTypeInfo[1]
                 serviceName = scheduleTypeInfo[0]
@@ -166,7 +165,6 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
             //Mudou o tipo do agendamento, mas a hora ta igual
             if (startValidation && startValidation === intialStartData && initialScheduleName.toString() !== serviceName.toString()) {
-                console.log('Mudou o tipo do agendamento, mas a hora ta igual')
                 processedStart = new Date(startValidation)
                 startToDate = new Date(startValidation)
                 processedEnd = startToDate.setHours(startToDate.getHours() + serviceDurationHour)
@@ -175,7 +173,6 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
             // Mudou o inicio, mas não mudou o tipo do agendamento 
             if (startValidation && startValidation !== intialStartData && initialScheduleName.toString() === serviceName.toString()) {
-                console.log('Mudou o inicio, mas não mudou o tipo do agendamento')
                 processedStart = new Date(startValidation)
                 startToDate = new Date(startValidation)
                 processedEnd = startToDate.setHours(startToDate.getHours() + serviceDurationHour)
@@ -185,10 +182,6 @@ export function UpDateScheduleByCalendar({ info, setOpenModal, isOpen, cancel }:
 
             //Se mudar o tipo de atendimento e o inicio
             if (startValidation && startValidation !== intialStartData && initialScheduleName.toString() !== serviceName.toString()) {
-                console.log('Se mudar o tipo de atendimento e o inicio')
-                console.log(startValidation + '--->' + intialStartData)
-                console.log(initialScheduleName.toString() + '--->' + serviceName.toString())
-
                 processedStart = new Date(startValidation)
                 startToDate = new Date(startValidation)
                 processedEnd = startToDate.setHours(startToDate.getHours() + serviceDurationHour)

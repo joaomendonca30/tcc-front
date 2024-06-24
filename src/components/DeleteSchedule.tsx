@@ -265,7 +265,7 @@ export function DeleteSchedule({ info, setOpenModal, isOpen, cancel }: ScheduleP
                                                 Horário de Termino:
                                             </label>
                                             <input className='border rounded-md border-lightgray shadow-sm p-2'
-                                                type='datetime'
+                                                type='text'
                                                 min="2024-01-01"
                                                 name='end'
                                                 onChange={handleChange}

@@ -23,6 +23,20 @@ type iniatialValues = {
 
 export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductProps) {
 
+
+    function dataAtualFormatada(data: any) {
+        const dataF = new Date(data)
+        const dia = dataF.getDate().toString()
+        const diaF = (dia.length == 1) ? '0' + dia : dia
+        const mes = (dataF.getMonth() + 1).toString() //+1 pois no getMonth Janeiro começa com zero.
+        const mesF = (mes.length == 1) ? '0' + mes : mes
+        const anoF = dataF.getFullYear()
+        const startHour = new Date(dataF).getHours()
+        const startMinutes = String(dataF.getMinutes()).padStart(2, "0")
+
+        return diaF + "/" + mesF + "/" + anoF + '  ' + startHour + ':' + startMinutes;
+    }
+
     if (product === undefined) {
         return <></>
     }
@@ -66,11 +80,11 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
         const promisse = await productDelete(product.productId)
         console.log(product.productId)
 
-        
-        setTimeout(function(){ window.location.reload(); }, 1500)
+
+        setTimeout(function () { window.location.reload(); }, 1500)
         window.alert("Produto Deletado Com Sucesso")
     }
-
+   
 
     if (isOpen) {
         return (
@@ -167,7 +181,7 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.startDate}
-                                                placeholder={product.startDate?.toString()}
+                                                placeholder={dataAtualFormatada(product.startDate?.toString())}
                                                 disabled
                                             />
                                         </div>
@@ -182,7 +196,7 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.endDate}
-                                                placeholder={product.endDate?.toString()}
+                                                placeholder={dataAtualFormatada(product.endDate?.toString())}
                                                 disabled
                                             />
                                         </div>
