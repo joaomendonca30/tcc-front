@@ -202,6 +202,8 @@ const MyCalendar = () => {
     const handleCancel = async (refresh: boolean = false, info?: any) => {
         if (refresh) {
             await handleSubmit({ userId: info.toString() })
+            
+            await handleSubmit({ userId: info.toString() })
             setShowDeleteSchedule(false);
             setShowUpDateSchedule(false);
 

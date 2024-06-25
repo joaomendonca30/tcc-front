@@ -180,7 +180,7 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
                                                 name='startDate'
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                value={values.startDate}
+                                                value={dataAtualFormatada(values.startDate)}
                                                 placeholder={dataAtualFormatada(product.startDate?.toString())}
                                                 disabled
                                             />
@@ -195,7 +195,7 @@ export function DeleteProduct({ product, isOpen, setOpenModal }: DeleteProductPr
                                                 name='endDate'
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                value={values.endDate}
+                                                value={dataAtualFormatada(values.endDate)}
                                                 placeholder={dataAtualFormatada(product.endDate?.toString())}
                                                 disabled
                                             />

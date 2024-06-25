@@ -72,7 +72,7 @@ export function AddPatientHistory({ info, setOpenModal, isOpen, cancel }: Schedu
 
             console.log(processedValues)
 
-            const promisse = await patientHistoryCreate(processedValues)
+            const promisse = patientHistoryCreate(processedValues)
 
             toast.promise(promisse, {
                 pending: 'Adicionando ao historico',
