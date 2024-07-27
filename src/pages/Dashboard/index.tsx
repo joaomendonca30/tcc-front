@@ -160,7 +160,7 @@ const Dashboard: React.FC = () => {
             <h1 className="mx-8 mb-8 px-8 py-3 border border-secondary rounded-full font-roboto text-darkgray text-lg text-center md:mx-6 md:my-4 md:px-6 md:py-2 md:text-base sm:mx-4 sm:my-2 sm:px-4 sm:py-2 sm:text-sm">
                 {`Indicadores do Mês:
                 
-                ${ new Date().getMonth()+1 === 6 ? "Jun":''} / ${new Date().getFullYear()}` }
+                ${new Date().getMonth() + 1 === 8 ? "Ago" : ''} / ${new Date().getFullYear()}`}
             </h1>
 
             <div className="border border-secondary rounded-md mx-8 px-4 py-4">
